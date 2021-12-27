@@ -15,7 +15,7 @@ public class player implements GameObject{
 
     @Override
     public void update(double gamespeed) {
-        y = y+speedModfer;
+        y = y+speedModfer * gamespeed;
 
 
 

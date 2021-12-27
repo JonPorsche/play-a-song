@@ -7,11 +7,9 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import uicomponents.Sprite;
-import uicomponents.iteamSprite;
-import uicomponents.playerSprite;
-import uicomponents.waveSprite;
+import uicomponents.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +29,7 @@ public class GameController {
 	private List<Sprite> Iteamsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
 	private playerSprite playerSprite;
+
 	private boolean gameIsRunning;
 
 	public GameController(Game game) {
@@ -77,28 +76,31 @@ public class GameController {
 			@Override
 			public void run() {
 
-			int pixels = 0;
-
 			for(i = 0;i< array.length;i++) {
-						wave gameObject = null;
-						waveSprite sprite;
+						wave gameObject;
+						waveRSprite sprite;
 						gameObject = new wave();
 						gameObject.setgamespeed(1);
 						gameObject.setX(1000);
-						gameObject.setY(200 + 10 * array[i]);
-						sprite = new waveSprite();
-						sprite.setStartY(-100);
-						sprite.setStartX(gameObject.getX());
-						sprite.setEndX(gameObject.getX());
-						sprite.setEndY(gameObject.getY());
-						sprite.setFill(Color.BLUEVIOLET);
+						gameObject.setY(0);
+						gameObject.setHeight(50 + 6 * array[i]);
+						gameObject.setWidth(12.5);
+						sprite = new waveRSprite();
+						sprite.setX(50);
+						sprite.setY(50);
+						sprite.setHeight(gameObject.getHeight());
+						sprite.setWidth(25);
+
 						game.add(gameObject);
 						addSprite(sprite);
-						Platform.runLater(() -> root.getChildren().add(sprite));
 						sprite.gameObjectProperty().set(gameObject);
-						game.update(gameSpeed);
+						Platform.runLater(() -> {
+							root.getChildren().add(sprite);
+						});
+
+
 				try {
-					Thread.sleep(1);
+					Thread.sleep(13,5);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -151,6 +153,7 @@ public class GameController {
 						e.render();
 
 					}
+					game.update(6.94);
 					lastRendered = now;
 				}
 				
@@ -164,12 +167,13 @@ public class GameController {
 		};
 		
 		gameThread.start();
+		audioinfo.play();
 		
 	}
 	private void addSprite(Sprite sprite) {
 		if(Upsprites.size() == 999){
-
-			//Upsprites.remove(1);
+			Platform.runLater(()->root.getChildren().remove(Upsprites.get(1)));
+			Upsprites.remove(1);
 		}
 		Upsprites.add(sprite);
 
@@ -179,7 +183,7 @@ public class GameController {
 
 	public void collision(Sprite e) throws Exception {
 
-		if(e.getLine().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
+		if(e.getRectangle().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
 			System.out.println("HELP collusion");
 		}
 
@@ -194,6 +198,7 @@ public class GameController {
 					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
 					playerObject.setSizeModifer(iteamObject.getSizeModifer());
 					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
+					root.getChildren().remove(iteamObject);
 					iteamsSprites.remove(iteam);
 
 					try {

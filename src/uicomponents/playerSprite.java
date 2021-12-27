@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import static javafx.scene.paint.Color.ORANGE;
 
@@ -19,6 +20,11 @@ public class playerSprite extends Circle implements Sprite {
     public Bounds getBounds(){
 
         return this.getBoundsInParent();
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return null;
     }
 
     @Override

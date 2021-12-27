@@ -33,6 +33,11 @@ public class iteamSprite extends Rectangle implements Sprite{
     }
 
     @Override
+    public Rectangle getRectangle() {
+        return null;
+    }
+
+    @Override
     public Line getLine() {
         return null;
     }

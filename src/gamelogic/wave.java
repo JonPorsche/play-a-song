@@ -5,6 +5,8 @@ package gamelogic;
 public class wave implements GameObject{
     private double x;
     private double y;
+    private double height;
+    private double width;
     private int painWidth;
     private int painHeight;
     private double gamespeed = 1;
@@ -55,13 +57,20 @@ public class wave implements GameObject{
 
     @Override
     public double getWidth() {
-        return 0;
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return 0;
+        return height;
     }
 
 
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
 }
