@@ -138,8 +138,18 @@ public class GameController {
 
 					}
 					for(Sprite e : iteamsSprites) {
+						if(i == 77){
+							try {
+								iteamCollison(e);
+								i = 0;
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}}
+						i++;
+
+
 						e.render();
-						System.out.println("worked fine");
+
 					}
 					lastRendered = now;
 				}
@@ -178,12 +188,14 @@ public class GameController {
 
 	public void iteamCollison(Sprite iteam){
 		if(iteam.getBounds().intersects(playerSpritesobject.getBoundsInParent())){
-			new Thread(){
+			Thread iteamthread = new Thread(){
 				@Override
 				public void run(){
 					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
 					playerObject.setSizeModifer(iteamObject.getSizeModifer());
 					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
+					iteamsSprites.remove(iteam);
+
 					try {
 						Thread.sleep(iteamObject.getDuration());
 					} catch (InterruptedException e) {
@@ -194,7 +206,7 @@ public class GameController {
 
 
 				}
-			};
+			};iteamthread.start();
 
 		}
 
