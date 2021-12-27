@@ -7,4 +7,9 @@ public interface GameObject {
 	void setX(double x);
 	void setY(double y);
 	double getAngle();
+	double getRadius();
+
+	double getWidth();
+
+	double getHeight();
 }

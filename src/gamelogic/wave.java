@@ -48,5 +48,20 @@ public class wave implements GameObject{
         return 0;
     }
 
+    @Override
+    public double getRadius() {
+        return 0;
+    }
+
+    @Override
+    public double getWidth() {
+        return 0;
+    }
+
+    @Override
+    public double getHeight() {
+        return 0;
+    }
+
 
 }

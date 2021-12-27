@@ -17,6 +17,7 @@ public class playerSprite extends Circle implements Sprite {
 
         if(gameObject != null){
             GameObject player = gameObject.get();
+            this.setRadius(player.getRadius());
             this.setCenterX(player.getX());
             this.setCenterY(player.getY());
             this.setFill(ORANGE);

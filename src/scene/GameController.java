@@ -1,14 +1,13 @@
 package scene;
 
 import game.Audioinfo;
-import gamelogic.Game;
-import gamelogic.player;
-import gamelogic.wave;
+import gamelogic.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import uicomponents.Sprite;
+import uicomponents.iteamSprite;
 import uicomponents.playerSprite;
 import uicomponents.waveSprite;
 
@@ -16,11 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.scene.paint.Color.RED;
+import static sun.security.krb5.Confounder.longValue;
 
 public class GameController {
-
-
-
 	private Pane root;
 	private Game game;
 	player playerObject;
@@ -28,10 +25,13 @@ public class GameController {
 	Audioinfo audioinfo ;
 	private double[]array;
 	double gameSpeed = 1;
-	
+
+	private List<iteam>iteams = new ArrayList<>();
 	private List<Sprite> Upsprites = new ArrayList<>();
-	private List<Sprite> Downsprites = new ArrayList<>();
+	private List<Sprite> Iteamsprites = new ArrayList<>();
+	private List<Sprite> iteamsSprites = new ArrayList<>();
 	private uicomponents.playerSprite playerSprite;
+	private boolean gameIsRunning;
 
 	public GameController(Game game) {
 		GameView view = new GameView();
@@ -48,14 +48,17 @@ public class GameController {
 	}
 
 	public <pixels, i> void initialize() {
+
 		playerObject= new player();
 		playerSprite playerSprites = new playerSprite();
 		playerObject.setgamespeed(1);
 		playerObject.setX(400);
 		playerObject.setY(500);
+		playerObject.setRadius(40);
+		playerObject.setSpeedModfer(0.08);
 		game.add(playerObject);
 		playerSprites = new playerSprite();
-		playerSprites.setRadius(40);
+		playerSprites.setRadius(playerObject.getRadius());
 		playerSprites.setCenterX(playerObject.getX());
 		playerSprites.setCenterX(playerObject.getY());
 		playerSprites.setFill(RED);
@@ -66,8 +69,9 @@ public class GameController {
 		audioinfo = new Audioinfo();
 		array =audioinfo.getLeft("D:\\Studies\\Semesterr 3\\play-a-song-02\\src\\game\\hallo.mp3");
 
-
-
+		gameIsRunning= true;
+		setIteams();
+		SpawnIteam();
 
 		Thread thread = new Thread() {
 
@@ -84,7 +88,7 @@ public class GameController {
 						gameObject.setX(1000);
 						gameObject.setY(200 + 10 * array[i]);
 						sprite = new waveSprite();
-						sprite.setStartY(0);
+						sprite.setStartY(-100);
 						sprite.setStartX(gameObject.getX());
 						sprite.setEndX(gameObject.getX());
 						sprite.setEndY(gameObject.getY());
@@ -93,7 +97,7 @@ public class GameController {
 						addSprite(sprite);
 						Platform.runLater(() -> root.getChildren().add(sprite));
 						sprite.gameObjectProperty().set(gameObject);
-				game.update(gameSpeed);
+						game.update(gameSpeed);
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
@@ -123,6 +127,10 @@ public class GameController {
 					for(Sprite e : new ArrayList<Sprite>(Upsprites)) {
 						e.render();
 					}
+					for(Sprite e : iteamsSprites) {
+						e.render();
+						System.out.println("worked fine");
+					}
 					lastRendered = now;
 				}
 				
@@ -148,6 +156,90 @@ public class GameController {
 
 
 	}
+
+	public void SpawnIteam(){
+		int iteamSpawnIntervall = 6000;
+
+
+		iteam thisiteam = null;
+		Thread iteamThread = new Thread() {
+			@Override
+			public void run() {
+				while (gameIsRunning) {
+					try {
+						int index ;
+						iteam iteamObject = new iteam();
+						iteamObject.setHeight(20);
+						iteamObject.setWidth(20);
+						iteamObject.setX(500);
+						iteamObject.setY(500);
+						iteamObject.setSizeModifer(0.2);
+						iteamObject.setSpeedModifer(0.2);
+						iteamObject.setgamespeed(0.1);
+						long duration = 10000;
+						iteamObject.setDuration(duration);
+						iteams.add(iteamObject);
+						iteamSprite sprite = new iteamSprite();
+						Thread.sleep(iteamSpawnIntervall);
+						sprite.setX(iteamObject.getX());
+						sprite.setY(iteamObject.getY());
+						sprite.setHeight(iteamObject.getHeight());
+						sprite.setWidth(iteamObject.getWidth());
+						sprite.setFill(Color.BLUEVIOLET);
+						game.addIteam(iteamObject);
+						Platform.runLater(() -> root.getChildren().add(sprite));
+						sprite.gameObjectProperty().set(iteamObject);
+						iteamsSprites.add(sprite);
+						index =iteamsSprites.size();
+						/*playerObject.setSpeedModfer(iteamobject.getSpeedModifer());
+						playerObject.setSizeModifer(iteamobject.getSizeModifer());*/
+						iteamObject.setSpeed(playerObject.getSpeedModfer());
+						iteamRemover(iteamObject,index);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+
+				}
+			}
+		}; iteamThread.start();
+	}
+
+	public void setIteams(){
+		/*iteam iteamObject = new iteam();
+		iteamObject.setHeight(20);
+		iteamObject.setWidth(20);
+		iteamObject.setX(500);
+		iteamObject.setY(500);
+		iteamObject.setSizeModifer(0.2);
+		iteamObject.setSpeedModifer(0.2);
+		iteamObject.setgamespeed(0.1);
+		long duration = 10000;
+		iteamObject.setDuration(duration);
+		iteams.add(iteamObject);*/
+
+	}
+
+	public void iteamRemover(iteam thisiteam, int index){
+		Thread iteamRemoverThread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(thisiteam.getDuration());
+					/*playerObject.setSizeModifer(-thisiteam.getSizeModifer());
+					playerObject.setSpeedModfer(-thisiteam.getSizeModifer());*/
+					Platform.runLater(()->root.getChildren().remove(thisiteam));
+					iteamsSprites.remove(index);
+					game.removeIteam(thisiteam);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}; iteamRemoverThread.start();
+	}
+
+
 
 	public Pane getRoot() {
 		return root;

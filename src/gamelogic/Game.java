@@ -5,10 +5,14 @@ import java.util.List;
 
 public class Game {
 	private List<GameObject> gameObjects = new ArrayList<>();
+	private List<GameObject> iteamObjects = new ArrayList<>();
 
 	public void update(double delta) {
 		for(GameObject gameObject : gameObjects) {
 			gameObject.update(delta);
+		}
+		for (GameObject iteamObject : iteamObjects){
+			iteamObject.update(delta);
 		}
 	}
 	
@@ -19,6 +23,15 @@ public class Game {
 		gameObjects.add(object);
 
 
+	}
+	public void addIteam(GameObject object) {
+
+		iteamObjects.add(object);
+
+
+	}
+	public void removeIteam(GameObject object){
+		iteamObjects.remove(object);
 	}
 
 	
