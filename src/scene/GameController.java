@@ -64,7 +64,7 @@ public class GameController {
 		playerSprites.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		array =audioinfo.getLeft("C:\\Users\\Johannes Weber\\Downloads\\10_3_BeispielAufbau_Simulation\\src\\game\\hallo.mp3");
+		array =audioinfo.getLeft("D:\\Studies\\Semesterr 3\\play-a-song-02\\src\\game\\hallo.mp3");
 
 
 
