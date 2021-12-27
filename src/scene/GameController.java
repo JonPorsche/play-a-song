@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import uicomponents.*;
 
 import javax.swing.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class GameController {
 	}
 
 	public <pixels, i> void initialize() {
+		File trackFile = new File( "src/assets/example-track.mp3" );
+		System.out.println( trackFile.getAbsolutePath() );
 
 		playerObject= new player();
 		playerObject.setgamespeed(1);
@@ -65,7 +68,7 @@ public class GameController {
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		array =audioinfo.getLeft("D:\\Studies\\Semesterr 3\\play-a-song-02\\src\\game\\hallo.mp3");
+		array =audioinfo.getLeft( trackFile.getAbsolutePath() );
 
 		gameIsRunning= true;
 		setIteams();
