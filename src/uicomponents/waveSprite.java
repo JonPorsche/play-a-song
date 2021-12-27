@@ -2,6 +2,8 @@ package uicomponents;
 
 import gamelogic.GameObject;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Bounds;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 import static javafx.scene.paint.Color.BLACK;
@@ -15,6 +17,21 @@ public class waveSprite extends Line implements Sprite {
        gameObject = new SimpleObjectProperty<GameObject>();
 
    }
+   @Override
+   public Line getLine(){
+     return this;
+   }
+
+    @Override
+    public Circle player() {
+        return null;
+    }
+
+    @Override
+    public Bounds getBounds(){
+
+        return this.getBoundsInParent();
+    }
     @Override
     public void render() {
 

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.scene.paint.Color.RED;
-import static sun.security.krb5.Confounder.longValue;
 
 public class GameController {
 	private Pane root;
@@ -25,12 +24,12 @@ public class GameController {
 	Audioinfo audioinfo ;
 	private double[]array;
 	double gameSpeed = 1;
-
+	playerSprite playerSprites = new playerSprite();
 	private List<iteam>iteams = new ArrayList<>();
 	private List<Sprite> Upsprites = new ArrayList<>();
 	private List<Sprite> Iteamsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
-	private uicomponents.playerSprite playerSprite;
+	private playerSprite playerSprite;
 	private boolean gameIsRunning;
 
 	public GameController(Game game) {
@@ -123,9 +122,20 @@ public class GameController {
 			private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
 			@Override
 			public void handle(long now) {
+				int i = 0;
 				if (lastRendered + FPNS_DELTA < now) {
 					for(Sprite e : new ArrayList<Sprite>(Upsprites)) {
+						if(i == 77){
+						try {
+							collision(e);
+							i = 0;
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}}
+						i++;
 						e.render();
+
+
 					}
 					for(Sprite e : iteamsSprites) {
 						e.render();
@@ -153,6 +163,15 @@ public class GameController {
 		}
 		Upsprites.add(sprite);
 
+
+
+	}
+
+	public void collision(Sprite e) throws Exception {
+		System.out.println(playerSprite.player().getBoundsInParent());
+		/*if(e.getLine().getBoundsInParent().intersects(playerSprite.getBoundsInParent())){
+			System.out.println("HELP collusion");
+		}*/
 
 
 	}
@@ -190,11 +209,11 @@ public class GameController {
 						Platform.runLater(() -> root.getChildren().add(sprite));
 						sprite.gameObjectProperty().set(iteamObject);
 						iteamsSprites.add(sprite);
-						index =iteamsSprites.size();
+
 						/*playerObject.setSpeedModfer(iteamobject.getSpeedModifer());
 						playerObject.setSizeModifer(iteamobject.getSizeModifer());*/
 						iteamObject.setSpeed(playerObject.getSpeedModfer());
-						iteamRemover(iteamObject,index);
+						iteamRemover(iteamObject,sprite);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -220,7 +239,7 @@ public class GameController {
 
 	}
 
-	public void iteamRemover(iteam thisiteam, int index){
+	public void iteamRemover(iteam thisiteam, iteamSprite index){
 		Thread iteamRemoverThread = new Thread() {
 			@Override
 			public void run() {
