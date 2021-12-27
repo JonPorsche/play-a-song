@@ -2,7 +2,7 @@ package gamelogic;
 
 
 
-public class wave implements GameObject{
+public class WaveWorldObj implements GameObject{
     private double x;
     private double y;
     private double height;

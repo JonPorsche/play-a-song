@@ -1,5 +1,6 @@
 package application;
 
+import com.sun.javafx.css.Size;
 import gamelogic.Game;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -11,7 +12,9 @@ import scene.GameController;
 
 
 public class Main extends Application {
-	
+	public static final int WINDOW_WIDTH = 1000;
+	public static final int WINDOW_HEIGHT = 600;
+
 	private Game game;
 	
 	@Override
@@ -24,7 +27,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			GameController controller = new GameController(game);
-			Scene scene = new Scene(controller.getRoot(),1000,600);
+			Scene scene = new Scene(controller.getGameDisplayPane( ),Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 

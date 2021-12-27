@@ -1,15 +1,14 @@
 package scene;
 
+import application.Main;
 import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import uicomponents.*;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +16,12 @@ import java.util.List;
 import static javafx.scene.paint.Color.RED;
 
 public class GameController {
-	private Pane root;
+	private GameView gameDisplayPane;
 	private Game game;
 	player playerObject;
 	int i= 0;
 	Audioinfo audioinfo ;
-	private double[]array;
+	private double[] amplitudeArray;
 	double gameSpeed = 1;
 	playerSprite playerSpritesobject = new playerSprite();
 	private List<iteam>iteams = new ArrayList<>();
@@ -36,7 +35,7 @@ public class GameController {
 	public GameController(Game game) {
 		GameView view = new GameView();
 		
-		root = view;
+		gameDisplayPane = view;
 		
 		this.game = game;
 		
@@ -64,11 +63,11 @@ public class GameController {
 		playerSpritesobject.setCenterX(playerObject.getY());
 		playerSpritesobject.setFill(RED);
 		addSprite(playerSpritesobject);
-		root.getChildren().add(playerSpritesobject);
+		gameDisplayPane.getChildren().add(playerSpritesobject);
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		array =audioinfo.getLeft( trackFile.getAbsolutePath() );
+		amplitudeArray = audioinfo.getLeft( trackFile.getAbsolutePath() );
 
 		gameIsRunning= true;
 		setIteams();
@@ -78,37 +77,56 @@ public class GameController {
 
 			@Override
 			public void run() {
+				List<WaveRSprite> allWorldSteps = new ArrayList();
 
-			for(i = 0;i< array.length;i++) {
-						wave gameObject;
-						waveRSprite sprite;
-						gameObject = new wave();
-						gameObject.setgamespeed(1);
-						gameObject.setX(1000);
-						gameObject.setY(0);
-						gameObject.setHeight(50 + 6 * array[i]);
-						gameObject.setWidth(12.5);
-						sprite = new waveRSprite();
-						sprite.setX(50);
-						sprite.setY(50);
-						sprite.setHeight(gameObject.getHeight());
-						sprite.setWidth(25);
+				for (i = 0; i < amplitudeArray.length; i++) {
+					WaveWorldObj gameObject;
+					WaveRSprite sprite;
+					gameObject = new WaveWorldObj();
+					gameObject.setgamespeed(1);
+					gameObject.setX(i * 25);
+					gameObject.setY(0);
+					gameObject.setHeight(50 + 6 * amplitudeArray[i]);
+					gameObject.setWidth(12.5);
 
-						game.add(gameObject);
-						addSprite(sprite);
-						sprite.gameObjectProperty().set(gameObject);
-						Platform.runLater(() -> {
-							root.getChildren().add(sprite);
-						});
+					sprite = new WaveRSprite();
+					sprite.setX(50);
+					sprite.setY(50);
+					sprite.setHeight(gameObject.getHeight());
+					sprite.setWidth(25);
 
+					game.add(gameObject);
+					addSprite(sprite);
+					sprite.gameObjectProperty().set(gameObject);
+					allWorldSteps.add( sprite );
+					/*Platform.runLater(() -> {
+						gameDisplayPane.addNextWorldStep(sprite);
+					});*/
 
-				try {
-					Thread.sleep(13,5);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+					/*try {
+						Thread.sleep(13, 5);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}*/
+
 				}
 
+				Platform.runLater( () -> allWorldSteps.forEach(
+					steps -> gameDisplayPane.addNextWorldStep( steps )
+				) );
+
+				for (int curGamePos = 0 - Main.WINDOW_WIDTH; curGamePos < amplitudeArray.length; curGamePos++) {
+					try {
+						Thread.sleep( 13, 5 );
+						int finalCurGamePos = curGamePos;
+						Platform.runLater(
+							() -> gameDisplayPane.setCenterViewFrame(finalCurGamePos)
+						);
+
+					} catch (InterruptedException e) {
+						e.printStackTrace( );
 					}
+				}
 			}
 
 		}; thread.start();
@@ -175,7 +193,7 @@ public class GameController {
 	}
 	private void addSprite(Sprite sprite) {
 		if(Upsprites.size() == 999){
-			Platform.runLater(()->root.getChildren().remove(Upsprites.get(1)));
+			Platform.runLater(()-> gameDisplayPane.getChildren().remove(Upsprites.get(1)));
 			Upsprites.remove(1);
 		}
 		Upsprites.add(sprite);
@@ -201,7 +219,7 @@ public class GameController {
 					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
 					playerObject.setSizeModifer(iteamObject.getSizeModifer());
 					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
-					root.getChildren().remove(iteamObject);
+					gameDisplayPane.getChildren().remove(iteamObject);
 					iteamsSprites.remove(iteam);
 
 					try {
@@ -253,7 +271,7 @@ public class GameController {
 						sprite.setWidth(iteamObject.getWidth());
 						sprite.setFill(Color.BLUEVIOLET);
 						game.addIteam(iteamObject);
-						Platform.runLater(() -> root.getChildren().add(sprite));
+						Platform.runLater(() -> gameDisplayPane.getChildren().add(sprite));
 						sprite.gameObjectProperty().set(iteamObject);
 						iteamsSprites.add(sprite);
 						iteamObject.setSpeed(playerObject.getSpeedModfer());
@@ -287,8 +305,8 @@ public class GameController {
 
 
 
-	public Pane getRoot() {
-		return root;
+	public Pane getGameDisplayPane() {
+		return gameDisplayPane;
 	}
 
 	public void newgameObject(int i, int pixels){

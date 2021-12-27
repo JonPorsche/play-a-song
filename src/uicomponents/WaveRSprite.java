@@ -10,11 +10,11 @@ import javafx.scene.shape.Rectangle;
 import static javafx.scene.paint.Color.BLACK;
 
 
-public class waveRSprite extends Rectangle implements Sprite {
+public class WaveRSprite extends Rectangle implements Sprite {
    public SimpleObjectProperty<GameObject>gameObject;
 
 
-   public waveRSprite(){
+   public WaveRSprite(){
        gameObject = new SimpleObjectProperty<GameObject>();
 
    }

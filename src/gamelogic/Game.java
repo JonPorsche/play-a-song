@@ -18,7 +18,7 @@ public class Game {
 	
 	public void add(GameObject object) {
 		if(gameObjects.size() == 999){
-			gameObjects.remove(1);
+			//gameObjects.remove(1);
 		}
 		gameObjects.add(object);
 
