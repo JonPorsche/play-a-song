@@ -36,6 +36,10 @@ public class iteamSprite extends Rectangle implements Sprite{
     public Line getLine() {
         return null;
     }
+    public GameObject getiteam(){
+        GameObject item = gameObject.get();
+        return item;
+    }
 
     @Override
     public Circle player() {

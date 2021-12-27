@@ -4,6 +4,7 @@ import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import uicomponents.Sprite;
@@ -24,7 +25,7 @@ public class GameController {
 	Audioinfo audioinfo ;
 	private double[]array;
 	double gameSpeed = 1;
-	playerSprite playerSprites = new playerSprite();
+	playerSprite playerSpritesobject = new playerSprite();
 	private List<iteam>iteams = new ArrayList<>();
 	private List<Sprite> Upsprites = new ArrayList<>();
 	private List<Sprite> Iteamsprites = new ArrayList<>();
@@ -49,21 +50,20 @@ public class GameController {
 	public <pixels, i> void initialize() {
 
 		playerObject= new player();
-		playerSprite playerSprites = new playerSprite();
 		playerObject.setgamespeed(1);
 		playerObject.setX(400);
 		playerObject.setY(500);
 		playerObject.setRadius(40);
 		playerObject.setSpeedModfer(0.08);
 		game.add(playerObject);
-		playerSprites = new playerSprite();
-		playerSprites.setRadius(playerObject.getRadius());
-		playerSprites.setCenterX(playerObject.getX());
-		playerSprites.setCenterX(playerObject.getY());
-		playerSprites.setFill(RED);
-		addSprite(playerSprites);
-		root.getChildren().add(playerSprites);
-		playerSprites.gameObjectProperty().set(playerObject);
+		playerSpritesobject = new playerSprite();
+		playerSpritesobject.setRadius(playerObject.getRadius());
+		playerSpritesobject.setCenterX(playerObject.getX());
+		playerSpritesobject.setCenterX(playerObject.getY());
+		playerSpritesobject.setFill(RED);
+		addSprite(playerSpritesobject);
+		root.getChildren().add(playerSpritesobject);
+		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
 		array =audioinfo.getLeft("D:\\Studies\\Semesterr 3\\play-a-song-02\\src\\game\\hallo.mp3");
@@ -168,13 +168,40 @@ public class GameController {
 	}
 
 	public void collision(Sprite e) throws Exception {
-		System.out.println(playerSprite.player().getBoundsInParent());
-		/*if(e.getLine().getBoundsInParent().intersects(playerSprite.getBoundsInParent())){
+
+		if(e.getLine().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
 			System.out.println("HELP collusion");
-		}*/
+		}
 
 
 	}
+
+	public void iteamCollison(Sprite iteam){
+		if(iteam.getBounds().intersects(playerSpritesobject.getBoundsInParent())){
+			new Thread(){
+				@Override
+				public void run(){
+					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
+					playerObject.setSizeModifer(iteamObject.getSizeModifer());
+					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
+					try {
+						Thread.sleep(iteamObject.getDuration());
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					playerObject.setSizeModifer(-iteamObject.getSizeModifer());
+					playerObject.setSpeedModfer(-iteamObject.getSizeModifer());
+
+
+				}
+			};
+
+		}
+
+
+	}
+
+
 
 	public void SpawnIteam(){
 		int iteamSpawnIntervall = 6000;
@@ -209,11 +236,8 @@ public class GameController {
 						Platform.runLater(() -> root.getChildren().add(sprite));
 						sprite.gameObjectProperty().set(iteamObject);
 						iteamsSprites.add(sprite);
-
-						/*playerObject.setSpeedModfer(iteamobject.getSpeedModifer());
-						playerObject.setSizeModifer(iteamobject.getSizeModifer());*/
 						iteamObject.setSpeed(playerObject.getSpeedModfer());
-						iteamRemover(iteamObject,sprite);
+
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -239,24 +263,7 @@ public class GameController {
 
 	}
 
-	public void iteamRemover(iteam thisiteam, iteamSprite index){
-		Thread iteamRemoverThread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(thisiteam.getDuration());
-					/*playerObject.setSizeModifer(-thisiteam.getSizeModifer());
-					playerObject.setSpeedModfer(-thisiteam.getSizeModifer());*/
-					Platform.runLater(()->root.getChildren().remove(thisiteam));
-					iteamsSprites.remove(index);
-					game.removeIteam(thisiteam);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 
-			}
-		}; iteamRemoverThread.start();
-	}
 
 
 
