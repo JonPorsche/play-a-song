@@ -22,6 +22,7 @@ public class GameController {
 	int i= 0;
 	Audioinfo audioinfo ;
 	private double[] amplitudeArray;
+	private double maxAmplitude = 0;
 	double gameSpeed = 1;
 	playerSprite playerSpritesobject = new playerSprite();
 	private List<iteam>iteams = new ArrayList<>();
@@ -77,48 +78,43 @@ public class GameController {
 
 			@Override
 			public void run() {
-				List<WaveRSprite> allWorldSteps = new ArrayList();
+				List<Double> allWorldSteps = new ArrayList();
 
-				for (i = 0; i < amplitudeArray.length; i++) {
+				for (double curAmplValue : amplitudeArray) {
+					if (maxAmplitude < curAmplValue) maxAmplitude = curAmplValue;
+
 					WaveWorldObj gameObject;
 					WaveRSprite sprite;
 					gameObject = new WaveWorldObj();
 					gameObject.setgamespeed(1);
 					gameObject.setX(i * 25);
 					gameObject.setY(0);
-					gameObject.setHeight(50 + 6 * amplitudeArray[i]);
+					gameObject.setHeight(50 + 6 * curAmplValue);
 					gameObject.setWidth(12.5);
 
-					sprite = new WaveRSprite();
+					/*sprite = new WaveRSprite( );
 					sprite.setX(50);
 					sprite.setY(50);
-					sprite.setHeight(gameObject.getHeight());
-					sprite.setWidth(25);
+					sprite.setHeight(gameObject.getHeight( ));
+					sprite.setWidth(25);*/
 
 					game.add(gameObject);
-					addSprite(sprite);
+					allWorldSteps.add( 50 + 6 * curAmplValue );
+					/*addSprite(sprite);
 					sprite.gameObjectProperty().set(gameObject);
-					allWorldSteps.add( sprite );
-					/*Platform.runLater(() -> {
-						gameDisplayPane.addNextWorldStep(sprite);
-					});*/
-
-					/*try {
-						Thread.sleep(13, 5);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}*/
-
+					allWorldSteps.add( sprite );*/
 				}
 
-				Platform.runLater( () -> allWorldSteps.forEach(
-					steps -> gameDisplayPane.addNextWorldStep( steps )
-				) );
+				Platform.runLater(
+					() -> gameDisplayPane.getWorld( ).setWorldSteps( allWorldSteps, maxAmplitude )
+				);
 
-				for (int curGamePos = 0 - Main.WINDOW_WIDTH; curGamePos < amplitudeArray.length; curGamePos++) {
+				int curGamePos = 0;
+				for (curGamePos -= Main.WINDOW_WIDTH; curGamePos < amplitudeArray.length; curGamePos++) {
 					try {
 						Thread.sleep( 13, 5 );
-						int finalCurGamePos = curGamePos;
+
+						final int finalCurGamePos = curGamePos;
 						Platform.runLater(
 							() -> gameDisplayPane.setCenterViewFrame(finalCurGamePos)
 						);

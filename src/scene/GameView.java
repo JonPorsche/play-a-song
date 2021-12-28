@@ -1,5 +1,6 @@
 package scene;
 
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import uicomponents.WorldPane;
 import uicomponents.WaveRSprite;
@@ -9,11 +10,11 @@ public class GameView extends Pane {
 
     public GameView( ) {
         super( );
-        this.getChildren().add( this.gameWorldPane );
+        this.getChildren( ).add( this.gameWorldPane );
     }
 
-    public void addNextWorldStep( WaveRSprite sprite ) {
-        this.gameWorldPane.getChildren( ).add( sprite );
+    public WorldPane getWorld( ) {
+        return this.gameWorldPane;
     }
 
     public void setCenterViewFrame( double playerPos ) {
