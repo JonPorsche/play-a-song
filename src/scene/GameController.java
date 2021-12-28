@@ -191,14 +191,12 @@ public class GameController {
 		audioinfo.play();
 		
 	}
-	private void addSprite(Sprite sprite) {
+	private void addSprite( Sprite sprite ) {
 		if(Upsprites.size() == 999){
-			Platform.runLater(()-> gameDisplayPane.getChildren().remove(Upsprites.get(1)));
+			Platform.runLater( ( )-> gameDisplayPane.getChildren().remove( Upsprites.get(1)) );
 			Upsprites.remove(1);
 		}
 		Upsprites.add(sprite);
-
-
 
 	}
 
