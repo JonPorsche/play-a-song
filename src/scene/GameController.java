@@ -281,6 +281,7 @@ public class GameController {
 	}
 
 	public void setIteams(){
+		//test
 		/*iteam iteamObject = new iteam();
 		iteamObject.setHeight(20);
 		iteamObject.setWidth(20);
