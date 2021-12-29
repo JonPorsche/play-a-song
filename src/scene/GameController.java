@@ -85,12 +85,12 @@ public class GameController {
 
 					WaveWorldObj gameObject;
 					WaveRSprite sprite;
-					gameObject = new WaveWorldObj();
-					gameObject.setgamespeed(1);
-					gameObject.setX(i * 25);
-					gameObject.setY(0);
-					gameObject.setHeight(50 + 6 * curAmplValue);
-					gameObject.setWidth(12.5);
+					gameObject = new WaveWorldObj( );
+					gameObject.setgamespeed( 1 );
+					gameObject.setX( i * 100 );
+					gameObject.setY( 0 );
+					gameObject.setHeight( 50 + 6 * curAmplValue );
+					gameObject.setWidth( 100 );
 
 					/*sprite = new WaveRSprite( );
 					sprite.setX(50);
@@ -98,7 +98,7 @@ public class GameController {
 					sprite.setHeight(gameObject.getHeight( ));
 					sprite.setWidth(25);*/
 
-					game.add(gameObject);
+					game.add( gameObject );
 					allWorldSteps.add( 50 + 6 * curAmplValue );
 					/*addSprite(sprite);
 					sprite.gameObjectProperty().set(gameObject);
@@ -109,10 +109,10 @@ public class GameController {
 					() -> gameDisplayPane.getWorld( ).setWorldSteps( allWorldSteps, maxAmplitude )
 				);
 
-				int curGamePos = 0;
-				for (curGamePos -= Main.WINDOW_WIDTH; curGamePos < amplitudeArray.length; curGamePos++) {
+				int curGamePos = 0 - Main.WINDOW_WIDTH/2;
+				for (; curGamePos < amplitudeArray.length*100; curGamePos++) {
 					try {
-						Thread.sleep( 13, 5 );
+						Thread.sleep( 5 );//17,5 );
 
 						final int finalCurGamePos = curGamePos;
 						Platform.runLater(

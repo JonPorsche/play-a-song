@@ -16,7 +16,7 @@ import java.util.List;
 public class WorldPane extends Canvas {
 
     public WorldPane( ) {
-        super( Main.WINDOW_WIDTH *5, Main.WINDOW_HEIGHT);
+        super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
         //this.setLayoutX();
     }
 
@@ -43,7 +43,7 @@ public class WorldPane extends Canvas {
 
         for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ); curDrawIndex++) {
             int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
-            double curDisplayPos = curDrawIndex * 25;
+            double curDisplayPos = curDrawIndex * 100;
 
             gc.lineTo( curDisplayPos, curDisplayAmp );
         }
@@ -64,9 +64,12 @@ public class WorldPane extends Canvas {
         int sampleCount = allWorldSteps.size( );
 
         for (int curAmpPos = 0; curAmpPos < sampleCount; curAmpPos++) {
-            double curAmpValue = allWorldSteps.get(curAmpPos);
-            float curDisplayAmpPercent = (float)(curAmpValue / 100 * maxAmplitude);
-            double curDisplayAmp = curDisplayAmpPercent *2;
+            double curAmpValue = allWorldSteps.get( curAmpPos );
+            float curDisplayAmpPercent = (float)( curAmpValue / 100 * maxAmplitude );
+
+            if (curDisplayAmpPercent > 95 || curAmpValue < 0) curDisplayAmpPercent = 95;
+
+            double curDisplayAmp = curDisplayAmpPercent * 2.5;
 
             generatedWorldTopPath.add( curDisplayAmp );
             generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
