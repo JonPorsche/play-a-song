@@ -22,6 +22,7 @@ public class GameController {
 	int i= 0;
 	Audioinfo audioinfo ;
 	private double[] amplitudeArray;
+	private double maxAmplitude = 0;
 	double gameSpeed = 1;
 	playerSprite playerSpritesobject = new playerSprite();
 	private List<iteam>iteams = new ArrayList<>();
@@ -77,48 +78,43 @@ public class GameController {
 
 			@Override
 			public void run() {
-				List<WaveRSprite> allWorldSteps = new ArrayList();
+				List<Double> allWorldSteps = new ArrayList();
 
-				for (i = 0; i < amplitudeArray.length; i++) {
+				for (double curAmplValue : amplitudeArray) {
+					if (maxAmplitude < curAmplValue) maxAmplitude = curAmplValue;
+
 					WaveWorldObj gameObject;
 					WaveRSprite sprite;
-					gameObject = new WaveWorldObj();
-					gameObject.setgamespeed(1);
-					gameObject.setX(i * 25);
-					gameObject.setY(0);
-					gameObject.setHeight(50 + 6 * amplitudeArray[i]);
-					gameObject.setWidth(12.5);
+					gameObject = new WaveWorldObj( );
+					gameObject.setgamespeed( 1 );
+					gameObject.setX( i * 100 );
+					gameObject.setY( 0 );
+					gameObject.setHeight( 50 + 6 * curAmplValue );
+					gameObject.setWidth( 100 );
 
-					sprite = new WaveRSprite();
+					/*sprite = new WaveRSprite( );
 					sprite.setX(50);
 					sprite.setY(50);
-					sprite.setHeight(gameObject.getHeight());
-					sprite.setWidth(25);
+					sprite.setHeight(gameObject.getHeight( ));
+					sprite.setWidth(25);*/
 
-					game.add(gameObject);
-					addSprite(sprite);
+					game.add( gameObject );
+					allWorldSteps.add( 50 + 6 * curAmplValue );
+					/*addSprite(sprite);
 					sprite.gameObjectProperty().set(gameObject);
-					allWorldSteps.add( sprite );
-					/*Platform.runLater(() -> {
-						gameDisplayPane.addNextWorldStep(sprite);
-					});*/
-
-					/*try {
-						Thread.sleep(13, 5);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}*/
-
+					allWorldSteps.add( sprite );*/
 				}
 
-				Platform.runLater( () -> allWorldSteps.forEach(
-					steps -> gameDisplayPane.addNextWorldStep( steps )
-				) );
+				Platform.runLater(
+					() -> gameDisplayPane.getWorld( ).setWorldSteps( allWorldSteps, maxAmplitude )
+				);
 
-				for (int curGamePos = 0 - Main.WINDOW_WIDTH; curGamePos < amplitudeArray.length; curGamePos++) {
+				int curGamePos = 0 - Main.WINDOW_WIDTH/2;
+				for (; curGamePos < amplitudeArray.length*100; curGamePos++) {
 					try {
-						Thread.sleep( 13, 5 );
-						int finalCurGamePos = curGamePos;
+						Thread.sleep( 5 );//17,5 );
+
+						final int finalCurGamePos = curGamePos;
 						Platform.runLater(
 							() -> gameDisplayPane.setCenterViewFrame(finalCurGamePos)
 						);
@@ -191,14 +187,12 @@ public class GameController {
 		audioinfo.play();
 		
 	}
-	private void addSprite(Sprite sprite) {
+	private void addSprite( Sprite sprite ) {
 		if(Upsprites.size() == 999){
-			Platform.runLater(()-> gameDisplayPane.getChildren().remove(Upsprites.get(1)));
+			Platform.runLater( ( )-> gameDisplayPane.getChildren().remove( Upsprites.get(1)) );
 			Upsprites.remove(1);
 		}
 		Upsprites.add(sprite);
-
-
 
 	}
 
@@ -287,6 +281,7 @@ public class GameController {
 	}
 
 	public void setIteams(){
+		//test
 		/*iteam iteamObject = new iteam();
 		iteamObject.setHeight(20);
 		iteamObject.setWidth(20);
