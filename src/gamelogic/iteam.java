@@ -1,5 +1,12 @@
 package gamelogic;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.paint.Color;
+import uicomponents.Sprite;
+import uicomponents.iteamSprite;
+
+import static javafx.scene.paint.Color.BLUE;
+
 public class iteam implements GameObject{
     private double x;
     private double y;
@@ -9,13 +16,29 @@ public class iteam implements GameObject{
     private double width;
     private double speed;
     private long duration;
+    private SimpleBooleanProperty isUsed;
     private double pixelpermiliscond;
+    public Color iteamColor = BLUE;
+    private iteamSprite sprite;
 
+    public iteam(){
+        isUsed = new SimpleBooleanProperty();
+    }
 
     @Override
-    public void update(double gamespeed) {
+    public void update(double delta) {
+        x = x-(pixelpermiliscond *delta+2);
 
-        x = x-(pixelpermiliscond *gamespeed);
+    }
+    public Color getIteamColor(){
+        return iteamColor;
+    }
+
+    @Override
+    public void update(double gamespeed, double Radius, double playerX, double playerY) {
+
+
+
 
     }
     public void setgamespeed(double pixelpermiliscond){
@@ -64,6 +87,11 @@ public class iteam implements GameObject{
         return height;
     }
 
+    @Override
+    public boolean getIsVissable() {
+        return false;
+    }
+
     public double getSizeModifer() {
         return sizeModifer;
     }
@@ -98,5 +126,27 @@ public class iteam implements GameObject{
 
     public void setSpeed(double speedModfer) {
         this.speed = speedModfer;
+    }
+
+
+
+    public boolean isIsUseD() {
+        return isUsed.get();
+    }
+    @Override
+    public SimpleBooleanProperty isUseDProperty() {
+        return isUsed;
+    }
+    @Override
+    public void setIsUsed(boolean isUseD) {
+        this.isUsed.set(isUseD);
+    }
+
+    public void setSprite(iteamSprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

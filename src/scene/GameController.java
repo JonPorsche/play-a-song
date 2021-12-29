@@ -5,6 +5,12 @@ import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import uicomponents.*;
@@ -30,6 +36,7 @@ public class GameController {
 	private List<Sprite> Iteamsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
 	private playerSprite playerSprite;
+	Button button = new Button();
 
 	private boolean gameIsRunning;
 
@@ -47,8 +54,10 @@ public class GameController {
 		return playerObject;
 	}
 
+
 	public <pixels, i> void initialize() {
 		File trackFile = new File( "src/assets/example-track.mp3" );
+
 		System.out.println( trackFile.getAbsolutePath() );
 
 		playerObject= new player();
@@ -57,7 +66,7 @@ public class GameController {
 		playerObject.setY(500);
 		playerObject.setRadius(40);
 		playerObject.setSpeedModfer(0.08);
-		game.add(playerObject);
+		game.setPlayer(playerObject);
 		playerSpritesobject = new playerSprite();
 		playerSpritesobject.setRadius(playerObject.getRadius());
 		playerSpritesobject.setCenterX(playerObject.getX());
@@ -151,7 +160,7 @@ public class GameController {
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}}
-						i++;
+
 						e.render();
 
 
@@ -170,6 +179,7 @@ public class GameController {
 						e.render();
 
 					}
+					i++;
 					game.update(6.94);
 					lastRendered = now;
 				}
@@ -184,9 +194,22 @@ public class GameController {
 		};
 		
 		gameThread.start();
-		audioinfo.play();
+		audioinfo.play(trackFile.getAbsolutePath());
+		gameDisplayPane.getChildren().add(button);
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CollisonType type = CollisonType.COIN;
+				button.fireEvent( new CollisionEvent(CollisionEvent.COIN, playerObject ));
+			}
+		});
+		double itest = 1;
+
 		
 	}
+
+
+
 	private void addSprite( Sprite sprite ) {
 		if(Upsprites.size() == 999){
 			Platform.runLater( ( )-> gameDisplayPane.getChildren().remove( Upsprites.get(1)) );
@@ -198,7 +221,7 @@ public class GameController {
 
 	public void collision(Sprite e) throws Exception {
 
-		if(e.getRectangle().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
+		if(gameDisplayPane.getWorld().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
 			System.out.println("HELP collusion");
 		}
 
@@ -249,8 +272,8 @@ public class GameController {
 						iteam iteamObject = new iteam();
 						iteamObject.setHeight(20);
 						iteamObject.setWidth(20);
-						iteamObject.setX(500);
-						iteamObject.setY(500);
+						iteamObject.setX(1000);
+						iteamObject.setY(300);
 						iteamObject.setSizeModifer(0.2);
 						iteamObject.setSpeedModifer(0.2);
 						iteamObject.setgamespeed(0.1);
@@ -269,6 +292,14 @@ public class GameController {
 						sprite.gameObjectProperty().set(iteamObject);
 						iteamsSprites.add(sprite);
 						iteamObject.setSpeed(playerObject.getSpeedModfer());
+						iteamObject.setSprite(sprite);
+						iteamObject.isUseDProperty().addListener(new ChangeListener<Boolean>() {
+							@Override
+							public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+								iteamsSprites.remove(iteamObject.getSprite());
+								Platform.runLater(()->gameDisplayPane.getChildren().remove(iteamObject.getSprite()));
+							}
+						});
 
 					} catch (InterruptedException e) {
 						e.printStackTrace();

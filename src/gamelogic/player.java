@@ -1,5 +1,7 @@
 package gamelogic;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class player implements GameObject{
     private double x;
     private double y;
@@ -12,12 +14,15 @@ public class player implements GameObject{
     private double pixelpermiliscond;
     private boolean hasIteam;
 
+    @Override
+    public void update(double delta) {
+        y = y+speedModfer * delta;
+
+    }
 
     @Override
-    public void update(double gamespeed) {
+    public void update(double gamespeed, double Radius, double playerX, double playerY) {
         y = y+speedModfer * gamespeed;
-
-
 
     }
 
@@ -46,6 +51,21 @@ public class player implements GameObject{
     @Override
     public double getHeight() {
         return 0;
+    }
+
+    @Override
+    public boolean getIsVissable() {
+        return false;
+    }
+
+    @Override
+    public void setIsUsed(boolean isUseD) {
+
+    }
+
+    @Override
+    public SimpleBooleanProperty isUseDProperty() {
+        return null;
     }
 
     @Override
@@ -106,5 +126,8 @@ public class player implements GameObject{
 
     public void setPixelpermiliscond(double pixelpermiliscond) {
         this.pixelpermiliscond = pixelpermiliscond;
+    }
+
+    public void handleSpeedEvent(CollisionEvent event ) {
     }
 }

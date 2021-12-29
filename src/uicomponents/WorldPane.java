@@ -1,23 +1,27 @@
 package uicomponents;
 
 import application.Main;
+import gamelogic.GameObject;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ClosePath;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.shape.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class WorldPane extends Canvas {
+public class WorldPane extends Canvas implements Sprite {
 
     public WorldPane( ) {
         super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
         //this.setLayoutX();
+    }
+    
+    public  Canvas getCanvas(){
+        return this;
     }
 
     private void paintWall( List<Number> wallSideSteps, int yStartPos ) {
@@ -28,7 +32,6 @@ public class WorldPane extends Canvas {
         gc.beginPath();
         gc.setFill( Color.BLACK );
         gc.setStroke( Color.BLACK );
-
         gc.moveTo( 0, yStartPos );
 
         /*gc.setStroke(Color.FORESTGREEN.brighter());
@@ -114,5 +117,35 @@ public class WorldPane extends Canvas {
         //Group worldCornersGroup = new Group( worldTopCornerPath, worldBottomCornerPath );
 
         this.getChildren().addAll( worldTopCornerPath, worldBottomCornerPath );*/
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return null;
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return null;
+    }
+
+    @Override
+    public Line getLine() {
+        return null;
+    }
+
+    @Override
+    public Circle player() {
+        return null;
+    }
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
+    public SimpleObjectProperty<GameObject> gameObjectProperty() {
+        return null;
     }
 }

@@ -1,5 +1,8 @@
 package scene;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import uicomponents.WorldPane;
@@ -20,4 +23,6 @@ public class GameView extends Pane {
     public void setCenterViewFrame( double playerPos ) {
         this.gameWorldPane.setLayoutX( 0 - playerPos );
     }
+
+
 }

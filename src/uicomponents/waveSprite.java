@@ -45,12 +45,15 @@ public class waveSprite extends Line implements Sprite {
         if (gameObject != null) {
 
             GameObject wave = gameObject.get();
-            this.setFill(BLACK);
-            this.setEndX(wave.getX());
-            this.setEndY(wave.getY());
-            this.setStartY(100);
-            this.setStartX(wave.getX());
+            if(wave.getIsVissable()) {
+                this.setFill(BLACK);
+                this.setEndX(wave.getX());
+                this.setEndY(wave.getY());
+                this.setStartY(100);
+                this.setStartX(wave.getX());
+            }
         }
+
 
 
     }

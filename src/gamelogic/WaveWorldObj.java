@@ -1,6 +1,7 @@
 package gamelogic;
 
 
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class WaveWorldObj implements GameObject{
     private double x;
@@ -17,6 +18,12 @@ public class WaveWorldObj implements GameObject{
         x = x-(pixelpermiliscond *gamespeed);
 
 
+
+    }
+
+    @Override
+    public void update(double gamespeed, double Radius, double playerX, double playerY) {
+        x = x-(pixelpermiliscond *gamespeed);
     }
 
     public void setgamespeed(double pixelpermiliscond){
@@ -63,6 +70,21 @@ public class WaveWorldObj implements GameObject{
     @Override
     public double getHeight() {
         return height;
+    }
+
+    @Override
+    public boolean getIsVissable() {
+        return false;
+    }
+
+    @Override
+    public void setIsUsed(boolean isUseD) {
+
+    }
+
+    @Override
+    public SimpleBooleanProperty isUseDProperty() {
+        return null;
     }
 
 

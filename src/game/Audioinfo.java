@@ -26,7 +26,7 @@ public class Audioinfo {
         AudioSample song;
         song = minim.loadSample(fileLoaction,2048);
         player = minim.loadFile(fileLoaction);
-        lengthSong = player.length()/20;
+        lengthSong = player.length()/100;
         System.out.println(lengthSong);
         float[] leftChannel = song.getChannel(AudioSample.LEFT);
         System.out.println(leftChannel.length);
@@ -57,22 +57,14 @@ public class Audioinfo {
 
     }
 
-    public void play(){
+    public void play(String fileLoaction){
+
+        Thread thread = new Thread() {@Override public void run() {
+        minim = new Minim(helper);
+        player = minim.loadFile(fileLoaction);
         player.play();
 
     }
-
-
-
-    public void start(Stage primaryStage) throws Exception {
-
-
+        }; thread.start();
     }
-
-
-    /*public static class MinimHelper {
-
-
-
-    }*/
 }
