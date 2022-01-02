@@ -6,9 +6,12 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import scenes.gameview.GameController;
 import scenes.menuview.MenuViewController;
+
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
 
 public class Main extends Application {

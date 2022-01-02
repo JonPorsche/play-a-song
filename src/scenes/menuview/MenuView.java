@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class MenuView extends Pane {
     HBox menuContainer = new HBox();
@@ -80,6 +81,7 @@ public class MenuView extends Pane {
     }
 
     private void setSelectionBoxHeaderStyle(){
+        selectionBoxTitle.setId("selection-box-title");
         selectionBoxHeader.setAlignment(Pos.CENTER);
     }
 }
