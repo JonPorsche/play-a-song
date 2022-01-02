@@ -2,6 +2,7 @@ package scenes.menuview;
 
 import application.Main;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +22,7 @@ public class MenuView extends Pane {
     BorderPane selectionBox = new BorderPane();
 
     // Selection box top
+    VBox selectionBoxHeader = new VBox();
     TextArea selectionBoxTitle = new TextArea("SELECTION BOX TITLE");
 
     // Selection box center
@@ -34,12 +36,14 @@ public class MenuView extends Pane {
         setMenuContainerStyle();
         setMenuBtnBoxStyle();
         setSelectionBoxStyle();
+        setSelectionBoxHeaderStyle();
 
         menuBtnBox.getChildren().addAll(playlistBtn, optionsBtn);
 
+        selectionBoxHeader.getChildren().add(selectionBoxTitle);
         selectionBoxFooter.getChildren().add(addSongsBtn);
 
-        selectionBox.setTop(selectionBoxTitle);
+        selectionBox.setTop(selectionBoxHeader);
         selectionBox.setCenter(instructionText);
         selectionBox.setBottom(selectionBoxFooter);
 
@@ -73,5 +77,9 @@ public class MenuView extends Pane {
                 Main.WINDOW_WIDTH*0.0666,
                 Main.WINDOW_HEIGHT*0.05625,
                 0));
+    }
+
+    private void setSelectionBoxHeaderStyle(){
+        selectionBoxHeader.setAlignment(Pos.CENTER);
     }
 }
