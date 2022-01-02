@@ -1,4 +1,4 @@
-package scene;
+package scenes.gameview;
 
 import application.Main;
 import game.Audioinfo;
@@ -35,11 +35,11 @@ public class GameController {
 
 	public GameController(Game game) {
 		GameView view = new GameView();
-		
+
 		gameDisplayPane = view;
-		
+
 		this.game = game;
-		
+
 		initialize();
 	}
 	public player getPlayerObject(){
@@ -129,13 +129,13 @@ public class GameController {
 
 
 
-		
+
 		AnimationTimer gameThread = new AnimationTimer() {
 			private long lastUpdated = 0;
 			private long lastRendered = 0;
 			private final int UPS = 144;
 			private final int FPS = 144;
-			
+
 			private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000;
 			private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
 			private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
@@ -173,19 +173,19 @@ public class GameController {
 					game.update(6.94);
 					lastRendered = now;
 				}
-				
+
 				if (lastUpdated + UPNS_DELTA < now) {
 					double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
 
 					lastUpdated = now;
 				}
 			}
-			
+
 		};
-		
+
 		gameThread.start();
 		audioinfo.play();
-		
+
 	}
 	private void addSprite( Sprite sprite ) {
 		if(Upsprites.size() == 999){
