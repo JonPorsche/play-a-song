@@ -15,7 +15,7 @@ public class Game {
 			iteamObject.update(delta);
 		}
 	}
-	
+
 	public void add(GameObject object) {
 		if(gameObjects.size() == 999){
 			//gameObjects.remove(1);
@@ -34,10 +34,10 @@ public class Game {
 		iteamObjects.remove(object);
 	}
 
-	
+
 	public void start() {
-		// hier würde der Update-Thread gestartet
-		
+		// hier wuerde der Update-Thread gestartet
+
 	}
 
 }

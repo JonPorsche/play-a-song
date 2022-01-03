@@ -85,7 +85,9 @@ public class Main extends Application {
     }
 
     /**
-     *
+     * Loads the game controller and adds the game view to the scenes hash map
+     * @author Jones Porsche
+     * @see GameController
      */
     public void loadGame(){
         gameController = new GameController(game);
