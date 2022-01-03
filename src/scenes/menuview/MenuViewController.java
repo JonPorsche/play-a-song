@@ -63,7 +63,7 @@ public class MenuViewController {
     private void handlePlayBtnClick() {
         playBtn.setOnAction(event -> {
             application.loadGame();
-            application.switchToGameView("GameView");
+            application.switchScene("GameView");
         });
     }
 }

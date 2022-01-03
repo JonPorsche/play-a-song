@@ -37,14 +37,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-            this.primaryStage = primaryStage;
-            startControllers();
-            loadScenes();
-            setRootView();
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Play a Song");
+        menuViewController = new MenuViewController(this);
+        loadScenes();
+        setStartView();
 
-            scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            switchToMenuView();
+        scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        switchToMenuView();
 
 /*		try {
 			GameController controller = new GameController(game);
@@ -71,55 +72,94 @@ public class Main extends Application {
 	}*/
     }
 
-    private void startControllers() {
-        menuViewController = new MenuViewController(this);
-    }
-
+    /**
+     * Loads the scenes into a hash map
+     *
+     * @author Jones Porsche
+     */
     private void loadScenes() {
         scenes = new HashMap<String, Pane>();
         scenes.put("MenuView", menuViewController.getRootView());
     }
 
-    private void setRootView() {
+    /**
+     * Loads the start view to the primary stage. Is usually the menu view.
+     *
+     * @author Jones Porsche
+     */
+    private void setStartView() {
         rootPane = scenes.get("MenuView");
     }
 
     /**
-     * Loads the game controller and adds the game view to the scenes hash map
+     * Starts the game controller and adds the game view to the scenes hash map
+     *
      * @author Jones Porsche
      * @see GameController
      */
-    public void loadGame(){
+    public void loadGame() {
         gameController = new GameController(game);
         scenes.put("GameView", gameController.getGameDisplayPane());
     }
 
-    public void switchToGameView(String scene) {
+    public void switchScene(String scene) {
         if (scenes.containsKey(scene)) {
-            rootPane = scenes.get(scene);
+            Scene newScene;
+            switch (scene) {
+                case "GameView":
+                    rootPane = scenes.get(scene);
+                    newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+                    primaryStage.setScene(scenes.get(scene).getScene());
+
+                    try {
+                        newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+                            @Override
+                            public void handle(KeyEvent t) {
+                                if (t.getCode() == KeyCode.ENTER) {
+                                    gameController.getPlayerObject().updateHeigt(-30);
+                                } else if (t.getCode() == KeyCode.ESCAPE) {
+                                    switchScene("MenuView");
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case "MenuView":
+                    primaryStage.setScene(scenes.get(scene).getScene());
+                    break;
+            }
+        } else System.out.println("Incorrect view name or undefined view");
+    }
+
+    public void switchToGameView() {
+        if (scenes.containsKey("GameView")) {
+            rootPane = scenes.get("GameView");
             Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
             try {
                 newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
                     @Override
                     public void handle(KeyEvent t) {
-                        if(t.getCode() == KeyCode.ENTER){
+                        if (t.getCode() == KeyCode.ENTER) {
                             gameController.getPlayerObject().updateHeigt(-30);
-                        } else if(t.getCode() == KeyCode.ESCAPE){
+                        } else if (t.getCode() == KeyCode.ESCAPE) {
                             switchToMenuView();
                         }
                     }
                 });
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             primaryStage.setScene(newScene);
             primaryStage.show();
-        }
-        else System.out.println("Incorrect view name or undefined view");
+        } else System.out.println("Incorrect view name or undefined view");
     }
 
-    public void switchToMenuView(){
+    public void switchToMenuView() {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Play a Song");
         primaryStage.show();
