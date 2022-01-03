@@ -34,6 +34,7 @@ public class MenuView extends Pane {
     // Selection box bottom
     HBox selectionBoxFooter = new HBox();
     Button addSongsBtn = new Button("ADD SONGS");
+    Button playBtn = new Button("PLAY");
 
     public MenuView(){
         setMenuContainerStyle();
@@ -46,7 +47,7 @@ public class MenuView extends Pane {
         menuBtnBox.getChildren().addAll(playlistBtn, optionsBtn);
         selectionBoxHeader.getChildren().add(selectionBoxTitle);
         selectionBoxCenter.getChildren().add(instructionText);
-        selectionBoxFooter.getChildren().add(addSongsBtn);
+        selectionBoxFooter.getChildren().addAll(addSongsBtn, playBtn);
         selectionBox.setTop(selectionBoxHeader);
         selectionBox.setCenter(selectionBoxCenter);
         selectionBox.setBottom(selectionBoxFooter);
@@ -69,6 +70,10 @@ public class MenuView extends Pane {
                 Main.WINDOW_WIDTH*0.0074,
                 Main.WINDOW_HEIGHT*0.05625,
                 Main.WINDOW_WIDTH*0.0074));
+
+        VBox.setMargin(playlistBtn, new Insets(0,0,4,0));
+        VBox.setMargin(optionsBtn, new Insets(4,0,0,0));
+
     }
 
     private void setSelectionBoxStyle(){
@@ -100,5 +105,6 @@ public class MenuView extends Pane {
         selectionBoxFooter.setMinHeight(84);
         selectionBoxFooter.setMaxHeight(84);
         selectionBoxFooter.setAlignment(Pos.CENTER);
+        HBox.setMargin(playBtn,new Insets(0,10,0,10));
     }
 }

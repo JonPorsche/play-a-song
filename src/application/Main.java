@@ -6,43 +6,45 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import scenes.gameview.GameController;
 import scenes.menuview.MenuViewController;
 
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Main extends Application {
-	public static final int WINDOW_WIDTH = 1080;
-	public static final int WINDOW_HEIGHT = 640;
+    public static final int WINDOW_WIDTH = 1080;
+    public static final int WINDOW_HEIGHT = 640;
 
-	private Game game;
+    private Game game;
+    private Map<String, Pane> scenes;
+    private Pane rootPane;
+    private Stage primaryStage;
+    private Scene scene;
 
-	// CONTROLLERS
-	private MenuViewController menuViewController;
+    // CONTROLLERS
+    private MenuViewController menuViewController;
+    private GameController gameController;
 
-	@Override
-	public void init() throws Exception {
-		super.init();
-		game = new Game();
-	}
+    @Override
+    public void init() throws Exception {
+        super.init();
+        game = new Game();
+    }
 
-	@Override
-	public void start(Stage primaryStage) {
-		startControllers();
+    @Override
+    public void start(Stage primaryStage) {
+            this.primaryStage = primaryStage;
+            startControllers();
+            loadScenes();
+            setRootView();
 
-		try {
-			Scene scene = new Scene(menuViewController.getRootView(), WINDOW_WIDTH, WINDOW_HEIGHT);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Play a Song");
-			primaryStage.show();
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+            scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+            switchToMenuView();
 
 /*		try {
 			GameController controller = new GameController(game);
@@ -67,13 +69,61 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}*/
-	}
+    }
 
-	private void startControllers() {
-		menuViewController = new MenuViewController(this);
-	}
+    private void startControllers() {
+        menuViewController = new MenuViewController(this);
+    }
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+    private void loadScenes() {
+        scenes = new HashMap<String, Pane>();
+        scenes.put("MenuView", menuViewController.getRootView());
+    }
+
+    private void setRootView() {
+        rootPane = scenes.get("MenuView");
+    }
+
+    /**
+     *
+     */
+    public void loadGame(){
+        gameController = new GameController(game);
+        scenes.put("GameView", gameController.getGameDisplayPane());
+    }
+
+    public void switchToGameView(String scene) {
+        if (scenes.containsKey(scene)) {
+            rootPane = scenes.get(scene);
+            Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+            try {
+                newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+                    @Override
+                    public void handle(KeyEvent t) {
+                        if(t.getCode() == KeyCode.ENTER){
+                            gameController.getPlayerObject().updateHeigt(-30);
+                        } else if(t.getCode() == KeyCode.ESCAPE){
+                            switchToMenuView();
+                        }
+                    }
+                });
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(newScene);
+            primaryStage.show();
+        }
+        else System.out.println("Incorrect view name or undefined view");
+    }
+
+    public void switchToMenuView(){
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Play a Song");
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

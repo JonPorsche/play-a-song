@@ -3,7 +3,6 @@ package scenes.menuview;
 import application.Main;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -30,6 +29,7 @@ public class MenuViewController {
     // Selection box bottom
     private HBox selectionBoxFooter;
     private Button addSongsBtn;
+    private Button playBtn;
 
     private Main application;
     private Pane rootView;
@@ -46,6 +46,7 @@ public class MenuViewController {
         this.instructionText = menuView.instructionText;
         this.selectionBoxFooter = menuView.selectionBoxFooter;
         this.addSongsBtn = menuView.addSongsBtn;
+        this.playBtn = menuView.playBtn;
 
         rootView = menuView;
         initialize();
@@ -56,6 +57,13 @@ public class MenuViewController {
     }
 
     public void initialize(){
+        handlePlayBtnClick();
+    }
 
+    private void handlePlayBtnClick() {
+        playBtn.setOnAction(event -> {
+            application.loadGame();
+            application.switchToGameView("GameView");
+        });
     }
 }
