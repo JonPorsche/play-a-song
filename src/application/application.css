@@ -1,3 +1,6 @@
+/* These styles are only to see the box borders and have
+   some orientation.
+ */
 .border-to-test-blue{
     -fx-border-size: 1px;
     -fx-border-color: dodgerblue;
@@ -10,6 +13,7 @@
     -fx-border-style: solid;
 }
 
+/* These custom fonts aren't working */
 @font-face {
     font-family:"Roboto Light";
     src: url("../assets/fonts/roboto/Roboto-Light.ttf");
@@ -30,22 +34,19 @@
     src: url("../assets/fonts/roboto-mono/RobotoMono-Medium.ttf");
 }
 
+/* Just to test a  font that is not installed */
 @font-face {
     font-family: "Lobster";
     src: url("../assets/fonts/pushster/Pushster-Regular.ttf");
 }
 
-@font-face {
-    src: local('sample'), url('https://fonts.googleapis.com/css2?family=Pushster&family=Roboto+Mono:ital@1&display=swap') format('truetype');
-}
-
 .text{
     -fx-font-family: "Roboto Mono";
-    -fx-font-weight: 300;
+    -fx-font-weight: 500;
     -fx-font-size: 16;
+    -fx-text-alignment: center;
 }
 
-#selection-box-title{
-    -fx-font-weight: 700;
-    -fx-font-size: 20;
+.transparent-bkg{
+    -fx-background-color: transparent;
 }

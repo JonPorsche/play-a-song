@@ -4,6 +4,7 @@ import application.Main;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -24,10 +25,11 @@ public class MenuView extends Pane {
 
     // Selection box top
     VBox selectionBoxHeader = new VBox();
-    TextArea selectionBoxTitle = new TextArea("SELECTION BOX TITLE");
+    Label selectionBoxTitle = new Label("SELECTION BOX TITLE");
 
     // Selection box center
-    TextArea instructionText = new TextArea("To add songs select a folder with mp3 files");
+    VBox selectionBoxCenter = new VBox();
+    Label instructionText = new Label("To add songs select a folder with mp3 files");
 
     // Selection box bottom
     HBox selectionBoxFooter = new HBox();
@@ -38,28 +40,29 @@ public class MenuView extends Pane {
         setMenuBtnBoxStyle();
         setSelectionBoxStyle();
         setSelectionBoxHeaderStyle();
+        setSelectionBoxCenterStyle();
+        setSelectionBoxFooterStyle();
 
         menuBtnBox.getChildren().addAll(playlistBtn, optionsBtn);
-
         selectionBoxHeader.getChildren().add(selectionBoxTitle);
+        selectionBoxCenter.getChildren().add(instructionText);
         selectionBoxFooter.getChildren().add(addSongsBtn);
-
         selectionBox.setTop(selectionBoxHeader);
-        selectionBox.setCenter(instructionText);
+        selectionBox.setCenter(selectionBoxCenter);
         selectionBox.setBottom(selectionBoxFooter);
-
         menuContainer.getChildren().addAll(menuBtnBox, selectionBox);
         this.getChildren().add(menuContainer);
     }
 
     private void setMenuContainerStyle() {
-        menuContainer.getStyleClass().add("border-to-test-blue");
+        this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        menuContainer.setId("menu-container");
         menuContainer.setMinSize(Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
     }
 
     private void setMenuBtnBoxStyle(){
-        menuBtnBox.getStyleClass().addAll("border-to-test-orange");
         menuBtnBox.setMinSize(Main.WINDOW_WIDTH*0.4592,Main.WINDOW_HEIGHT*0.8875);
+        menuBtnBox.setAlignment(Pos.CENTER);
 
         HBox.setMargin(menuBtnBox, new Insets(
                 Main.WINDOW_HEIGHT*0.05625,
@@ -69,7 +72,7 @@ public class MenuView extends Pane {
     }
 
     private void setSelectionBoxStyle(){
-        selectionBox.getStyleClass().add("border-to-test-blue");
+        selectionBox.setId("selection-box");
         selectionBox.setMinSize(Main.WINDOW_WIDTH*0.4592,Main.WINDOW_HEIGHT*0.8875);
         selectionBox.setMaxSize(Main.WINDOW_WIDTH*0.4592,Main.WINDOW_HEIGHT*0.8875);
 
@@ -81,7 +84,21 @@ public class MenuView extends Pane {
     }
 
     private void setSelectionBoxHeaderStyle(){
-        selectionBoxTitle.setId("selection-box-title");
+        selectionBoxHeader.setMinHeight(68);
+        selectionBoxHeader.setMaxHeight(68);
         selectionBoxHeader.setAlignment(Pos.CENTER);
+        selectionBoxTitle.setAlignment(Pos.CENTER);
+    }
+
+    private void setSelectionBoxCenterStyle(){
+        selectionBoxCenter.setMinHeight(Main.WINDOW_HEIGHT*0.6625);
+        selectionBoxCenter.setMaxHeight(Main.WINDOW_HEIGHT*0.6625);
+        selectionBoxCenter.setAlignment(Pos.BOTTOM_CENTER);
+    }
+
+    private void setSelectionBoxFooterStyle(){
+        selectionBoxFooter.setMinHeight(84);
+        selectionBoxFooter.setMaxHeight(84);
+        selectionBoxFooter.setAlignment(Pos.CENTER);
     }
 }

@@ -2,6 +2,7 @@ package scenes.menuview;
 
 import application.Main;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -21,10 +22,10 @@ public class MenuViewController {
 
     // Selection box top
     private VBox selectionBoxHeader;
-    private TextArea selectionBoxTitle;
+    private Label selectionBoxTitle;
 
     // Selection box center
-    private TextArea instructionText;
+    private Label instructionText;
 
     // Selection box bottom
     private HBox selectionBoxFooter;
