@@ -37,15 +37,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Play a Song");
         menuViewController = new MenuViewController(this);
+
         loadScenes();
         setStartView();
 
         scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        switchToMenuView();
+
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Play a Song");
+        this.primaryStage.setScene(scene);
+        this.primaryStage.show();
 
 /*		try {
 			GameController controller = new GameController(game);
@@ -102,67 +105,39 @@ public class Main extends Application {
         scenes.put("GameView", gameController.getGameDisplayPane());
     }
 
+    /** Switches the scene of the primary stage based on the received name of the new scene
+     * @param scene String with the name of the scene
+     * @author Jones Porsche
+     */
     public void switchScene(String scene) {
-        if (scenes.containsKey(scene)) {
-            Scene newScene;
-            switch (scene) {
-                case "GameView":
-                    rootPane = scenes.get(scene);
-                    newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
-                    primaryStage.setScene(scenes.get(scene).getScene());
+        switch (scene) {
+            case "GameView":
+                rootPane = scenes.get(scene);
+                Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+                primaryStage.setScene(newScene);
 
-                    try {
-                        newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                // TODO Handle this event in the game controller?
+                try {
+                    newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
-                            @Override
-                            public void handle(KeyEvent t) {
-                                if (t.getCode() == KeyCode.ENTER) {
-                                    gameController.getPlayerObject().updateHeigt(-30);
-                                } else if (t.getCode() == KeyCode.ESCAPE) {
-                                    switchScene("MenuView");
-                                }
+                        @Override
+                        public void handle(KeyEvent t) {
+                            if (t.getCode() == KeyCode.ENTER) {
+                                gameController.getPlayerObject().updateHeigt(-30);
+                            } else if (t.getCode() == KeyCode.ESCAPE) {
+                                switchScene("MenuView");
                             }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-
-                case "MenuView":
-                    primaryStage.setScene(scenes.get(scene).getScene());
-                    break;
-            }
-        } else System.out.println("Incorrect view name or undefined view");
-    }
-
-    public void switchToGameView() {
-        if (scenes.containsKey("GameView")) {
-            rootPane = scenes.get("GameView");
-            Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
-            try {
-                newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-                    @Override
-                    public void handle(KeyEvent t) {
-                        if (t.getCode() == KeyCode.ENTER) {
-                            gameController.getPlayerObject().updateHeigt(-30);
-                        } else if (t.getCode() == KeyCode.ESCAPE) {
-                            switchToMenuView();
                         }
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            primaryStage.setScene(newScene);
-            primaryStage.show();
-        } else System.out.println("Incorrect view name or undefined view");
-    }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
 
-    public void switchToMenuView() {
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Play a Song");
-        primaryStage.show();
+            case "MenuView":
+                primaryStage.setScene(scenes.get(scene).getScene());
+                break;
+        }
     }
 
     public static void main(String[] args) {
