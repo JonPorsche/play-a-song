@@ -19,15 +19,15 @@ public class Main extends Application {
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 640;
 
-    private Game game;
-    private Map<String, Pane> scenes;
-    private Pane rootPane;
-    private Stage primaryStage;
-    private Scene scene;
+    Game game;
+    Map<String, Pane> scenes;
+    Pane rootPane;
+    Stage primaryStage;
+    Scene scene;
 
     // CONTROLLERS
-    private MenuViewController menuViewController;
-    private GameController gameController;
+    MenuViewController menuViewController;
+    GameController gameController;
 
     @Override
     public void init() throws Exception {
