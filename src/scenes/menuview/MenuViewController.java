@@ -9,6 +9,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuViewController {
     private HBox menuContainer;
 
@@ -35,7 +39,7 @@ public class MenuViewController {
     private Main application;
     private Pane rootView;
 
-    public MenuViewController(Main application){
+    public MenuViewController(Main application) {
         this.application = application;
 
         MenuView menuView = new MenuView();
@@ -57,7 +61,7 @@ public class MenuViewController {
         return rootView;
     }
 
-    public void initialize(){
+    public void initialize() {
         handlePlayBtnClick();
         handleAddSongsBtnClick();
     }
@@ -69,7 +73,13 @@ public class MenuViewController {
         });
     }
 
-    private void handleAddSongsBtnClick(){
+    /**
+     * When the button "Add Songs" is clicked a system default window opens.
+     * The user selects a directory, a start point to look for mp3 files in the folder and its subfolders.
+     * Finally a playlist is created.
+     * @author Jones Porsche
+     */
+    private void handleAddSongsBtnClick() {
         addSongsBtn.setOnAction(event -> PlaylistManager.selectDirectory());
     }
 }
