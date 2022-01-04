@@ -1,6 +1,7 @@
 package scenes.menuview;
 
 import application.Main;
+import business.service.PlaylistManager;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -58,6 +59,7 @@ public class MenuViewController {
 
     public void initialize(){
         handlePlayBtnClick();
+        handleAddSongsBtnClick();
     }
 
     private void handlePlayBtnClick() {
@@ -65,5 +67,9 @@ public class MenuViewController {
             application.startGame();
             application.switchScene("GameView");
         });
+    }
+
+    private void handleAddSongsBtnClick(){
+        addSongsBtn.setOnAction(event -> PlaylistManager.selectDirectory());
     }
 }
