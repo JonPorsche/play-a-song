@@ -32,7 +32,6 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         super.init();
-        game = new Game();
     }
 
     @Override
@@ -95,12 +94,12 @@ public class Main extends Application {
     }
 
     /**
-     * Starts the game controller and adds the game view to the scenes hash map
-     *
+     * Starts the game instance and controller and adds the game view to the scenes hash map
      * @author Jones Porsche
      * @see GameController
      */
-    public void loadGame() {
+    public void startGame() {
+        game = new Game();
         gameController = new GameController(game);
         scenes.put("GameView", gameController.getGameDisplayPane());
     }
