@@ -81,7 +81,7 @@ public class Main extends Application {
      */
     private void loadScenes() {
         scenes = new HashMap<String, Pane>();
-        scenes.put("MenuView", menuViewController.getRootView());
+        scenes.put("MenuView", menuViewController.getMenuRootView());
     }
 
     /**

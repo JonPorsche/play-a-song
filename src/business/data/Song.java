@@ -51,8 +51,9 @@ public class Song {
 
     @Override
     public String toString() {
-        return "Track{" +
-                "id=" + id +
-                '}';
+        return "Song " + id +
+                " = " + artist +
+                " - " + title +
+                "\n";
     }
 }

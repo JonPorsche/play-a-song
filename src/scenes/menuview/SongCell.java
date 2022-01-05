@@ -33,8 +33,8 @@ public class SongCell extends ListCell<Song> {
         // COVER
         coverImage = new ImageView();
         coverImageViewPane = new ImageViewPane(coverImage);
-        coverImageViewPane.setMaxSize(84,84);
-        HBox.setMargin(coverImageViewPane, new Insets(6));
+        coverImageViewPane.setMaxSize(72,72);
+        HBox.setMargin(coverImageViewPane, new Insets(4));
 
         // INFO BOX
         infoBox = new VBox();
@@ -65,7 +65,7 @@ public class SongCell extends ListCell<Song> {
         listItemBox.getChildren().addAll(coverImageViewPane, infoBox, duration);
     }
 
-    protected void updateItem(Track item, boolean empty) {
+    protected void updateItem(Song item, boolean empty) {
         super.updateItem(item, empty);
         setText(null);
         setGraphic(null);
@@ -75,7 +75,7 @@ public class SongCell extends ListCell<Song> {
             title.setText(item.getTitle());
             artist.setText(item.getArtist());
             album.setText(item.getAlbumTitle());
-            duration.setText(MP3Player.formatTime(item.getDuration()));
+            //duration.setText(MP3Player.formatTime(item.getDuration()));
 
             this.setGraphic(listItemBox);
         }

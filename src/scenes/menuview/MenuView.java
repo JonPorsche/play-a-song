@@ -49,7 +49,7 @@ public class MenuView extends Pane {
         selectionBoxCenter.getChildren().add(instructionText);
         selectionBoxFooter.getChildren().addAll(addSongsBtn, playBtn);
         selectionBox.setTop(selectionBoxHeader);
-        selectionBox.setCenter(selectionBoxCenter);
+        //selectionBox.setCenter(selectionBoxCenter);
         selectionBox.setBottom(selectionBoxFooter);
         menuContainer.getChildren().addAll(menuBtnBox, selectionBox);
         this.getChildren().add(menuContainer);

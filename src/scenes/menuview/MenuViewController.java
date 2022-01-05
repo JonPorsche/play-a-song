@@ -9,10 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 public class MenuViewController {
     private HBox menuContainer;
 
@@ -37,7 +33,10 @@ public class MenuViewController {
     private Button playBtn;
 
     private Main application;
-    private Pane rootView;
+    private Pane menuRootView;
+
+    // CONTROLLERS
+    private PlaylistViewController playlistViewController;
 
     public MenuViewController(Main application) {
         this.application = application;
@@ -47,18 +46,22 @@ public class MenuViewController {
         this.menuBtnBox = menuView.menuBtnBox;
         this.playlistBtn = menuView.playlistBtn;
         this.optionsBtn = menuView.optionsBtn;
+        this.selectionBox = menuView.selectionBox;
         this.selectionBoxHeader = menuView.selectionBoxHeader;
         this.instructionText = menuView.instructionText;
         this.selectionBoxFooter = menuView.selectionBoxFooter;
         this.addSongsBtn = menuView.addSongsBtn;
         this.playBtn = menuView.playBtn;
 
-        rootView = menuView;
+        playlistViewController = new PlaylistViewController(application);
+        selectionBox.setCenter(playlistViewController.getPlaylistRootView());
+
+        menuRootView = menuView;
         initialize();
     }
 
-    public Pane getRootView() {
-        return rootView;
+    public Pane getMenuRootView() {
+        return menuRootView;
     }
 
     public void initialize() {

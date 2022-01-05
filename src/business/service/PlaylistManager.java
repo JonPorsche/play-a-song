@@ -6,6 +6,8 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -19,7 +21,7 @@ import java.util.List;
 public class PlaylistManager {
 
     static String directoryPath;
-    static ArrayList<Song> songs = new ArrayList<Song>();
+    public static ObservableList<Song> songs = FXCollections.observableArrayList();
 
     /**
      * Opens a default system window to select a directory and captures its absolute path.
@@ -75,6 +77,7 @@ public class PlaylistManager {
                 }
             }
         }
+        //System.out.println(songs.toString());
     }
 
     /**
