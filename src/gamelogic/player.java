@@ -1,5 +1,6 @@
 package gamelogic;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.ArrayList;
@@ -17,16 +18,32 @@ public class player implements GameObject{
     private double pixelpermiliscond;
     private boolean hasIteam;
     private List<IteamTaken> listeners;
+    private Collison collsion;
+    private SimpleBooleanProperty collisonWave;
     public player(){
         this.listeners = new ArrayList<>();
+        collsion = new Collison();
+        collisonWave = new SimpleBooleanProperty();
+        collisonWave.setValue(false);
     }
     public void addIteamTakenListner(IteamTaken listener){
         listeners.add(listener);
 
     }
+    public SimpleBooleanProperty getCollisonWave() {
+        return collisonWave;
+    }
     @Override
     public void update(double delta) {
         y = y+speedModfer * delta;
+        if (collsion.wavePlayerCollsion(y,x, radius)){
+            collisonWave.setValue(Boolean.TRUE);
+
+
+
+        }else {
+            collisonWave.setValue(false);
+        }
 
     }
 
@@ -37,7 +54,17 @@ public class player implements GameObject{
     }
 
     public void updateHeigt(double value){
+
         y = y + value;
+        if (collsion.wavePlayerCollsion(y,x, radius)){
+            collisonWave.setValue(Boolean.TRUE);
+            //y= wave.getBorderX - radius;
+
+
+        }else {
+            collisonWave.setValue(false);
+        }
+
     }
     public void setgamespeed(double pixelpermiliscond){
         this.pixelpermiliscond= pixelpermiliscond;

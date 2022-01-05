@@ -16,4 +16,9 @@ public class Collison {
         return false;
 
     }
+
+    public boolean wavePlayerCollsion(double y, double x, double radius){
+    return false;
+    };
+
 }

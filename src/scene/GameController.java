@@ -62,6 +62,13 @@ public class GameController {
 		System.out.println( trackFile.getAbsolutePath() );
 
 		playerObject= new player();
+		playerObject.getCollisonWave().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (newValue){}
+				else { System.out.println("No Collision");}
+			}
+		});
 
 		playerObject.setgamespeed(1);
 		playerObject.setX(400);
@@ -137,6 +144,7 @@ public class GameController {
 			}
 
 		}; thread.start();
+
 
 
 

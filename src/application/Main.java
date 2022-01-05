@@ -5,10 +5,14 @@ import gamelogic.Game;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import scene.GameController;
+
+import static java.lang.Boolean.TRUE;
+import static javafx.scene.SceneAntialiasing.BALANCED;
 
 
 public class Main extends Application {
@@ -27,8 +31,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			GameController controller = new GameController(game);
-			Scene scene = new Scene(controller.getGameDisplayPane( ),Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
+			Scene scene = new Scene(controller.getGameDisplayPane( ),Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT,Boolean.TRUE, BALANCED);
+			scene.getAntiAliasing();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
 			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 				@Override
