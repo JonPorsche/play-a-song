@@ -2,6 +2,9 @@ package gamelogic;
 
 import javafx.beans.property.SimpleBooleanProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class player implements GameObject{
     private double x;
     private double y;
@@ -13,7 +16,14 @@ public class player implements GameObject{
     private double gamespeed = 1;
     private double pixelpermiliscond;
     private boolean hasIteam;
+    private List<IteamTaken> listeners;
+    public player(){
+        this.listeners = new ArrayList<>();
+    }
+    public void addIteamTakenListner(IteamTaken listener){
+        listeners.add(listener);
 
+    }
     @Override
     public void update(double delta) {
         y = y+speedModfer * delta;
@@ -105,7 +115,11 @@ public class player implements GameObject{
     }
 
     public void setSpeedModfer(double speedModifer) {
-        this.speedModfer = speedModifer+speedModfer ;
+
+        this.speedModfer = speedModifer+speedModfer;
+        for (IteamTaken listner : listeners) {
+            listner.IteamTaken(this.speedModfer - speedModifer, speedModifer);
+        }
     }
 
     public double getSizeModifer() {

@@ -46,6 +46,7 @@ public class GameController {
 		gameDisplayPane = view;
 		
 		this.game = game;
+
 		
 		initialize();
 	}
@@ -61,6 +62,7 @@ public class GameController {
 		System.out.println( trackFile.getAbsolutePath() );
 
 		playerObject= new player();
+
 		playerObject.setgamespeed(1);
 		playerObject.setX(400);
 		playerObject.setY(500);
@@ -229,15 +231,13 @@ public class GameController {
 	}
 
 	public void iteamCollison(Sprite iteam){
-		if(iteam.getBounds().intersects(playerSpritesobject.getBoundsInParent())){
+
 			Thread iteamthread = new Thread(){
 				@Override
 				public void run(){
 					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
 					playerObject.setSizeModifer(iteamObject.getSizeModifer());
 					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
-					gameDisplayPane.getChildren().remove(iteamObject);
-					iteamsSprites.remove(iteam);
 
 					try {
 						Thread.sleep(iteamObject.getDuration());
@@ -254,7 +254,7 @@ public class GameController {
 		}
 
 
-	}
+
 
 
 
@@ -296,6 +296,7 @@ public class GameController {
 						iteamObject.isUseDProperty().addListener(new ChangeListener<Boolean>() {
 							@Override
 							public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+								iteamCollison(iteamObject.getSprite());
 								iteamsSprites.remove(iteamObject.getSprite());
 								Platform.runLater(()->gameDisplayPane.getChildren().remove(iteamObject.getSprite()));
 							}
