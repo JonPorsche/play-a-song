@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class PlaylistManager {
 
     static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
+    public static String selectedSongPath = null;
 
     /**
      * Opens a default system window to select a directory and captures its absolute path.
@@ -112,5 +112,13 @@ public class PlaylistManager {
             e.printStackTrace();
         }
         return new Song(title, duration, albumTitle, artist, songFilePath, albumImage);
+    }
+
+    public final String getSelectedSongPath() {
+        return this.selectedSongPath;
+    }
+
+    public final void setSelectedSongPath(String selectedSongPath) {
+        this.selectedSongPath = selectedSongPath;
     }
 }

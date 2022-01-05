@@ -1,6 +1,7 @@
 package scenes.gameview;
 
 import application.Main;
+import business.service.PlaylistManager;
 import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
@@ -39,7 +40,6 @@ public class GameController {
 		gameDisplayPane = view;
 
 		this.game = game;
-
 		initialize();
 	}
 	public player getPlayerObject(){
@@ -48,8 +48,6 @@ public class GameController {
 	}
 
 	public <pixels, i> void initialize() {
-		File trackFile = new File( "src/assets/example-track.mp3" );
-		System.out.println( trackFile.getAbsolutePath() );
 
 		playerObject= new player();
 		playerObject.setgamespeed(1);
@@ -68,7 +66,7 @@ public class GameController {
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		amplitudeArray = audioinfo.getLeft( trackFile.getAbsolutePath() );
+		amplitudeArray = audioinfo.getLeft(PlaylistManager.selectedSongPath);
 
 		gameIsRunning= true;
 		setIteams();

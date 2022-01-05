@@ -34,6 +34,7 @@ public class MenuViewController {
 
     private Main application;
     private Pane menuRootView;
+    private PlaylistManager playlistManager = new PlaylistManager();
 
     // CONTROLLERS
     private PlaylistViewController playlistViewController;
@@ -71,8 +72,14 @@ public class MenuViewController {
 
     private void handlePlayBtnClick() {
         playBtn.setOnAction(event -> {
-            application.startGame();
-            application.switchScene("GameView");
+            if(PlaylistManager.songs.isEmpty()){
+                System.out.println("Add songs to start playing");
+            } else {
+                String firstSongPath = PlaylistManager.songs.get(0).getTrackFilePath();
+                PlaylistManager.selectedSongPath = firstSongPath;
+                application.startGame();
+                application.switchScene("GameView");
+            }
         });
     }
 
