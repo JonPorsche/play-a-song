@@ -19,7 +19,7 @@ import java.util.List;
 public class PlaylistManager {
 
     static String directoryPath;
-    static ArrayList<Song> songs;
+    static ArrayList<Song> songs = new ArrayList<Song>();
 
     /**
      * Opens a default system window to select a directory and captures its absolute path.
@@ -78,7 +78,7 @@ public class PlaylistManager {
     }
 
     /**
-     * Creates a new song object based on the mp3 file path and collecting the song information from the ID3 tags.
+     * Creates a new song object based on the mp3 file path and collects the song information from the ID3 tags.
      * @author Jones Porsche
      * @param songFilePath The path of the mp3 file
      * @return a new song object
