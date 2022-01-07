@@ -1,4 +1,4 @@
-package scene;
+package scenes.gameview;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -6,7 +6,6 @@ import javafx.event.EventType;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import uicomponents.WorldPane;
-import uicomponents.WaveRSprite;
 
 public class GameView extends Pane {
     private WorldPane gameWorldPane = new WorldPane( );

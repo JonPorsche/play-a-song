@@ -1,6 +1,7 @@
 package scene;
 
 import application.Main;
+import business.service.PlaylistManager;
 import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
@@ -42,11 +43,10 @@ public class GameController {
 
 	public GameController(Game game) {
 		GameView view = new GameView();
-		
-		gameDisplayPane = view;
-		
-		this.game = game;
 
+		gameDisplayPane = view;
+
+		this.game = game;
 		
 		initialize();
 	}
@@ -58,7 +58,6 @@ public class GameController {
 
 	public <pixels, i> void initialize() {
 		File trackFile = new File( "src/assets/example-track.mp3" );
-
 		System.out.println( trackFile.getAbsolutePath() );
 
 		playerObject= new player();
@@ -75,7 +74,7 @@ public class GameController {
 		playerObject.setY(500);
 		playerObject.setRadius(40);
 		playerObject.setSpeedModfer(0.08);
-		game.setPlayer(playerObject);
+		game.add(playerObject);
 		playerSpritesobject = new playerSprite();
 		playerSpritesobject.setRadius(playerObject.getRadius());
 		playerSpritesobject.setCenterX(playerObject.getX());
@@ -86,7 +85,7 @@ public class GameController {
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		amplitudeArray = audioinfo.getLeft( trackFile.getAbsolutePath() );
+		amplitudeArray = audioinfo.getLeft(PlaylistManager.selectedSongPath);
 
 		gameIsRunning= true;
 		setIteams();
@@ -148,13 +147,13 @@ public class GameController {
 
 
 
-		
+
 		AnimationTimer gameThread = new AnimationTimer() {
 			private long lastUpdated = 0;
 			private long lastRendered = 0;
 			private final int UPS = 144;
 			private final int FPS = 144;
-			
+
 			private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000;
 			private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
 			private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
@@ -170,7 +169,7 @@ public class GameController {
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}}
-
+						i++;
 						e.render();
 
 
@@ -215,7 +214,6 @@ public class GameController {
 		});
 		double itest = 1;
 
-		
 	}
 
 
@@ -231,7 +229,7 @@ public class GameController {
 
 	public void collision(Sprite e) throws Exception {
 
-		if(gameDisplayPane.getWorld().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
+		if(e.getRectangle().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
 			System.out.println("HELP collusion");
 		}
 
@@ -239,13 +237,15 @@ public class GameController {
 	}
 
 	public void iteamCollison(Sprite iteam){
-
+		if(iteam.getBounds().intersects(playerSpritesobject.getBoundsInParent())){
 			Thread iteamthread = new Thread(){
 				@Override
 				public void run(){
 					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
 					playerObject.setSizeModifer(iteamObject.getSizeModifer());
 					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
+					gameDisplayPane.getChildren().remove(iteamObject);
+					iteamsSprites.remove(iteam);
 
 					try {
 						Thread.sleep(iteamObject.getDuration());
@@ -262,7 +262,7 @@ public class GameController {
 		}
 
 
-
+	}
 
 
 

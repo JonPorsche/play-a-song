@@ -56,7 +56,6 @@ public class Game {
 		player.addIteamTakenListner(new IteamTakenListner());
 
 	}
-
 	public void add(GameObject object) {
 
 		gameObjects.add(object);
