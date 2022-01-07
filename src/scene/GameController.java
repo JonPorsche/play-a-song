@@ -18,18 +18,18 @@ import static javafx.scene.paint.Color.RED;
 public class GameController {
 	private GameView gameDisplayPane;
 	private Game game;
-	player playerObject;
+	Player playerObject;
 	int i= 0;
 	Audioinfo audioinfo ;
 	private double[] amplitudeArray;
 	private double maxAmplitude = 0;
 	double gameSpeed = 1;
-	playerSprite playerSpritesobject = new playerSprite();
+	PlayerSprite playerSpritesobject = new PlayerSprite();
 	private List<iteam>iteams = new ArrayList<>();
 	private List<Sprite> Upsprites = new ArrayList<>();
 	private List<Sprite> Iteamsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
-	private playerSprite playerSprite;
+	private PlayerSprite playerSprite;
 
 	private boolean gameIsRunning;
 
@@ -42,23 +42,23 @@ public class GameController {
 		
 		initialize();
 	}
-	public player getPlayerObject(){
+	public Player getPlayerObject(){
 
 		return playerObject;
 	}
 
-	public <pixels, i> void initialize() {
+	public /*<pixels, i>*/ void initialize() {
 		File trackFile = new File( "src/assets/example-track.mp3" );
 		System.out.println( trackFile.getAbsolutePath() );
 
-		playerObject= new player();
+		/*playerObject= new Player();
 		playerObject.setgamespeed(1);
 		playerObject.setX(400);
 		playerObject.setY(500);
 		playerObject.setRadius(40);
 		playerObject.setSpeedModfer(0.08);
-		game.add(playerObject);
-		playerSpritesobject = new playerSprite();
+		game.add(playerObject);*/
+		playerSpritesobject = new PlayerSprite();
 		playerSpritesobject.setRadius(playerObject.getRadius());
 		playerSpritesobject.setCenterX(playerObject.getX());
 		playerSpritesobject.setCenterX(playerObject.getY());
@@ -87,9 +87,10 @@ public class GameController {
 					WaveRSprite sprite;
 					gameObject = new WaveWorldObj( );
 					gameObject.setgamespeed( 1 );
-					gameObject.setX( i * 100 );
+					gameObject.setX( i * Main.MAP_CHUNK_WIDTH_PX );
 					gameObject.setY( 0 );
-					gameObject.setHeight( 50 + 6 * curAmplValue );
+					//gameObject.setHeight( 50 + 6 * curAmplValue );
+					gameObject.setHeight( Main.MAP_CHUNK_BASE_HEIGHT_PX + Main.MAP_CHUNK_HEIGHT_PX * curAmplValue );
 					gameObject.setWidth( 100 );
 
 					/*sprite = new WaveRSprite( );
@@ -98,7 +99,7 @@ public class GameController {
 					sprite.setHeight(gameObject.getHeight( ));
 					sprite.setWidth(25);*/
 
-					game.add( gameObject );
+					game.addMapChunk( gameObject );
 					allWorldSteps.add( 50 + 6 * curAmplValue );
 					/*addSprite(sprite);
 					sprite.gameObjectProperty().set(gameObject);
@@ -106,23 +107,9 @@ public class GameController {
 				}
 
 				Platform.runLater(
-					() -> gameDisplayPane.getWorld( ).setWorldSteps( allWorldSteps, maxAmplitude )
+					( ) -> gameDisplayPane.getWorld( ).setWorldSteps( allWorldSteps, maxAmplitude )
 				);
 
-				int curGamePos = 0 - Main.WINDOW_WIDTH/2;
-				for (; curGamePos < amplitudeArray.length*100; curGamePos++) {
-					try {
-						Thread.sleep( 5 );//17,5 );
-
-						final int finalCurGamePos = curGamePos;
-						Platform.runLater(
-							() -> gameDisplayPane.setCenterViewFrame(finalCurGamePos)
-						);
-
-					} catch (InterruptedException e) {
-						e.printStackTrace( );
-					}
-				}
 			}
 
 		}; thread.start();

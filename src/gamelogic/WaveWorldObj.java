@@ -1,12 +1,9 @@
 package gamelogic;
 
 
+import uicomponents.Sprite;
 
-public class WaveWorldObj implements GameObject{
-    private double x;
-    private double y;
-    private double height;
-    private double width;
+public class WaveWorldObj extends Knockable implements GameObject {
     private int painWidth;
     private int painHeight;
     private double gamespeed = 1;
@@ -14,15 +11,13 @@ public class WaveWorldObj implements GameObject{
 
     @Override
     public void update(double gamespeed) {
-        x = x-(pixelpermiliscond *gamespeed);
-
-
+        this.x = this.x-(pixelpermiliscond *gamespeed);
     }
 
     public void setgamespeed(double pixelpermiliscond){
         this.pixelpermiliscond= pixelpermiliscond;
-
     }
+
     @Override
     public double getX() {
         return x;
@@ -35,14 +30,12 @@ public class WaveWorldObj implements GameObject{
 
     @Override
     public void setX(double x) {
-
         this.x = x;
     }
 
     @Override
     public void setY(double y) {
         this.y= y;
-
     }
 
     @Override
@@ -73,4 +66,7 @@ public class WaveWorldObj implements GameObject{
     public void setWidth(double width) {
         this.width = width;
     }
+
+
+    //Hypothenuse = Math.sqrt(Math.pow(Kathete1, 2) + Math.pow(Kathete2,2));
 }

@@ -10,9 +10,9 @@ import javafx.scene.shape.Rectangle;
 import static javafx.scene.paint.Color.ORANGE;
 
 
-public class playerSprite extends Circle implements Sprite {
+public class PlayerSprite extends Circle implements Sprite {
     public SimpleObjectProperty<GameObject>gameObject;
-    public playerSprite(){
+    public PlayerSprite(){
         gameObject = new SimpleObjectProperty<GameObject>();
     }
 

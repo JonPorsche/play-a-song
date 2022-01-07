@@ -1,6 +1,11 @@
 package gamelogic;
 
+import javafx.scene.shape.Shape;
+import uicomponents.PlayerSprite;
+import uicomponents.Sprite;
+
 public interface GameObject {
+
 	void update(double delta);
 	double getX();
 	double getY();
@@ -12,4 +17,6 @@ public interface GameObject {
 	double getWidth();
 
 	double getHeight();
+
+	Sprite getSpriteObject();
 }
