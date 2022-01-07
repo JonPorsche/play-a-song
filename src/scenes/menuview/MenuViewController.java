@@ -75,8 +75,10 @@ public class MenuViewController {
             if(PlaylistManager.songs.isEmpty()){
                 System.out.println("Add songs to start playing");
             } else {
-                String firstSongPath = PlaylistManager.songs.get(0).getTrackFilePath();
-                PlaylistManager.selectedSongPath = firstSongPath;
+                if (PlaylistManager.selectedSongPath == null){
+                    String firstSongPath = PlaylistManager.songs.get(0).getTrackFilePath();
+                    PlaylistManager.selectedSongPath = firstSongPath;
+                }
                 application.startGame();
                 application.switchScene("GameView");
             }

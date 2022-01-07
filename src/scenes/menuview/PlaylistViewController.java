@@ -35,12 +35,12 @@ public class PlaylistViewController {
         });
 
         PlaylistManager.songs = songsListView.getItems();
-        PlaylistManager.songs.addListener(new ListChangeListener<Song>() {
+/*        PlaylistManager.songs.addListener(new ListChangeListener<Song>() {
             @Override
             public void onChanged(Change<? extends Song> c) {
                 System.out.println("Playlist changed");
             }
-        });
+        });*/
     }
 
     private void handleSongsListViewClick(){
@@ -49,7 +49,6 @@ public class PlaylistViewController {
             public void handle(MouseEvent click) {
                 Song selectedSong = songsListView.getSelectionModel().getSelectedItem();
                 PlaylistManager.selectedSongPath = selectedSong.getTrackFilePath();
-                System.out.println(selectedSong.toString());
             }
         });
     }
