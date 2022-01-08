@@ -34,7 +34,7 @@ public class MenuViewController {
 
     private Main application;
     private Pane menuRootView;
-    private PlaylistManager playlistManager = new PlaylistManager();
+    //private PlaylistManager playlistManager = new PlaylistManager();
 
     // CONTROLLERS
     private PlaylistViewController playlistViewController;

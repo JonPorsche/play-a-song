@@ -1,5 +1,6 @@
 package application;
 
+import business.service.PlaylistManager;
 import gamelogic.Game;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -37,6 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         menuViewController = new MenuViewController(this);
+        PlaylistManager.loadPlaylistFromM3UFile();
 
         loadScenes();
         setStartView();

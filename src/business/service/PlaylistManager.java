@@ -19,10 +19,21 @@ import java.util.List;
  */
 public class PlaylistManager {
 
+    private static final PlaylistManager instance = new PlaylistManager();
     static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
     public static String selectedSongPath = null;
     public static File m3uFile;
+
+    /**
+     * Hided constructor to avoid the generation of more than one instance of the singleton.
+     * @author Jones Porsche
+     */
+    private PlaylistManager(){}
+
+    public static PlaylistManager getInstance(){
+        return instance;
+    }
 
     /**
      * Opens a default system window to select a directory and captures its absolute path.
@@ -82,6 +93,7 @@ public class PlaylistManager {
             }
         }
         writeM3UFile();
+        loadPlaylistFromM3UFile();
     }
 
     /**
@@ -149,21 +161,24 @@ public class PlaylistManager {
      * 1. M3U file exists?
      * Yes -> read it
      * No -> break
-     * 2. Is file empty?
+     * 2. Is line empty?
      * No -> load songs array
      * Yes -> break
      */
-    private static void loadPlaylistFromM3UFile() {
+    public static void loadPlaylistFromM3UFile() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(m3uFile));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(m3uFile));
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 // process the line.
+                System.out.println(line);
             }
         } catch (NullPointerException m3uFileDoesNotExist) {
-            m3uFileDoesNotExist.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //m3uFileDoesNotExist.printStackTrace();
+            m3uFile = new File("./playlist/playlist.m3u");
+            loadPlaylistFromM3UFile();
+        } catch (FileNotFoundException m3uFileNotFound) {
+            m3uFileNotFound.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
