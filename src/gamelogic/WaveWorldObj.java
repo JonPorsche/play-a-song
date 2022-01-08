@@ -83,8 +83,33 @@ public class WaveWorldObj implements GameObject{
     }
 
     @Override
+    public double getSizeModifer() {
+        return 0;
+    }
+
+    @Override
+    public double getSpeedModifer() {
+        return 0;
+    }
+
+    @Override
+    public void setSpeedModifer(double speedModifer) {
+
+    }
+
+    @Override
+    public long getDuration() {
+        return 0;
+    }
+
+    @Override
     public SimpleBooleanProperty isUseDProperty() {
         return null;
+    }
+
+    @Override
+    public int getPoints() {
+        return 0;
     }
 
 

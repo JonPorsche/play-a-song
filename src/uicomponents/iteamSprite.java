@@ -46,10 +46,6 @@ public class iteamSprite extends Rectangle implements Sprite{
         return item;
     }
 
-    @Override
-    public Circle player() {
-        return null;
-    }
 
     @Override
     public SimpleObjectProperty<GameObject> gameObjectProperty() {

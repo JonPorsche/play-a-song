@@ -23,10 +23,7 @@ public class waveSprite extends Line implements Sprite {
      return this;
    }
 
-    @Override
-    public Circle player() {
-        return null;
-    }
+
 
     @Override
     public Bounds getBounds(){

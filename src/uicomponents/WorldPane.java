@@ -134,10 +134,7 @@ public class WorldPane extends Canvas implements Sprite {
         return null;
     }
 
-    @Override
-    public Circle player() {
-        return null;
-    }
+
 
     @Override
     public void render() {

@@ -32,10 +32,7 @@ public class playerSprite extends Circle implements Sprite {
         return null;
     }
 
-    @Override
-    public Circle player(){
-        return this;
-    }
+
 
     @Override
     public void render() {

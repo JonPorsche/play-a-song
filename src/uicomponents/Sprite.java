@@ -14,7 +14,7 @@ public interface Sprite {
 
 	Line getLine();
 
-	Circle player();
+
 
 	void render();
 	SimpleObjectProperty<GameObject> gameObjectProperty();

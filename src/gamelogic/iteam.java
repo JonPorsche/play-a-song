@@ -91,7 +91,7 @@ public class iteam implements GameObject{
     public boolean getIsVissable() {
         return false;
     }
-
+    @Override
     public double getSizeModifer() {
         return sizeModifer;
     }
@@ -99,7 +99,7 @@ public class iteam implements GameObject{
     public void setSizeModifer(double sizeModifer) {
         this.sizeModifer = sizeModifer;
     }
-
+    @Override
     public double getSpeedModifer() {
         return speedModifer;
     }
@@ -107,7 +107,7 @@ public class iteam implements GameObject{
     public void setSpeedModifer(double speedModifer) {
         this.speedModifer = speedModifer;
     }
-
+    @Override
     public long getDuration() {
         return duration;
     }
@@ -137,6 +137,12 @@ public class iteam implements GameObject{
     public SimpleBooleanProperty isUseDProperty() {
         return isUsed;
     }
+
+    @Override
+    public int getPoints() {
+        return 0;
+    }
+
     @Override
     public void setIsUsed(boolean isUseD) {
         this.isUsed.set(isUseD);

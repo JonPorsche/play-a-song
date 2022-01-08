@@ -1,7 +1,7 @@
-package scene;
+package scenes.gameview;
 
 import application.Main;
-import business.service.PlaylistManager;
+
 import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import scenes.gameview.GameView;
 import uicomponents.*;
 
 import java.io.File;
@@ -33,8 +34,8 @@ public class GameController {
 	double gameSpeed = 1;
 	playerSprite playerSpritesobject = new playerSprite();
 	private List<iteam>iteams = new ArrayList<>();
+	private List<Sprite>Coins = new ArrayList<>();
 	private List<Sprite> Upsprites = new ArrayList<>();
-	private List<Sprite> Iteamsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
 	private playerSprite playerSprite;
 	Button button = new Button();
@@ -57,10 +58,11 @@ public class GameController {
 
 
 	public <pixels, i> void initialize() {
+
 		File trackFile = new File( "src/assets/example-track.mp3" );
 		System.out.println( trackFile.getAbsolutePath() );
 
-		playerObject= new player();
+		playerObject= new player(game);
 		playerObject.getCollisonWave().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -74,7 +76,7 @@ public class GameController {
 		playerObject.setY(500);
 		playerObject.setRadius(40);
 		playerObject.setSpeedModfer(0.08);
-		game.add(playerObject);
+		game.setPlayer(playerObject);
 		playerSpritesobject = new playerSprite();
 		playerSpritesobject.setRadius(playerObject.getRadius());
 		playerSpritesobject.setCenterX(playerObject.getX());
@@ -85,10 +87,10 @@ public class GameController {
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		amplitudeArray = audioinfo.getLeft(PlaylistManager.selectedSongPath);
+		amplitudeArray = audioinfo.getLeft(trackFile.getAbsolutePath());
 
 		gameIsRunning= true;
-		setIteams();
+
 		SpawnIteam();
 
 		Thread thread = new Thread() {
@@ -108,18 +110,9 @@ public class GameController {
 					gameObject.setY( 0 );
 					gameObject.setHeight( 50 + 6 * curAmplValue );
 					gameObject.setWidth( 100 );
-
-					/*sprite = new WaveRSprite( );
-					sprite.setX(50);
-					sprite.setY(50);
-					sprite.setHeight(gameObject.getHeight( ));
-					sprite.setWidth(25);*/
-
 					game.add( gameObject );
 					allWorldSteps.add( 50 + 6 * curAmplValue );
-					/*addSprite(sprite);
-					sprite.gameObjectProperty().set(gameObject);
-					allWorldSteps.add( sprite );*/
+
 				}
 
 				Platform.runLater(
@@ -162,29 +155,15 @@ public class GameController {
 				int i = 0;
 				if (lastRendered + FPNS_DELTA < now) {
 					for(Sprite e : new ArrayList<Sprite>(Upsprites)) {
-						if(i == 77){
-						try {
-							collision(e);
-							i = 0;
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}}
-						i++;
 						e.render();
 
 
 					}
 					for(Sprite e : iteamsSprites) {
-						if(i == 77){
-							try {
-								iteamCollison(e);
-								i = 0;
-							} catch (Exception ex) {
-								ex.printStackTrace();
-							}}
-						i++;
+						e.render();
 
-
+					}
+					for(Sprite e : Coins) {
 						e.render();
 
 					}
@@ -226,50 +205,8 @@ public class GameController {
 		Upsprites.add(sprite);
 
 	}
-
-	public void collision(Sprite e) throws Exception {
-
-		if(e.getRectangle().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
-			System.out.println("HELP collusion");
-		}
-
-
-	}
-
-	public void iteamCollison(Sprite iteam){
-		if(iteam.getBounds().intersects(playerSpritesobject.getBoundsInParent())){
-			Thread iteamthread = new Thread(){
-				@Override
-				public void run(){
-					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
-					playerObject.setSizeModifer(iteamObject.getSizeModifer());
-					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
-					gameDisplayPane.getChildren().remove(iteamObject);
-					iteamsSprites.remove(iteam);
-
-					try {
-						Thread.sleep(iteamObject.getDuration());
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					playerObject.setSizeModifer(-iteamObject.getSizeModifer());
-					playerObject.setSpeedModfer(-iteamObject.getSizeModifer());
-
-
-				}
-			};iteamthread.start();
-
-		}
-
-
-	}
-
-
-
 	public void SpawnIteam(){
 		int iteamSpawnIntervall = 6000;
-
-
 		iteam thisiteam = null;
 		Thread iteamThread = new Thread() {
 			@Override
@@ -304,7 +241,6 @@ public class GameController {
 						iteamObject.isUseDProperty().addListener(new ChangeListener<Boolean>() {
 							@Override
 							public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-								iteamCollison(iteamObject.getSprite());
 								iteamsSprites.remove(iteamObject.getSprite());
 								Platform.runLater(()->gameDisplayPane.getChildren().remove(iteamObject.getSprite()));
 							}
@@ -318,26 +254,45 @@ public class GameController {
 				}
 			}
 		}; iteamThread.start();
+		int coinIntervall = 1000;
+		iteam thiscoin = null;
+		Thread coinThread = new Thread() {
+			@Override
+			public void run() {
+				while (gameIsRunning) {
+					try {
+						int index ;
+						Coin coinObject = new Coin(game);
+						coinObject.setX(1000);
+						coinObject.setY(300);
+						coinObject.setRadius(10);
+						CoinSprite sprite = new CoinSprite();
+						Thread.sleep(coinIntervall);
+						sprite.setCenterX(coinObject.getX());
+						sprite.setCenterY(coinObject.getY());
+						sprite.setRadius(coinObject.getRadius());
+						game.addCoin(coinObject);
+						Platform.runLater(() -> gameDisplayPane.getChildren().add(sprite));
+						sprite.gameObjectProperty().set(coinObject);
+						coinObject.setSprite(sprite);
+						Coins.add(sprite);
+						coinObject.isUseDProperty().addListener(new ChangeListener<Boolean>() {
+							@Override
+							public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+								iteamsSprites.remove(coinObject.getSprite());
+								Platform.runLater(()->gameDisplayPane.getChildren().remove(coinObject.getSprite()));
+							}
+						});
+
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+
+				}
+			}
+		}; coinThread.start();
 	}
-
-	public void setIteams(){
-		//test
-		/*iteam iteamObject = new iteam();
-		iteamObject.setHeight(20);
-		iteamObject.setWidth(20);
-		iteamObject.setX(500);
-		iteamObject.setY(500);
-		iteamObject.setSizeModifer(0.2);
-		iteamObject.setSpeedModifer(0.2);
-		iteamObject.setgamespeed(0.1);
-		long duration = 10000;
-		iteamObject.setDuration(duration);
-		iteams.add(iteamObject);*/
-
-	}
-
-
-
 
 
 	public Pane getGameDisplayPane() {

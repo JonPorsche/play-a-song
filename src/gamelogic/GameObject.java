@@ -17,6 +17,10 @@ public interface GameObject {
 	double getHeight();
 	boolean getIsVissable();
 	void setIsUsed(boolean isUseD);
+	double getSizeModifer();
+	double getSpeedModifer();
+	void setSpeedModifer(double speedModifer);
+	long getDuration();
 	SimpleBooleanProperty isUseDProperty();
-
+	int getPoints();
 }

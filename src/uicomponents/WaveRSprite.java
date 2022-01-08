@@ -27,10 +27,7 @@ public class WaveRSprite extends Rectangle implements Sprite {
         return null;
     }
 
-    @Override
-    public Circle player() {
-        return null;
-    }
+
 
     @Override
     public Bounds getBounds(){

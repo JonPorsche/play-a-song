@@ -1,17 +1,15 @@
 package gamelogic;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class player implements GameObject{
+    private final Game game;
     private double x;
     private double y;
     private double radius;
-    private int painWidth;
-    private int painHeight;
     private double sizeModifer;
     private double speedModfer;
     private double gamespeed = 1;
@@ -20,7 +18,8 @@ public class player implements GameObject{
     private List<IteamTaken> listeners;
     private Collison collsion;
     private SimpleBooleanProperty collisonWave;
-    public player(){
+    public player(Game game){
+        this.game = game;
         this.listeners = new ArrayList<>();
         collsion = new Collison();
         collisonWave = new SimpleBooleanProperty();
@@ -106,6 +105,11 @@ public class player implements GameObject{
     }
 
     @Override
+    public int getPoints() {
+        return 0;
+    }
+
+    @Override
     public double getX() {
         return x;
     }
@@ -145,12 +149,27 @@ public class player implements GameObject{
 
         this.speedModfer = speedModifer+speedModfer;
         for (IteamTaken listner : listeners) {
-            listner.IteamTaken(this.speedModfer - speedModifer, speedModifer);
+
         }
     }
 
     public double getSizeModifer() {
         return sizeModifer;
+    }
+
+    @Override
+    public double getSpeedModifer() {
+        return 0;
+    }
+
+    @Override
+    public void setSpeedModifer(double speedModifer) {
+
+    }
+
+    @Override
+    public long getDuration() {
+        return 0;
     }
 
     public void setSizeModifer(double sizeModifer) {

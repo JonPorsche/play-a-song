@@ -1,6 +1,6 @@
 package gamelogic;
 
 public interface IteamTaken {
-    void IteamTaken (double before, double after);
+    void IteamTaken(player player, Game game, double size, double speed, long duration);
 }
 

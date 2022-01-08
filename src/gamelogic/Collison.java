@@ -21,4 +21,17 @@ public class Collison {
     return false;
     };
 
+    public boolean coinCollsion(double playerRadius, double playerX, double playerY, double x, double y, double radius) {
+        double distSq = (playerX - x) * (playerX - x) +
+                (playerY - y) * (playerY - y);
+        double radSumSq = (playerRadius + radius) * (playerRadius + radius);
+        if (distSq < radSumSq)
+            return true;
+        else if (distSq > radSumSq)
+            return false;
+        else
+            return false;
+
+    }
+
 }
