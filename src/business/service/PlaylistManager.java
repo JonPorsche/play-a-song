@@ -67,11 +67,11 @@ public class PlaylistManager {
     private static void createPlaylist(String directoryName, List<File> files) {
 
         File directory = new File(directoryName);
-        File[] fList = directory.listFiles();
+        File[] fileList = directory.listFiles();
         String filePath;
 
-        if (fList != null) {
-            for (File file : fList) {
+        if (fileList != null) {
+            for (File file : fileList) {
                 if (file.isFile() && file.getName().matches(".*[0-9]+.*\\.(mp3)$")) {
                     files.add(file);
                     filePath = file.getAbsolutePath();
@@ -121,32 +121,51 @@ public class PlaylistManager {
 
     /**
      * Checks first if the m3u file exists. If not, creates it and calls the method again.
-     * Writes down one mp3 file per line.
+     * Writes down one mp3 file path per line. The paths come from the songs array.
+     *
      * @author Jones Porsche
      */
     private static void writeM3UFile() {
         try {
-            try {
-                FileOutputStream fileOutputStream = null;
-                fileOutputStream = new FileOutputStream(m3uFile);
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
-                String path;
-                try {
-                    for (Song song : songs) {
-                        path = song.getSongFilePath();
-                        writer.write(path);
-                        writer.newLine();
-                    }
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (FileNotFoundException m3uFileNotFound) {
-                m3uFileNotFound.printStackTrace();
+            FileOutputStream fileOutputStream = null;
+            fileOutputStream = new FileOutputStream(m3uFile);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+            String path;
+            for (Song song : songs) {
+                path = song.getSongFilePath();
+                writer.write(path);
+                writer.newLine();
             }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (NullPointerException m3uFileDoesNotExist) {
             m3uFile = new File("./playlist/playlist.m3u");
             writeM3UFile();
+        }
+    }
+
+    /**
+     * 1. M3U file exists?
+     * Yes -> read it
+     * No -> break
+     * 2. Is file empty?
+     * No -> load songs array
+     * Yes -> break
+     */
+    private static void loadPlaylistFromM3UFile() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(m3uFile));
+            String line;
+            while ((line = br.readLine()) != null) {
+                // process the line.
+            }
+        } catch (NullPointerException m3uFileDoesNotExist) {
+            m3uFileDoesNotExist.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
