@@ -47,7 +47,7 @@ public class PlaylistViewController {
             @Override
             public void handle(MouseEvent click) {
                 Song selectedSong = songsListView.getSelectionModel().getSelectedItem();
-                PlaylistManager.selectedSongPath = selectedSong.getSongFilePath();
+                PlaylistManager.getInstance().setSelectedSongPath(selectedSong.getSongFilePath());
             }
         });
     }

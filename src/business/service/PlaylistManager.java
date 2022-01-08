@@ -20,14 +20,13 @@ import java.util.List;
 public class PlaylistManager {
 
     private static PlaylistManager INSTANCE = new PlaylistManager();
-    static String directoryPath;
+    private static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
-    public static String selectedSongPath = null;
+    private String selectedSongPath = null;
     public static File m3uFile = new File("./playlist/playlist.m3u");
 
     /**
      * Hided constructor to avoid the generation of more than one instance of the singleton.
-     *
      * @author Jones Porsche
      */
     private PlaylistManager() {
@@ -43,7 +42,6 @@ public class PlaylistManager {
     /**
      * Opens a default system window to select a directory and captures its absolute path.
      * It also calls the createPlaylist method.
-     *
      * @author Jones Porsche
      */
     public static void selectDirectory() {
@@ -62,14 +60,6 @@ public class PlaylistManager {
             }
         });
     }
-
-    /*trackList.clear();
-                  List<File> files = new ArrayList<>();
-                    loadPlaylist(directoryPath, files);
-                    playlist.setTracks(trackList);
-                    playlist.numberOfTracks();
-                    PlaylistViewController.trackListModel.clear();
-                    PlaylistViewController.trackListModel.addAll(playlist.getTracks());*/
 
     /**
      * Searches for mp3 files in a starting directory path and all of its subsequent directories.
