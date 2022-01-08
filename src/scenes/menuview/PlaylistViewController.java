@@ -3,7 +3,6 @@ package scenes.menuview;
 import application.Main;
 import business.data.Song;
 import business.service.PlaylistManager;
-import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -48,7 +47,7 @@ public class PlaylistViewController {
             @Override
             public void handle(MouseEvent click) {
                 Song selectedSong = songsListView.getSelectionModel().getSelectedItem();
-                PlaylistManager.selectedSongPath = selectedSong.getTrackFilePath();
+                PlaylistManager.selectedSongPath = selectedSong.getSongFilePath();
             }
         });
     }

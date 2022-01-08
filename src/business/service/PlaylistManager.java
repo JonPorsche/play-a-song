@@ -9,8 +9,8 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +22,12 @@ public class PlaylistManager {
     static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
     public static String selectedSongPath = null;
+    public static File m3uFile;
 
     /**
      * Opens a default system window to select a directory and captures its absolute path.
      * It also calls the createPlaylist method.
+     *
      * @author Jones Porsche
      */
     public static void selectDirectory() {
@@ -36,7 +38,7 @@ public class PlaylistManager {
             public void run() {
                 File selectedDirectory = directoryChooser.showDialog(null);
                 directoryChooser.setTitle("Select a folder with mp3 files");
-                if(selectedDirectory != null) {
+                if (selectedDirectory != null) {
                     directoryPath = selectedDirectory.getAbsolutePath();
                     List<File> files = new ArrayList<>();
                     createPlaylist(directoryPath, files);
@@ -56,9 +58,11 @@ public class PlaylistManager {
     /**
      * Searches for mp3 files in a starting directory path and all of its subsequent directories.
      * Adds all the mp3 file paths to a playlist.
-     * @author Jones Porsche
+     * At the end writes a m3u file with all the song paths.
+     *
      * @param directoryName The absolute path to search for mp3 files
-     * @param files List to collect all mp3 files found in a directory. On the first input it's always empty, but is necessary, because the function is called recursively further.
+     * @param files         List to collect all mp3 files found in a directory. On the first input it's always empty, but is necessary, because the function is called recursively further.
+     * @author Jones Porsche
      */
     private static void createPlaylist(String directoryName, List<File> files) {
 
@@ -77,14 +81,15 @@ public class PlaylistManager {
                 }
             }
         }
-        //System.out.println(songs.toString());
+        writeM3UFile();
     }
 
     /**
      * Creates a new song object based on the mp3 file path and collects the song information from the ID3 tags.
-     * @author Jones Porsche
+     *
      * @param songFilePath The path of the mp3 file
      * @return a new song object
+     * @author Jones Porsche
      * @see Song
      */
     private static Song createSong(String songFilePath) {
@@ -112,6 +117,43 @@ public class PlaylistManager {
             e.printStackTrace();
         }
         return new Song(title, duration, albumTitle, artist, songFilePath, albumImage);
+    }
+
+    /**
+     * Checks first if the m3u file exists. If not, creates it and calls the method again.
+     * Writes down one mp3 file per line.
+     * @author Jones Porsche
+     */
+    private static void writeM3UFile() {
+        try {
+            try {
+                FileOutputStream fileOutputStream = null;
+                fileOutputStream = new FileOutputStream(m3uFile);
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+                String path;
+                try {
+                    for (Song song : songs) {
+                        path = song.getSongFilePath();
+                        writer.write(path);
+                        writer.newLine();
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException m3uFileNotFound) {
+                m3uFileNotFound.printStackTrace();
+            }
+        } catch (NullPointerException m3uFileDoesNotExist) {
+            m3uFile = new File("./playlist/playlist.m3u");
+            writeM3UFile();
+        }
+    }
+
+    private static void cleanM3UFile() throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter(m3uFile);
+        writer.print("");
+        writer.close();
     }
 
     public final String getSelectedSongPath() {

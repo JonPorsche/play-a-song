@@ -9,7 +9,7 @@ public class Song {
     private int duration;
     private String albumTitle;
     private String artist;
-    private String trackFilePath;
+    private String songFilePath;
     private byte[] albumImage;
     private static AtomicInteger ID_GENERATOR = new AtomicInteger(0);
 
@@ -19,7 +19,7 @@ public class Song {
         this.duration = duration;
         this.albumTitle = albumTitle;
         this.artist = artist;
-        this.trackFilePath = trackFilePath;
+        this.songFilePath = trackFilePath;
         this.albumImage = albumImage;
     }
 
@@ -41,8 +41,8 @@ public class Song {
         return artist;
     }
 
-    public String getTrackFilePath() {
-        return trackFilePath;
+    public String getSongFilePath() {
+        return songFilePath;
     }
 
     public byte[] getAlbumImage() {

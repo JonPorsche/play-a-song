@@ -76,7 +76,7 @@ public class MenuViewController {
                 System.out.println("Add songs to start playing");
             } else {
                 if (PlaylistManager.selectedSongPath == null){
-                    String firstSongPath = PlaylistManager.songs.get(0).getTrackFilePath();
+                    String firstSongPath = PlaylistManager.songs.get(0).getSongFilePath();
                     PlaylistManager.selectedSongPath = firstSongPath;
                 }
                 application.startGame();
