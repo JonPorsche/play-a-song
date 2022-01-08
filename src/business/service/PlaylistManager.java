@@ -19,20 +19,25 @@ import java.util.List;
  */
 public class PlaylistManager {
 
-    private static final PlaylistManager instance = new PlaylistManager();
+    private static PlaylistManager INSTANCE = new PlaylistManager();
     static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
     public static String selectedSongPath = null;
-    public static File m3uFile;
+    public static File m3uFile = new File("./playlist/playlist.m3u");
 
     /**
      * Hided constructor to avoid the generation of more than one instance of the singleton.
+     *
      * @author Jones Porsche
      */
-    private PlaylistManager(){}
+    private PlaylistManager() {
+    }
 
-    public static PlaylistManager getInstance(){
-        return instance;
+    public static PlaylistManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new PlaylistManager();
+        }
+        return INSTANCE;
     }
 
     /**
@@ -68,9 +73,8 @@ public class PlaylistManager {
 
     /**
      * Searches for mp3 files in a starting directory path and all of its subsequent directories.
-     * Adds all the mp3 file paths to a playlist.
-     * At the end writes a m3u file with all the song paths.
-     *
+     * Creates a song instance for every mp3 file and adds it to the songs array.
+     * Calls the method that writes every mp3 file path into the m3u file.
      * @param directoryName The absolute path to search for mp3 files
      * @param files         List to collect all mp3 files found in a directory. On the first input it's always empty, but is necessary, because the function is called recursively further.
      * @author Jones Porsche
@@ -87,13 +91,12 @@ public class PlaylistManager {
                     files.add(file);
                     filePath = file.getAbsolutePath();
                     songs.add(createSong(filePath));
+                    writeM3UFile();
                 } else if (file.isDirectory()) {
                     createPlaylist(file.getAbsolutePath(), files);
                 }
             }
         }
-        writeM3UFile();
-        loadPlaylistFromM3UFile();
     }
 
     /**
@@ -158,30 +161,27 @@ public class PlaylistManager {
     }
 
     /**
-     * 1. M3U file exists?
-     * Yes -> read it
-     * No -> break
-     * 2. Is line empty?
-     * No -> load songs array
-     * Yes -> break
+     * Reads the playlist m3u file line by line and loads the songs array with the song instances.
+     * @author Jones Porsche
      */
     public static void loadPlaylistFromM3UFile() {
+        BufferedReader reader;
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(m3uFile));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                // process the line.
-                System.out.println(line);
+            reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
+            String line = reader.readLine();
+            while (line != null) {
+                songs.add(createSong(line));
+                line = reader.readLine();
             }
-        } catch (NullPointerException m3uFileDoesNotExist) {
-            //m3uFileDoesNotExist.printStackTrace();
-            m3uFile = new File("./playlist/playlist.m3u");
-            loadPlaylistFromM3UFile();
-        } catch (FileNotFoundException m3uFileNotFound) {
-            m3uFileNotFound.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+/*            BufferedReader reader;
+            try {
+                reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
+            } catch (IOException m3uFileDoesNotExist){
+                m3uFileDoesNotExist.printStackTrace();
+            }*/
     }
 
     private static void cleanM3UFile() throws FileNotFoundException {

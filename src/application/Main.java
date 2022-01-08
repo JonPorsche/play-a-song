@@ -38,6 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         menuViewController = new MenuViewController(this);
+        PlaylistManager.getInstance();
         PlaylistManager.loadPlaylistFromM3UFile();
 
         loadScenes();

@@ -66,7 +66,7 @@ public class GameController {
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		amplitudeArray = audioinfo.getLeft(PlaylistManager.selectedSongPath);
+		amplitudeArray = audioinfo.getLeft(PlaylistManager.getInstance().getSelectedSongPath());
 
 		gameIsRunning= true;
 		setIteams();
