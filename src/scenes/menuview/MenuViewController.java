@@ -30,6 +30,7 @@ public class MenuViewController {
     // Selection box bottom
     private HBox selectionBoxFooter;
     private Button addSongsBtn;
+    private Button clearPlaylistBtn;
     private Button playBtn;
 
     private Main application;
@@ -51,6 +52,7 @@ public class MenuViewController {
         this.instructionText = menuView.instructionText;
         this.selectionBoxFooter = menuView.selectionBoxFooter;
         this.addSongsBtn = menuView.addSongsBtn;
+        this.clearPlaylistBtn = menuView.clearPlaylistBtn;
         this.playBtn = menuView.playBtn;
 
         playlistViewController = new PlaylistViewController(application);
@@ -67,6 +69,7 @@ public class MenuViewController {
     public void initialize() {
         handlePlayBtnClick();
         handleAddSongsBtnClick();
+        handleClearPlaylistBtnClick();
     }
 
     private void handlePlayBtnClick() {
@@ -92,5 +95,16 @@ public class MenuViewController {
      */
     private void handleAddSongsBtnClick() {
         addSongsBtn.setOnAction(event -> PlaylistManager.selectDirectory());
+    }
+
+    /**
+     * When the button "Clear Playlist" is clicked the m3u playlist file and the playlist songs array are cleared.
+     * @author Jones Porsche
+     */
+    private void handleClearPlaylistBtnClick(){
+        clearPlaylistBtn.setOnAction(event -> {
+            PlaylistManager.clearM3UFile();
+            PlaylistManager.songs.clear();
+        });
     }
 }

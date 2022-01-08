@@ -101,7 +101,6 @@ public class PlaylistManager {
 
     /**
      * Creates a new song object based on the mp3 file path and collects the song information from the ID3 tags.
-     *
      * @param songFilePath The path of the mp3 file
      * @return a new song object
      * @author Jones Porsche
@@ -137,7 +136,6 @@ public class PlaylistManager {
     /**
      * Checks first if the m3u file exists. If not, creates it and calls the method again.
      * Writes down one mp3 file path per line. The paths come from the songs array.
-     *
      * @author Jones Porsche
      */
     private static void writeM3UFile() {
@@ -176,18 +174,21 @@ public class PlaylistManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-/*            BufferedReader reader;
-            try {
-                reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
-            } catch (IOException m3uFileDoesNotExist){
-                m3uFileDoesNotExist.printStackTrace();
-            }*/
     }
 
-    private static void cleanM3UFile() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(m3uFile);
-        writer.print("");
-        writer.close();
+    /**
+     * Simple deletes everything in the playlist.m3u file
+     * @author Jones Porsche
+     */
+    public static void clearM3UFile() {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(m3uFile);
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public final String getSelectedSongPath() {
