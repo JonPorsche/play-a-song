@@ -1,30 +1,31 @@
-package gamelogic;
+package gamelogic.sprites;
 
-public class iteam implements GameObject{
+
+import gamelogic.sprites.base.GameObject;
+
+public class _old_WaveWorldObj implements GameObject {
     private double x;
     private double y;
-    private double sizeModifer;
-    private double speedModifer;
     private double height;
     private double width;
-    private double speed;
-    private long duration;
+    private int painWidth;
+    private int painHeight;
+    private double gamespeed = 1;
     private double pixelpermiliscond;
-
 
     @Override
     public void update(double gamespeed) {
-
         x = x-(pixelpermiliscond *gamespeed);
 
+
     }
+
     public void setgamespeed(double pixelpermiliscond){
         this.pixelpermiliscond= pixelpermiliscond;
 
     }
     @Override
     public double getX() {
-
         return x;
     }
 
@@ -34,14 +35,16 @@ public class iteam implements GameObject{
     }
 
     @Override
-    public void setX(double x) {
-        this.x = x;
+    public double setX(double x) {
 
+        this.x = x;
+        return x;
     }
 
     @Override
     public void setY(double y) {
-        this.y = y;
+        this.y= y;
+
     }
 
     @Override
@@ -64,29 +67,6 @@ public class iteam implements GameObject{
         return height;
     }
 
-    public double getSizeModifer() {
-        return sizeModifer;
-    }
-
-    public void setSizeModifer(double sizeModifer) {
-        this.sizeModifer = sizeModifer;
-    }
-
-    public double getSpeedModifer() {
-        return speedModifer;
-    }
-
-    public void setSpeedModifer(double speedModifer) {
-        this.speedModifer = speedModifer;
-    }
-
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
 
     public void setHeight(double height) {
         this.height = height;
@@ -94,9 +74,5 @@ public class iteam implements GameObject{
 
     public void setWidth(double width) {
         this.width = width;
-    }
-
-    public void setSpeed(double speedModfer) {
-        this.speed = speedModfer;
     }
 }

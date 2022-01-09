@@ -39,12 +39,8 @@ public class Audioinfo {
             float value = 0;
             for(int lenght = 0; lenght<dataperRetangle; lenght++,postionSongData++ ){
                 value += leftChannel[postionSongData];
-
-
             }
             songData[i] = value;
-
-
 
         }
         System.out.println(songData.length);

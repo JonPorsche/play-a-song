@@ -1,6 +1,7 @@
 package uicomponents;
 
-import gamelogic.GameObject;
+import gamelogic.sprites.base.GameObject;
+import gamelogic.sprites.base.Sprite;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;

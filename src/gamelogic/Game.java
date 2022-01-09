@@ -1,5 +1,7 @@
 package gamelogic;
 
+import gamelogic.sprites.base.GameObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +27,11 @@ public class Game {
 
 	}
 	public void addIteam(GameObject object) {
-
 		iteamObjects.add(object);
-
-
 	}
 	public void removeIteam(GameObject object){
 		iteamObjects.remove(object);
 	}
-
 	
 	public void start() {
 		// hier würde der Update-Thread gestartet

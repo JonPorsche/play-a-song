@@ -15,6 +15,10 @@ public class Main extends Application {
 	public static final int WINDOW_WIDTH = 1000;
 	public static final int WINDOW_HEIGHT = 600;
 
+	public static final int MAP_CHUNK_WIDTH_PX = 100;
+	public static final double MAP_CHUNK_BASE_HEIGHT_PX = 50;
+	public static final double MAP_CHUNK_HEIGHT_PX = 6;
+
 	private Game game;
 	
 	@Override

@@ -1,6 +1,8 @@
-package gamelogic;
+package gamelogic.sprites;
 
-public class player implements GameObject{
+import gamelogic.sprites.base.GameObject;
+
+public class _old_player implements GameObject {
     private double x;
     private double y;
     private double radius;
@@ -60,9 +62,10 @@ public class player implements GameObject{
 
 
     @Override
-    public void setX(double x) {
+    public double setX(double x) {
         this.x = x;
 
+        return x;
     }
 
     @Override

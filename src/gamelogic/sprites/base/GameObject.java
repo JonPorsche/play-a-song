@@ -1,4 +1,4 @@
-package gamelogic;
+package gamelogic.sprites.base;
 
 public interface GameObject {
 	void update(double delta);

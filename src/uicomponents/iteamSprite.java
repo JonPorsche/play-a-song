@@ -1,6 +1,7 @@
 package uicomponents;
 
-import gamelogic.GameObject;
+import gamelogic.sprites.base.GameObject;
+import gamelogic.sprites.base.Sprite;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
@@ -9,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 import static javafx.scene.paint.Color.BLUE;
 
-public class iteamSprite extends Rectangle implements Sprite{
+public class iteamSprite extends Rectangle implements Sprite {
     public SimpleObjectProperty<GameObject>gameObject;
 
     public iteamSprite(){
@@ -24,7 +25,6 @@ public class iteamSprite extends Rectangle implements Sprite{
         this.setWidth(item.getWidth());
         this.setHeight(item.getHeight());
         this.setFill(BLUE);
-
     }
     @Override
     public Bounds getBounds(){

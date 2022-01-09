@@ -1,6 +1,7 @@
 package uicomponents;
 
-import gamelogic.GameObject;
+import gamelogic.sprites.base.GameObject;
+import gamelogic.sprites.base.Sprite;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
@@ -10,18 +11,20 @@ import javafx.scene.shape.Rectangle;
 import static javafx.scene.paint.Color.BLACK;
 
 
-public class waveSprite extends Line implements Sprite {
+public class _old_WaveRSprite extends Rectangle implements Sprite {
    public SimpleObjectProperty<GameObject>gameObject;
 
-
-   public waveSprite(){
+   public _old_WaveRSprite(){
        gameObject = new SimpleObjectProperty<GameObject>();
-
    }
    @Override
-   public Line getLine(){
+   public Rectangle getRectangle(){
      return this;
    }
+    @Override
+    public Line getLine(){
+        return null;
+    }
 
     @Override
     public Circle player() {
@@ -33,12 +36,6 @@ public class waveSprite extends Line implements Sprite {
 
         return this.getBoundsInParent();
     }
-
-    @Override
-    public Rectangle getRectangle() {
-        return null;
-    }
-
     @Override
     public void render() {
 
@@ -46,18 +43,16 @@ public class waveSprite extends Line implements Sprite {
 
             GameObject wave = gameObject.get();
             this.setFill(BLACK);
-            this.setEndX(wave.getX());
-            this.setEndY(wave.getY());
-            this.setStartY(100);
-            this.setStartX(wave.getX());
+            this.setX(wave.getX());
+            this.setY(wave.getY());
+            this.setWidth(wave.getWidth());
+            this.setHeight(wave.getHeight());
         }
-
 
     }
 
     @Override
     public SimpleObjectProperty<GameObject> gameObjectProperty() {
-
        return gameObject;
     }
 }

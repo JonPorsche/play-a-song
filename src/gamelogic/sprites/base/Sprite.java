@@ -1,6 +1,6 @@
-package uicomponents;
+package gamelogic.sprites.base;
 
-import gamelogic.GameObject;
+import gamelogic.sprites.base.GameObject;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
@@ -13,8 +13,6 @@ public interface Sprite {
 	Rectangle getRectangle();
 
 	Line getLine();
-
-	Circle player();
 
 	void render();
 	SimpleObjectProperty<GameObject> gameObjectProperty();

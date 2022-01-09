@@ -4,13 +4,8 @@ import application.Main;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ClosePath;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class WorldPane extends Canvas {
@@ -20,7 +15,7 @@ public class WorldPane extends Canvas {
         //this.setLayoutX();
     }
 
-    private void paintWall( List<Number> wallSideSteps, int yStartPos ) {
+    private void drawWall(List<Number> wallSideSteps, int yStartPos ) {
         GraphicsContext gc = this.getGraphicsContext2D();
 
         //gc.fillOval(130, 30, 80, 80);
@@ -53,8 +48,8 @@ public class WorldPane extends Canvas {
     }
 
 
-    private void paintWall( List<Number> wallSideSteps ) {
-        this.paintWall( wallSideSteps, 0 );
+    private void drawWall(List<Number> wallSideSteps ) {
+        this.drawWall( wallSideSteps, 0 );
     }
 
     public void setWorldSteps( List<Double> allWorldSteps, double maxAmplitude ) {
@@ -75,8 +70,8 @@ public class WorldPane extends Canvas {
             generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
         }
 
-        this.paintWall( generatedWorldTopPath );
-        this.paintWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT );
+        this.drawWall( generatedWorldTopPath );
+        this.drawWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT );
 
         /*WorldPane WPScope = this;
 
