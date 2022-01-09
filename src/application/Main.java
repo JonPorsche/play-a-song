@@ -11,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import scenes.gameview.GameController;
 import scenes.menuview.MenuViewController;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +18,8 @@ import java.util.Map;
 public class Main extends Application {
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 640;
+    public static final String MENU_VIEW = "MenuView";
+    public static final String GAME_VIEW = "GameView";
 
     Game game;
     Map<String, Pane> scenes;
@@ -84,7 +85,7 @@ public class Main extends Application {
      */
     private void loadScenes() {
         scenes = new HashMap<String, Pane>();
-        scenes.put("MenuView", menuViewController.getMenuRootView());
+        scenes.put(MENU_VIEW, menuViewController.getMenuRootView());
     }
 
     /**
@@ -93,7 +94,7 @@ public class Main extends Application {
      * @author Jones Porsche
      */
     private void setStartView() {
-        rootPane = scenes.get("MenuView");
+        rootPane = scenes.get(MENU_VIEW);
     }
 
     /**
@@ -104,7 +105,7 @@ public class Main extends Application {
     public void startGame() {
         game = new Game();
         gameController = new GameController(game);
-        scenes.put("GameView", gameController.getGameDisplayPane());
+        scenes.put(GAME_VIEW, gameController.getGameDisplayPane());
     }
 
     /** Switches the scene of the primary stage based on the received name of the new scene
@@ -113,7 +114,7 @@ public class Main extends Application {
      */
     public void switchScene(String scene) {
         switch (scene) {
-            case "GameView":
+            case GAME_VIEW:
                 rootPane = scenes.get(scene);
                 Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
                 primaryStage.setScene(newScene);
@@ -127,7 +128,7 @@ public class Main extends Application {
                             if (t.getCode() == KeyCode.ENTER) {
                                 gameController.getPlayerObject().updateHeigt(-30);
                             } else if (t.getCode() == KeyCode.ESCAPE) {
-                                switchScene("MenuView");
+                                switchScene(MENU_VIEW);
                             }
                         }
                     });
@@ -136,7 +137,7 @@ public class Main extends Application {
                 }
                 break;
 
-            case "MenuView":
+            case MENU_VIEW:
                 primaryStage.setScene(scenes.get(scene).getScene());
                 break;
         }

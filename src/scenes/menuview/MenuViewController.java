@@ -82,7 +82,7 @@ public class MenuViewController {
                     PlaylistManager.getInstance().setSelectedSongPath(firstSongPath);
                 }
                 application.startGame();
-                application.switchScene("GameView");
+                application.switchScene(Main.GAME_VIEW);
             }
         });
     }
