@@ -6,6 +6,7 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
@@ -24,12 +25,14 @@ public class PlaylistManager {
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
     private String selectedSongPath = null;
     public static File m3uFile = new File("./playlist/playlist.m3u");
+    public SimpleObjectProperty<PlaylistStatus> playlistStatus;
 
     /**
      * Hided constructor to avoid the generation of more than one instance of the singleton.
      * @author Jones Porsche
      */
     private PlaylistManager() {
+        playlistStatus = new SimpleObjectProperty<>();
     }
 
     public static PlaylistManager getInstance() {
