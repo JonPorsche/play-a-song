@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import scenes.gameview.GameView;
@@ -24,6 +25,7 @@ import java.util.List;
 import static javafx.scene.paint.Color.RED;
 
 public class GameController {
+
 	private GameView gameDisplayPane;
 	private Game game;
 	player playerObject;
@@ -38,6 +40,8 @@ public class GameController {
 	private List<Sprite> Upsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
 	private playerSprite playerSprite;
+	private Label scroe;
+	private Label health;
 	Button button = new Button();
 
 	private boolean gameIsRunning;
@@ -58,19 +62,30 @@ public class GameController {
 
 
 	public <pixels, i> void initialize() {
-
+		scroe = new Label();
+		health = new Label();
+		scroe.setLayoutX(100);
+		scroe.setLayoutY(300);
+		scroe.setText("0");
+		health.setText("3");
+		gameDisplayPane.getChildren().add(scroe);
+		gameDisplayPane.getChildren().add(health);
 		File trackFile = new File( "src/assets/example-track.mp3" );
 		System.out.println( trackFile.getAbsolutePath() );
-
-		playerObject= new player(game);
-		playerObject.getCollisonWave().addListener(new ChangeListener<Boolean>() {
+		game.healthProperty().addListener(new ChangeListener<Number>() {
 			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if (newValue){}
-				else { System.out.println("No Collision");}
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				health.setText(newValue.toString());
+
 			}
 		});
-
+		game.scoreProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				scroe.setText(newValue.toString());
+			}
+		});
+		playerObject= new player(game);
 		playerObject.setgamespeed(1);
 		playerObject.setX(400);
 		playerObject.setY(500);

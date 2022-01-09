@@ -22,7 +22,6 @@ public class Game {
 	private SimpleDoubleProperty speedModifer;
 	private CollisionWaveListner collsionWaveListner;
 	private CoinCollcted coinCollcted;
-
 	public Game(){
 		iteamTaken = new IteamTakenListner();
 		collsionWaveListner  = new CollisionWaveListner();
@@ -37,7 +36,6 @@ public class Game {
 	public void setHealth(int health) {
 		this.health.set(health);
 	}
-
 	public void setScore(int score) {
 		this.score.set(score);
 	}
@@ -118,7 +116,6 @@ public class Game {
 
 
 	}
-
 	public void removeIteam(GameObject object){
 		iteamObjects.remove(object);
 	}
@@ -128,14 +125,18 @@ public class Game {
 		// hier würde der Update-Thread gestartet
 		
 	}
-
-
 	public void updateHealth(int i) {
-		health.add(i);
+		health.set(health.getValue() + i);
 	}
 
 	public void addCoin(Coin coinObject) {
 		coinObjects.add(coinObject);
 
+	}
+	public SimpleIntegerProperty healthProperty(){
+		return health;
+	}
+	public SimpleIntegerProperty scoreProperty(){
+		return score;
 	}
 }

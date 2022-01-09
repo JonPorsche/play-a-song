@@ -46,7 +46,7 @@ public class Coin implements GameObject{
     @Override
     public void update(double delta) {
         x = x-delta;
-        System.out.println("worked");
+
 
     }
 
