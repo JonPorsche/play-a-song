@@ -16,5 +16,6 @@
     <orderEntry type="library" name="tritonus_share" level="project" />
     <orderEntry type="library" name="eibo_simpleminim_newjar" level="project" />
     <orderEntry type="library" name="src" level="project" />
+    <orderEntry type="library" name="mp3agic1" level="project" />
   </component>
 </module>
