@@ -1,7 +1,7 @@
 package scenes.gameview;
 
 import application.Main;
-
+import business.service.PlaylistManager;
 import game.Audioinfo;
 import gamelogic.*;
 import javafx.animation.AnimationTimer;
@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import scenes.gameview.GameView;
 import uicomponents.*;
 
 import java.io.File;
@@ -38,6 +37,7 @@ public class GameController {
 	private List<iteam>iteams = new ArrayList<>();
 	private List<Sprite>Coins = new ArrayList<>();
 	private List<Sprite> Upsprites = new ArrayList<>();
+	private List<Sprite> Iteamsprites = new ArrayList<>();
 	private List<Sprite> iteamsSprites = new ArrayList<>();
 	private playerSprite playerSprite;
 	private Label scroe;
@@ -52,7 +52,6 @@ public class GameController {
 		gameDisplayPane = view;
 
 		this.game = game;
-		
 		initialize();
 	}
 	public player getPlayerObject(){
@@ -102,7 +101,7 @@ public class GameController {
 		playerSpritesobject.gameObjectProperty().set(playerObject);
 		game.update(gameSpeed);
 		audioinfo = new Audioinfo();
-		amplitudeArray = audioinfo.getLeft(trackFile.getAbsolutePath());
+		amplitudeArray = audioinfo.getLeft(PlaylistManager.getInstance().getSelectedSongPath());
 
 		gameIsRunning= true;
 
@@ -125,6 +124,13 @@ public class GameController {
 					gameObject.setY( 0 );
 					gameObject.setHeight( 50 + 6 * curAmplValue );
 					gameObject.setWidth( 100 );
+
+					/*sprite = new WaveRSprite( );
+					sprite.setX(50);
+					sprite.setY(50);
+					sprite.setHeight(gameObject.getHeight( ));
+					sprite.setWidth(25);*/
+
 					game.add( gameObject );
 					allWorldSteps.add( 50 + 6 * curAmplValue );
 
@@ -155,7 +161,6 @@ public class GameController {
 
 
 
-
 		AnimationTimer gameThread = new AnimationTimer() {
 			private long lastUpdated = 0;
 			private long lastRendered = 0;
@@ -170,6 +175,14 @@ public class GameController {
 				int i = 0;
 				if (lastRendered + FPNS_DELTA < now) {
 					for(Sprite e : new ArrayList<Sprite>(Upsprites)) {
+						if(i == 77){
+						try {
+							collision(e);
+							i = 0;
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}}
+						i++;
 						e.render();
 
 
@@ -186,27 +199,18 @@ public class GameController {
 					game.update(6.94);
 					lastRendered = now;
 				}
-				
+
 				if (lastUpdated + UPNS_DELTA < now) {
 					double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
 
 					lastUpdated = now;
 				}
 			}
-			
+
 		};
-		
+
 		gameThread.start();
-		audioinfo.play(trackFile.getAbsolutePath());
-		gameDisplayPane.getChildren().add(button);
-		button.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CollisonType type = CollisonType.COIN;
-				button.fireEvent( new CollisionEvent(CollisionEvent.COIN, playerObject ));
-			}
-		});
-		double itest = 1;
+		audioinfo.play();
 
 	}
 
@@ -220,8 +224,50 @@ public class GameController {
 		Upsprites.add(sprite);
 
 	}
+
+	public void collision(Sprite e) throws Exception {
+
+		if(e.getRectangle().getBoundsInParent().intersects(playerSpritesobject.getBoundsInParent())){
+			System.out.println("HELP collusion");
+		}
+
+
+	}
+
+	public void iteamCollison(Sprite iteam){
+		if(iteam.getBounds().intersects(playerSpritesobject.getBoundsInParent())){
+			Thread iteamthread = new Thread(){
+				@Override
+				public void run(){
+					iteam iteamObject = (iteam) iteam.gameObjectProperty().getValue();
+					playerObject.setSizeModifer(iteamObject.getSizeModifer());
+					playerObject.setSpeedModfer(iteamObject.getSizeModifer());
+					gameDisplayPane.getChildren().remove(iteamObject);
+					iteamsSprites.remove(iteam);
+
+					try {
+						Thread.sleep(iteamObject.getDuration());
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					playerObject.setSizeModifer(-iteamObject.getSizeModifer());
+					playerObject.setSpeedModfer(-iteamObject.getSizeModifer());
+
+
+				}
+			};iteamthread.start();
+
+		}
+
+
+	}
+
+
+
 	public void SpawnIteam(){
 		int iteamSpawnIntervall = 6000;
+
+
 		iteam thisiteam = null;
 		Thread iteamThread = new Thread() {
 			@Override
