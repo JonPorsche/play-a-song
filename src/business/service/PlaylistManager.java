@@ -170,16 +170,37 @@ public class PlaylistManager {
     }
 
     /**
-     * Simple deletes everything in the playlist.m3u file
+     * Simply deletes everything in the playlist.m3u file
      * @author Jones Porsche
      */
-    public static void clearM3UFile() {
+    public static void cleanM3UFile() {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(m3uFile);
             writer.print("");
             writer.close();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Called at the application start, checks if the m3u playlist file is filled or empty and sets the playlist status.
+     * Is the playlist filled, calls the method to read the m3u file and load the songs array.
+     * @author Jones Porsche
+     * @see application.Main start() method
+     */
+    public void checkPlaylistStatus(){
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
+            String line = reader.readLine();
+            if(line != null) {
+                playlistStatus.set(PlaylistStatus.FILLED);
+                loadPlaylistFromM3UFile();
+            }
+            else playlistStatus.set(PlaylistStatus.EMPTY);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

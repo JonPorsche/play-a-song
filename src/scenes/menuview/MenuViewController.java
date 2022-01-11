@@ -103,7 +103,7 @@ public class MenuViewController {
      */
     private void handleClearPlaylistBtnClick(){
         clearPlaylistBtn.setOnAction(event -> {
-            PlaylistManager.clearM3UFile();
+            PlaylistManager.cleanM3UFile();
             PlaylistManager.songs.clear();
         });
     }

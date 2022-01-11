@@ -1,6 +1,8 @@
 package application;
 
+import business.data.Playlist;
 import business.service.PlaylistManager;
+import business.service.PlaylistStatus;
 import gamelogic.Game;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -39,8 +41,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         menuViewController = new MenuViewController(this);
-        PlaylistManager.getInstance();
-        PlaylistManager.loadPlaylistFromM3UFile();
+
+        // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
+        PlaylistManager.getInstance().checkPlaylistStatus();
 
         loadScenes();
         setStartView();
