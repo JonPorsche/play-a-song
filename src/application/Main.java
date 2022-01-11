@@ -1,8 +1,6 @@
 package application;
 
-import business.data.Playlist;
 import business.service.PlaylistManager;
-import business.service.PlaylistStatus;
 import gamelogic.Game;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -55,30 +53,6 @@ public class Main extends Application {
         this.primaryStage.setTitle("Play a Song");
         this.primaryStage.setScene(scene);
         this.primaryStage.show();
-
-/*		try {
-			GameController controller = new GameController(game);
-			Scene scene = new Scene(controller.getGameDisplayPane(),Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-				@Override
-				public void handle(KeyEvent t) {
-					System.out.println("worked");
-					if(t.getCode() == KeyCode.ENTER){
-						controller.getPlayerObject().updateHeigt(-30);
-
-					}
-
-
-				}
-			});
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}*/
     }
 
     /**

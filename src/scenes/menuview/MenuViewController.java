@@ -1,7 +1,12 @@
 package scenes.menuview;
 
 import application.Main;
+import business.data.Song;
 import business.service.PlaylistManager;
+import business.service.PlaylistStatus;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -70,6 +75,8 @@ public class MenuViewController {
         handlePlayBtnClick();
         handleAddSongsBtnClick();
         handleClearPlaylistBtnClick();
+        handlePlaylistStatusChanges();
+        handleSongsArrayChanges();
     }
 
     private void handlePlayBtnClick() {
@@ -105,6 +112,39 @@ public class MenuViewController {
         clearPlaylistBtn.setOnAction(event -> {
             PlaylistManager.cleanM3UFile();
             PlaylistManager.songs.clear();
+        });
+    }
+
+    /**
+     * Reacts to changes in the m3u playlist file status.
+     * If is empty, tells the playlist view controller to display the view with an instruction text.
+     * If is filled, tells the playlist view controller to display the playlist view with the songs and infos.
+     * @author Jones Porsche
+     */
+    private void handlePlaylistStatusChanges(){
+        PlaylistManager.getInstance().playlistStatus.addListener(new ChangeListener<PlaylistStatus>() {
+            @Override
+            public void changed(ObservableValue<? extends PlaylistStatus> observable, PlaylistStatus oldPlaylistStatus, PlaylistStatus newPlaylistStatus) {
+                switch (newPlaylistStatus){
+                    case EMPTY:
+                        playlistViewController.switchPlaylistView(PlaylistViewController.PLAYLIST_EMPTY);
+                        break;
+                    case FILLED:
+                        playlistViewController.switchPlaylistView(PlaylistViewController.PLAYLIST_FILLED);
+                        break;
+                }
+            }
+        });
+    }
+
+    private void handleSongsArrayChanges(){
+        PlaylistManager.getInstance().songs.addListener((ListChangeListener<Song>) c -> {
+            if(PlaylistManager.songs.isEmpty()){
+                PlaylistManager.getInstance().playlistStatus.set(PlaylistStatus.EMPTY);
+            }
+            else {
+                PlaylistManager.getInstance().playlistStatus.set(PlaylistStatus.FILLED);
+            }
         });
     }
 }

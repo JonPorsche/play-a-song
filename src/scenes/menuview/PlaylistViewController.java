@@ -4,6 +4,7 @@ import application.Main;
 import business.data.Song;
 import business.service.PlaylistManager;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -12,12 +13,17 @@ import javafx.util.Callback;
 
 public class PlaylistViewController {
 
+    public static final String PLAYLIST_EMPTY = "empty";
+    public static final String PLAYLIST_FILLED = "filled";
     private Pane playlistRootView;
     private ListView<Song> songsListView;
+    private Label instructionText;
+    private PlaylistView playlistView;
 
     public PlaylistViewController(Main application){
-        PlaylistView playlistView = new PlaylistView();
+        playlistView = new PlaylistView();
         this.songsListView = playlistView.songsListView;
+        this.instructionText = playlistView.instructionText;
         playlistRootView = playlistView;
         initialize();
     }
@@ -34,12 +40,6 @@ public class PlaylistViewController {
         });
 
         PlaylistManager.songs = songsListView.getItems();
-/*        PlaylistManager.songs.addListener(new ListChangeListener<Song>() {
-            @Override
-            public void onChanged(Change<? extends Song> c) {
-                System.out.println("Playlist changed");
-            }
-        });*/
     }
 
     private void handleSongsListViewClick(){
@@ -50,6 +50,25 @@ public class PlaylistViewController {
                 PlaylistManager.getInstance().setSelectedSongPath(selectedSong.getSongFilePath());
             }
         });
+    }
+
+    /**
+     * Called in MenuController, changes the playlist view between only an instruction text,
+     * when the playlist is empty, or the playlist with songs and infos, when the playlist is filled.
+     * @param newView Sring with the name of the view that needs to be displayed
+     * @author Jones Porsche
+     */
+    public void switchPlaylistView(String newView){
+        switch (newView){
+            case PLAYLIST_EMPTY:
+                playlistView.getChildren().clear();
+                playlistView.getChildren().add(instructionText);
+                break;
+            case PLAYLIST_FILLED:
+                playlistView.getChildren().clear();
+                playlistView.getChildren().add(songsListView);
+                break;
+        }
     }
 
     public Pane getPlaylistRootView() {
