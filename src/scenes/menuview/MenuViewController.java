@@ -7,6 +7,8 @@ import business.service.PlaylistStatus;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +17,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class MenuViewController {
+
+    public static final String PLAYLIST_VIEW = "PLAYLIST";
+    public static final String OPTIONS_VIEW = "OPTIONS";
+
     private HBox menuContainer;
 
     // MENU BUTTON BOX
@@ -43,6 +49,7 @@ public class MenuViewController {
 
     // CONTROLLERS
     private PlaylistViewController playlistViewController;
+    private OptionsViewController optionsViewController;
 
     public MenuViewController(Main application) {
         this.application = application;
@@ -53,6 +60,7 @@ public class MenuViewController {
         this.playlistBtn = menuView.playlistBtn;
         this.optionsBtn = menuView.optionsBtn;
         this.selectionBox = menuView.selectionBox;
+        this.selectionBoxTitle = menuView.selectionBoxTitle;
         this.selectionBoxHeader = menuView.selectionBoxHeader;
         this.instructionText = menuView.instructionText;
         this.selectionBoxFooter = menuView.selectionBoxFooter;
@@ -61,6 +69,7 @@ public class MenuViewController {
         this.playBtn = menuView.playBtn;
 
         playlistViewController = new PlaylistViewController(application);
+        optionsViewController = new OptionsViewController();
         selectionBox.setCenter(playlistViewController.getPlaylistRootView());
 
         menuRootView = menuView;
@@ -72,11 +81,21 @@ public class MenuViewController {
     }
 
     public void initialize() {
+        handlePlaylistBtnClick();
+        handleOptionsBtnClick();
         handlePlayBtnClick();
         handleAddSongsBtnClick();
         handleClearPlaylistBtnClick();
         handlePlaylistStatusChanges();
         handleSongsArrayChanges();
+    }
+
+    private void handlePlaylistBtnClick(){
+        playlistBtn.setOnAction(event -> switchSelectionBoxView(PLAYLIST_VIEW));
+    }
+
+    private void handleOptionsBtnClick(){
+        optionsBtn.setOnAction(event -> switchSelectionBoxView(OPTIONS_VIEW));
     }
 
     private void handlePlayBtnClick() {
@@ -146,5 +165,25 @@ public class MenuViewController {
                 PlaylistManager.getInstance().playlistStatus.set(PlaylistStatus.FILLED);
             }
         });
+    }
+
+    /**
+     * Triggered by the playlist and options buttons.
+     * Switches the center view of the BorderPane that composes the selection box,
+     * between playlist and option view.
+     * @author Jones Porsche
+     * @param newSelectionBoxView String with the name of the new view.
+     */
+    public void switchSelectionBoxView(String newSelectionBoxView){
+        switch (newSelectionBoxView){
+            case PLAYLIST_VIEW:
+                selectionBox.setCenter(playlistViewController.getPlaylistRootView());
+                selectionBoxTitle.setText(PLAYLIST_VIEW);
+                break;
+            case OPTIONS_VIEW:
+                selectionBox.setCenter(optionsViewController.getOptionsRootView());
+                selectionBoxTitle.setText(OPTIONS_VIEW);
+                break;
+        }
     }
 }

@@ -25,7 +25,7 @@ public class MenuView extends Pane {
 
     // Selection box top
     VBox selectionBoxHeader = new VBox();
-    Label selectionBoxTitle = new Label("SELECTION BOX TITLE");
+    Label selectionBoxTitle = new Label("PLAYLIST");
 
     // Selection box center
     VBox selectionBoxCenter = new VBox();
