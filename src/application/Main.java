@@ -13,6 +13,7 @@ import java.util.Map;
 public class Main extends Application {
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 640;
+    public static final int PLAYER_RADIUS = 10;
     public static final String MENU_VIEW = "MenuView";
     public static final String GAME_VIEW = "GameView";
 
