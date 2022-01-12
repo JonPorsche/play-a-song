@@ -205,6 +205,22 @@ public class PlaylistManager {
         }
     }
 
+    /**
+     * Formats the time to a String like mm:ss
+     * @author Jones Porsche
+     * @param milliseconds
+     * @return
+     */
+    public static String formatTime(int milliseconds) {
+        int seconds = milliseconds / 1000;
+        int hours = seconds / 3600;
+        int minutes = (seconds - (3600 * hours)) / 60;
+        int seg = seconds - ((hours * 3600) + (minutes * 60));
+
+        return String.format("%01d", minutes) + ":" + String.format("%02d", seg);
+
+    }
+
     public final String getSelectedSongPath() {
         return this.selectedSongPath;
     }

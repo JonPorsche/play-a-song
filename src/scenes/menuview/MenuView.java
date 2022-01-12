@@ -34,7 +34,7 @@ public class MenuView extends Pane {
     // Selection box bottom
     HBox selectionBoxFooter = new HBox();
     Button addSongsBtn = new Button("ADD SONGS");
-    Button clearPlaylistBtn = new Button("CLEAR PLAYLIST");
+    Button clearPlaylistBtn = new Button("CLEAR");
     Button playBtn = new Button("PLAY");
 
     public MenuView(){
@@ -44,6 +44,13 @@ public class MenuView extends Pane {
         setSelectionBoxHeaderStyle();
         setSelectionBoxCenterStyle();
         setSelectionBoxFooterStyle();
+
+        playlistBtn.getStyleClass().add("titles");
+        optionsBtn.getStyleClass().add("titles");
+        addSongsBtn.getStyleClass().add("titles");
+        clearPlaylistBtn.getStyleClass().add("titles");
+        playBtn.getStyleClass().add("titles");
+        selectionBoxTitle.getStyleClass().add("titles");
 
         menuBtnBox.getChildren().addAll(playlistBtn, optionsBtn);
         selectionBoxHeader.getChildren().add(selectionBoxTitle);
@@ -97,6 +104,7 @@ public class MenuView extends Pane {
     }
 
     private void setSelectionBoxCenterStyle(){
+        selectionBoxCenter.setId("selection-box-center");
         selectionBoxCenter.setMinHeight(Main.WINDOW_HEIGHT*0.6625);
         selectionBoxCenter.setMaxHeight(Main.WINDOW_HEIGHT*0.6625);
         selectionBoxCenter.setAlignment(Pos.BOTTOM_CENTER);
