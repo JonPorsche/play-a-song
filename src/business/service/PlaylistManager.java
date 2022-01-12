@@ -161,8 +161,10 @@ public class PlaylistManager {
             reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
             String line = reader.readLine();
             while (line != null) {
-                if (!new File(line).exists() || line.charAt(0) != '#')
-                    continue;
+                if (line.charAt( 0 ) == '#') continue;
+                File f = new File( line );
+                boolean fExist = f.exists( );
+                if (!fExist) continue;
 
                 songs.add(createSong(line));
                 line = reader.readLine();

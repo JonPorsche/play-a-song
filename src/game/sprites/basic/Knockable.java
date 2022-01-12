@@ -1,6 +1,5 @@
 package game.sprites.basic;
 
-import game.sprites.Sprite;
 import javafx.geometry.Bounds;
 
 /*public abstract class Knockable<T> extends Drawable {
@@ -19,5 +18,5 @@ import javafx.geometry.Bounds;
 public interface Knockable<T> extends Drawable {
   boolean isInObjBounce(Bounds xy);
 
-  boolean isInObjBounce(Sprite otherSpriteObj);
+  boolean isInObjBounce(Knockable otherSpriteObj);
 }

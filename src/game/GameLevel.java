@@ -34,11 +34,11 @@ public class GameLevel {
   protected ObjectProperty<Number> gamePlayerScorePropPointer;
 
   public GameLevel(
-      String newLevelSongPath,
-      ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
-      ObjectProperty<Boolean> isRunningPrPo, // <- GameManager.gameIsRunning
-      ObjectProperty<Number> playerPosPrPo, // <- GameManager.gamePlayerPos
-      ObjectProperty<Number> playerScorePrPo // <- GameManager.gamePlayerScore
+    String newLevelSongPath,
+    ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
+    ObjectProperty<Boolean> isRunningPrPo, // <- GameManager.gameIsRunning
+    ObjectProperty<Number> playerPosPrPo, // <- GameManager.gamePlayerPos
+    ObjectProperty<Number> playerScorePrPo // <- GameManager.gamePlayerScore
   ) {
     this.levelSourceTrack = newLevelSongPath;
 
@@ -51,10 +51,10 @@ public class GameLevel {
 
   public boolean levelIsReady() {
     return this.levelSourceTrack != null
-        && this.gamePlayingStatePropPointer != null
-        && this.gameIsRunningPropPointer != null
-        && this.gamePlayerPosPropPointer != null
-        && this.gamePlayerScorePropPointer != null;
+      && this.gamePlayingStatePropPointer != null
+      && this.gameIsRunningPropPointer != null
+      && this.gamePlayerPosPropPointer != null
+      && this.gamePlayerScorePropPointer != null;
   }
 
 
