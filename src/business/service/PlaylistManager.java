@@ -24,7 +24,7 @@ public class PlaylistManager {
     private static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
     private String selectedSongPath = null;
-    public static File m3uFile = new File("./playlist/playlist.m3u");
+    public static File m3uFile = new File("./playlist/playlist2.m3u");
     public SimpleObjectProperty<PlaylistStatus> playlistStatus;
 
     /**
@@ -146,7 +146,7 @@ public class PlaylistManager {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException m3uFileDoesNotExist) {
-            m3uFile = new File("./playlist/playlist.m3u");
+            m3uFile = new File("./playlist/playlist2.m3u");
             writeM3UFile();
         }
     }
@@ -161,6 +161,9 @@ public class PlaylistManager {
             reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
             String line = reader.readLine();
             while (line != null) {
+                if (!new File(line).exists() || line.charAt(0) != '#')
+                    continue;
+
                 songs.add(createSong(line));
                 line = reader.readLine();
             }
@@ -170,7 +173,7 @@ public class PlaylistManager {
     }
 
     /**
-     * Simply deletes everything in the playlist.m3u file
+     * Simply deletes everything in the playlist2.m3u file
      * @author Jones Porsche
      */
     public static void cleanM3UFile() {
