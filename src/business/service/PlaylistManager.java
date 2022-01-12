@@ -146,7 +146,7 @@ public class PlaylistManager {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException m3uFileDoesNotExist) {
-            m3uFile = new File("./playlist/playlist2.m3u");
+            m3uFile = new File("./playlist/playlist.m3u");
             writeM3UFile();
         }
     }
@@ -230,5 +230,9 @@ public class PlaylistManager {
 
     public final void setSelectedSongPath(String selectedSongPath) {
         this.selectedSongPath = selectedSongPath;
+    }
+
+    public ObservableList<Song> getSongListProperty() {
+        return this.songs;
     }
 }
