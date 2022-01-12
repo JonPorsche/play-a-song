@@ -24,7 +24,7 @@ public class PlaylistManager {
     private static String directoryPath;
     public static ObservableList<Song> songs = FXCollections.observableArrayList();
     private String selectedSongPath = null;
-    public static File m3uFile = new File("./playlist/playlist2.m3u");
+    public static File m3uFile = new File("./playlist/playlist.m3u");
     public SimpleObjectProperty<PlaylistStatus> playlistStatus;
 
     /**
@@ -173,7 +173,7 @@ public class PlaylistManager {
     }
 
     /**
-     * Simply deletes everything in the playlist2.m3u file
+     * Simply deletes everything in the playlist.m3u file
      * @author Jones Porsche
      */
     public static void cleanM3UFile() {
