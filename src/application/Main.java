@@ -1,15 +1,10 @@
 package application;
 
 import business.service.PlaylistManager;
-import gamelogic.Game;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import scenes.gameview.GameController;
 import scenes.menuview.MenuViewController;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +16,8 @@ public class Main extends Application {
     public static final String MENU_VIEW = "MenuView";
     public static final String GAME_VIEW = "GameView";
 
-    Game game;
+    // TODO Declare Game here
+    //Game game;
     Map<String, Pane> scenes;
     Pane rootPane;
     Stage primaryStage;
@@ -29,7 +25,8 @@ public class Main extends Application {
 
     // CONTROLLERS
     MenuViewController menuViewController;
-    GameController gameController;
+    // TODO Declare GameController here
+    // GameController gameController;
 
     @Override
     public void init() throws Exception {
@@ -77,12 +74,13 @@ public class Main extends Application {
     /**
      * Starts the game instance and controller and adds the game view to the scenes hash map
      * @author Jones Porsche
-     * @see GameController
      */
     public void startGame() {
-        game = new Game();
-        gameController = new GameController(game);
-        scenes.put(GAME_VIEW, gameController.getGameDisplayPane());
+        // TODO Start the Game and GameController instances here
+        // game = new Game();
+        // gameController = new GameController(game);
+        // TODO Put the Game view in the scenes hash map
+        // scenes.put(GAME_VIEW, gameController.getGameDisplayPane());
     }
 
     /** Switches the scene of the primary stage based on the received name of the new scene
@@ -92,12 +90,16 @@ public class Main extends Application {
     public void switchScene(String scene) {
         switch (scene) {
             case GAME_VIEW:
-                rootPane = scenes.get(scene);
-                Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
-                primaryStage.setScene(newScene);
 
-                // TODO Handle this event in the game controller?
-                try {
+                System.out.println("Main.switchScene: switch to game view.");
+
+                // TODO Take the Game view from the scenes hash map and set it to the primary stage
+                /*rootPane = scenes.get(scene);
+                Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+                primaryStage.setScene(newScene);*/
+
+                // TODO Maybe handle this event in the game controller?
+                /*try {
                     newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
                         @Override
@@ -111,7 +113,7 @@ public class Main extends Application {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
                 break;
 
             case MENU_VIEW:

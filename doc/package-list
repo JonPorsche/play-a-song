@@ -1,9 +1,5 @@
 application
 business.data
 business.service
-game
-gamelogic
-scenes.gameview
 scenes.menuview
-test
 uicomponents
