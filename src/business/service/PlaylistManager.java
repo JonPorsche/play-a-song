@@ -161,11 +161,19 @@ public class PlaylistManager {
             reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
             String line = reader.readLine();
             while (line != null) {
-                if (!new File(line).exists() || line.charAt(0) != '#')
+                if (line.charAt(0) == '#' || line.charAt(line.length()-1) != '3') {
+                    line = reader.readLine();
                     continue;
-
-                songs.add(createSong(line));
-                line = reader.readLine();
+                } else {
+                    if(new File(line).exists()) {
+                        songs.add(createSong(line));
+                        line = reader.readLine();
+                    }
+                    else {
+                        line = reader.readLine();
+                        continue;
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -193,7 +201,7 @@ public class PlaylistManager {
      * @author Jones Porsche
      * @see application.Main start() method
      */
-    public void checkPlaylistStatus(){
+    public void checkM3UFileStatus(){
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));

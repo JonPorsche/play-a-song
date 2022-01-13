@@ -39,7 +39,7 @@ public class Main extends Application {
         menuViewController = new MenuViewController(this);
 
         // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
-        PlaylistManager.getInstance().checkPlaylistStatus();
+        PlaylistManager.getInstance().checkM3UFileStatus();
 
         loadScenes();
         setStartView();
