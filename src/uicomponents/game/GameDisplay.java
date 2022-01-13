@@ -11,8 +11,16 @@ public class GameDisplay extends StackPane {
   public GameDisplay( ) {
     super( );
 
+    /*
+
+    Pane background = new Pane( );
+    background.getChildren( ).add( this.gameWorldPane );
+
+    StackPane.setMargin( background, new Insets( 0, 0, 2, 5 ) );
+
+     */
     StackPane.setMargin( this.gameWorldPane, new Insets( 0, 0, 2, 5 ) );
-    StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER_LEFT );
+    //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER_LEFT );
 
     this.getChildren( ).addAll( this.gameWorldPane, this.gameOverlayPanePane );
   }

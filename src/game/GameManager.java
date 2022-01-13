@@ -16,11 +16,17 @@ public class GameManager {
   protected ObjectProperty<GameLevel> gameLoadedLevel = new SimpleObjectProperty<>();
 
   // Level Property Handle
-  protected ObjectProperty<Number> gamePlayerPos = new SimpleObjectProperty<>();
+  protected ObjectProperty<Double> gamePlayerPos = new SimpleObjectProperty<>();
   protected ObjectProperty<Number> gamePlayerScore = new SimpleObjectProperty<>();
 
   public GameManager( ) {
-    this.gameEngine = new GameEngine( this.gamePlayingState, this.gameIsRunning );
+    this.gameEngine = new GameEngine(
+      this.gamePlayingState,
+      this.gameIsRunning,
+      this.gameLoadedLevel,
+      this.gamePlayerPos,
+      this.gamePlayerScore
+    );
   }
 
   public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
@@ -30,17 +36,17 @@ public class GameManager {
   /* Methoden */
   public void loadLevelFromSong( File playingTrackFile ) {
     if (playingTrackFile.exists( ))
-      this.gameLoadedLevel.setValue( new GameLevel(
-        playingTrackFile.getAbsolutePath( ),
-        this.gamePlayingState,
-        this.gameIsRunning,
-        this.gamePlayerPos,
-        this.gamePlayerScore
+      this.gameEngine.setNewLevel( new GameLevel (
+          playingTrackFile.getAbsolutePath( )
       ) );
   }
 
   public void loadLevelFromSong( String newLevelSongPath ) {
     this.loadLevelFromSong( new File( newLevelSongPath ) );
+  }
+
+  public void startPlaying( ) {
+    this.gameEngine.startPlaying( );
   }
 
   /* Actions */
@@ -86,7 +92,7 @@ public class GameManager {
     return this.getPlayingStateProperty().getValue();
   }
 
-  public ObjectProperty<Number> getPlayerPosProperty() {
+  public ObjectProperty<Double> getPlayerPosProperty() {
     return this.gamePlayerPos;
   }
 

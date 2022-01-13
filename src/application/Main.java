@@ -41,6 +41,8 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) {
+    this.gameManager = new GameManager( );
+
     this.menuViewController = new MenuViewController( this );
     this.gameViewController = new GameViewController( this );
 
@@ -106,9 +108,11 @@ public class Main extends Application {
         rootPane = scenes.get(scene);
         Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
         primaryStage.setScene(newScene);
+        gameManager.loadLevelFromSong( PlaylistManager.getInstance().getSelectedSongPath() );
+        gameManager.startPlaying( );
 
         // TODO Maybe handle this event in the game controller? (thx lg TS)
-        if( this.keyEventIsBinded ) try {
+        if( !this.keyEventIsBinded ) try {
           newScene.setOnKeyPressed( new EventHandler<KeyEvent>( ) {
 
             @Override

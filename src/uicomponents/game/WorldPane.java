@@ -1,6 +1,7 @@
 package uicomponents.game;
 
 import application.Main;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -15,7 +16,9 @@ public class WorldPane extends Canvas {
   }
 
   public void setCenterViewFrame( double playerPos ) {
-    this.setLayoutX( 0 - playerPos );
+    Platform.runLater(
+      ( ) -> this.setTranslateX( 0 - playerPos )
+    );
   }
 
   private void drawWall(List<Number> wallSideSteps, int yStartPos ) {
@@ -50,7 +53,11 @@ public class WorldPane extends Canvas {
 
     for (int curAmpPos = 0; curAmpPos < sampleCount; curAmpPos++) {
       double curAmpValue = allWorldSteps.get( curAmpPos );
-      float curDisplayAmpPercent = (float)( curAmpValue / 100 * maxAmplitude );
+      if (curAmpValue < 0) curAmpValue = 0 -curAmpValue;
+
+      int curDisplayAmpPercent = 100 / (int)(maxAmplitude / curAmpValue);
+      double t = (maxAmplitude / curAmpValue);
+      if (t > 100) t = 0;
 
       if (curDisplayAmpPercent > 95 || curAmpValue < 0) curDisplayAmpPercent = 95;
 
