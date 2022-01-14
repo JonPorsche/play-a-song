@@ -1,16 +1,14 @@
 package game;
 
-import application.Main;
-import business.data.Song;
-import business.service.PlaylistManager;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import uicomponents.game.GameDisplay;
 
 import java.io.File;
-import java.util.List;
 
 public class GameManager {
   //private List<GameLevel> loadedLevelList; // @ToDo: DoThis
+  private GameEngine gameEngine;
 
   // Global Property Handle
   protected ObjectProperty<GamePlayingState> gamePlayingState = new SimpleObjectProperty<>();
@@ -18,18 +16,28 @@ public class GameManager {
   protected ObjectProperty<GameLevel> gameLoadedLevel = new SimpleObjectProperty<>();
 
   // Level Property Handle
-  protected ObjectProperty<Number> gamePlayerPos = new SimpleObjectProperty<>();
+  protected ObjectProperty<Double> gamePlayerPos = new SimpleObjectProperty<>();
   protected ObjectProperty<Number> gamePlayerScore = new SimpleObjectProperty<>();
+
+  public GameManager( ) {
+    this.gameEngine = new GameEngine(
+      this.gamePlayingState,
+      this.gameIsRunning,
+      this.gameLoadedLevel,
+      this.gamePlayerPos,
+      this.gamePlayerScore
+    );
+  }
+
+  public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
+    this.gameEngine.declareGameDisplayPane(guiGameDisplaySelector);
+  }
 
   /* Methoden */
   public void loadLevelFromSong( File playingTrackFile ) {
-    if (playingTrackFile.exists())
-      this.gameLoadedLevel.setValue( new GameLevel(
-          playingTrackFile.getAbsolutePath( ),
-          this.gamePlayingState,
-          this.gameIsRunning,
-          this.gamePlayerPos,
-          this.gamePlayerScore
+    if (playingTrackFile.exists( ))
+      this.gameEngine.setNewLevel( new GameLevel (
+          playingTrackFile.getAbsolutePath( )
       ) );
   }
 
@@ -37,23 +45,41 @@ public class GameManager {
     this.loadLevelFromSong( new File( newLevelSongPath ) );
   }
 
+  public void startPlaying( ) {
+    this.gameEngine.startPlaying( );
+  }
+
   /* Actions */
   public void playerGoUp( ) {
 
+  }
+  public void playerGoDown( ) {
+
+  }
+  public void play( ) {
+    GamePlayingState curState = this.gamePlayingState.getValue( );
+
+    switch (curState) {
+      case FINISHED:
+        // @ToDo: Reset to Start ( auch erneut Items spawnen? )
+      case READY:
+      case PAUSE:
+        this.gamePlayingState.setValue( GamePlayingState.PLAY );
+        break;
+      case NOTREADY: System.out.println( "TODO MSG: Bitte wählen Sie einen Track aus!"); break;
+      default:
+    }
+  }
+  public void pause( ) {
+    GamePlayingState curState = this.gamePlayingState.getValue( );
+
+    if (curState.equals( GamePlayingState.PLAY ))
+      this.gamePlayingState.setValue( GamePlayingState.PAUSE );
   }
 
   /* Propertys */
   public ObjectProperty<Boolean> gameIsRunningProperty( ) {
     return this.gameIsRunning;
-  }
-
-  protected void startNewGame() {
-  }
-
-  protected void gamePlayerPause() {
-  }
-
-  protected void gamePlayerContinue() {
   }
 
   /* --- GETTER --- */
@@ -66,7 +92,7 @@ public class GameManager {
     return this.getPlayingStateProperty().getValue();
   }
 
-  public ObjectProperty<Number> getPlayerPosProperty() {
+  public ObjectProperty<Double> getPlayerPosProperty() {
     return this.gamePlayerPos;
   }
 

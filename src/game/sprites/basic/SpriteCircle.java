@@ -1,6 +1,5 @@
 package game.sprites.basic;
 
-import game.sprites.Sprite;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
 
@@ -34,7 +33,7 @@ public class SpriteCircle extends Circle implements Knockable, GameObject {
   }
 
   @Override
-  public boolean isInObjBounce(Sprite otherSpriteObj) {
+  public boolean isInObjBounce(Knockable otherSpriteObj) {
     return false;
   }
 

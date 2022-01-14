@@ -1,6 +1,7 @@
-package uicomponents;
+package uicomponents.game;
 
 import application.Main;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -8,16 +9,22 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorldDisplayPane extends Canvas {
+public class WorldPane extends Canvas {
 
-  public WorldDisplayPane( ) {
+  public WorldPane( ) {
     super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
+  }
+
+  public void setCenterViewFrame( double playerPos ) {
+    Platform.runLater(
+      ( ) -> this.setTranslateX( 0 - playerPos )
+    );
   }
 
   private void drawWall(List<Number> wallSideSteps, int yStartPos ) {
     GraphicsContext gc = this.getGraphicsContext2D();
 
-    gc.beginPath();
+    gc.beginPath( );
     gc.setFill( Color.BLACK );
     gc.setStroke( Color.BLACK );
 
@@ -29,8 +36,8 @@ public class WorldDisplayPane extends Canvas {
 
       gc.lineTo( curDisplayPos, curDisplayAmp );
     }
-    gc.stroke();
-    gc.fill();
+    gc.stroke( );
+    gc.fill( );
     gc.closePath( );
   }
 
@@ -46,7 +53,11 @@ public class WorldDisplayPane extends Canvas {
 
     for (int curAmpPos = 0; curAmpPos < sampleCount; curAmpPos++) {
       double curAmpValue = allWorldSteps.get( curAmpPos );
-      float curDisplayAmpPercent = (float)( curAmpValue / 100 * maxAmplitude );
+      if (curAmpValue < 0) curAmpValue = 0 -curAmpValue;
+
+      int curDisplayAmpPercent = 100 / (int)(maxAmplitude / curAmpValue);
+      double t = (maxAmplitude / curAmpValue);
+      if (t > 100) t = 0;
 
       if (curDisplayAmpPercent > 95 || curAmpValue < 0) curDisplayAmpPercent = 95;
 

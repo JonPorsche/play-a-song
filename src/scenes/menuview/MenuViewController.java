@@ -15,8 +15,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import scenes.BasicView;
 
-public class MenuViewController {
+public class MenuViewController extends BasicView {
 
     public static final String PLAYLIST_VIEW = "PLAYLIST";
     public static final String OPTIONS_VIEW = "OPTIONS";
@@ -44,15 +45,12 @@ public class MenuViewController {
     private Button clearPlaylistBtn;
     private Button playBtn;
 
-    private Main application;
-    private Pane menuRootView;
-
     // CONTROLLERS
     private PlaylistViewController playlistViewController;
     private OptionsViewController optionsViewController;
 
     public MenuViewController(Main application) {
-        this.application = application;
+        super( application );
 
         MenuView menuView = new MenuView();
         this.menuContainer = menuView.menuContainer;
@@ -72,12 +70,8 @@ public class MenuViewController {
         optionsViewController = new OptionsViewController();
         selectionBox.setCenter(playlistViewController.getPlaylistRootView());
 
-        menuRootView = menuView;
+        this.menuRootView = menuView;
         initialize();
-    }
-
-    public Pane getMenuRootView() {
-        return menuRootView;
     }
 
     public void initialize() {

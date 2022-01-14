@@ -1,11 +1,17 @@
 package application;
 
 import business.service.PlaylistManager;
+import game.GameManager;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import scenes.gameview.GameViewController;
 import scenes.menuview.MenuViewController;
+import uicomponents.game.GameDisplay;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,10 +126,19 @@ public class Main extends Application {
             case MENU_VIEW:
                 primaryStage.setScene(scenes.get(scene).getScene());
                 break;
-        }
-    }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+        }
+  }
+
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+  public GameManager getGameManger( ) {
+    return this.gameManager;
+  }
+  public void defineGameDisplayPane( GameDisplay gameDisplaySelector ) {
+    if (this.gameManager != null)
+      this.gameManager.declareGameDisplayPane( gameDisplaySelector );
+  }
 }
