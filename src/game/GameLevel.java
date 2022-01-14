@@ -1,5 +1,6 @@
 package game;
 
+import application.Main;
 import game.sprites.Coin;
 import game.sprites.Iteam;
 import game.sprites.PlayerCharacter;
@@ -47,7 +48,7 @@ public class GameLevel {
   }
 
 
-  private void generateMapChunks() {
+  private void generateMapChunks( ) {
     if (this.levelSourceTrack == null) return;
 
     String levelSourceTrackPath = this.levelSourceTrack;
@@ -101,7 +102,9 @@ public class GameLevel {
   public PlayerCharacter getPlayerSprite( ) { return this.playerSpritesObject; }
   public double getMaxAmplitude( ) { return this.maxAmplitude; }
 
-
+  public int getMapPixelWidth( ) {
+    return this.mapChunks.size() * Main.MAP_CHUNK_WIDTH_PX;
+  }
 
   public int getUpperBoarder(int x) {
     return x;

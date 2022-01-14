@@ -60,7 +60,6 @@ public class Iteam extends SpriteCircle {
   }
   public void setIsVisabile(Boolean isVisable){
     isVisabile.set(isVisable);
-
   }
 
 

@@ -17,7 +17,7 @@ public class SlowMoIteam extends Iteam {
     this.setCenterX(xPos);
     this.setCenterY(yPos);
     this.setFill(RED);
-    this.setRadius(200);
+    this.setRadius(20);
     this.setCenterX(xPos);
     this.setCenterY(yPos);
     File imgFile = new File("src/resources/Coin.png");

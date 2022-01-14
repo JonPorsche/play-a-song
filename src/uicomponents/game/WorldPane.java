@@ -13,19 +13,19 @@ import java.util.List;
 
 public class WorldPane extends Canvas {
 
-  public WorldPane( ) {
-    super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
-
-
+  public WorldPane( int canWidth, int canHeight ) {
+    super(
+      canWidth, //Main.gameManager.getCanvasWidthPx( ),
+      canHeight
+    );
+    this.setStyle( "-fx-background-color:rgb(0, 100, 0);" );
   }
 
-  public void setCenterViewFrame( double playerPos ) {
+  public void setCenterViewFrame( int playerPos ) {
     Platform.runLater(
-            ( ) -> this.setTranslateX( 0 - playerPos )
+      ( ) -> this.setTranslateX( 0 - playerPos )
     );
   }
-
-
 
   private void drawWall(List<Number> wallSideSteps, int yStartPos ) {
     GraphicsContext gc = this.getGraphicsContext2D();
@@ -38,7 +38,7 @@ public class WorldPane extends Canvas {
 
     for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ); curDrawIndex++) {
       int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
-      double curDisplayPos = curDrawIndex * 100;
+      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
 
       gc.lineTo( curDisplayPos, curDisplayAmp );
     }

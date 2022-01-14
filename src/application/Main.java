@@ -20,11 +20,16 @@ public class Main extends Application {
   public static final int WINDOW_WIDTH = 1080;
   public static final int WINDOW_HEIGHT = 640;
   public static final int PLAYER_RADIUS = 10;
+
+  public static final int MAP_CHUNK_WIDTH_PX = 100;
+  public static final double MAP_CHUNK_BASE_HEIGHT_PX = 50;
+  public static final double MAP_CHUNK_HEIGHT_PX = 6;
+
   public static final String MENU_VIEW = "MenuView";
   public static final String GAME_VIEW = "GameView";
 
   // TODO Declare Game here
-  GameManager gameManager;
+  public static GameManager gameManager;
   Map<String, Pane> scenes;
   Pane rootPane;
   Stage primaryStage;
@@ -41,7 +46,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    this.gameManager = new GameManager( );
+    Main.gameManager = new GameManager( );
 
     this.menuViewController = new MenuViewController( this );
     this.gameViewController = new GameViewController( this );
@@ -108,8 +113,9 @@ public class Main extends Application {
         rootPane = scenes.get(scene);
         Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
         primaryStage.setScene(newScene);
-        gameManager.loadLevelFromSong( PlaylistManager.getInstance().getSelectedSongPath() );
-        gameManager.startPlaying( );
+
+        Main.gameManager.loadLevelFromSong( PlaylistManager.getInstance( ).getSelectedSongPath( ) );
+        Main.gameManager.startPlaying( );
 
         // TODO Maybe handle this event in the game controller? (thx lg TS)
         if( !this.keyEventIsBinded ) try {
@@ -148,8 +154,8 @@ public class Main extends Application {
   public GameManager getGameManger( ) {
     return this.gameManager;
   }
-  public void defineGameDisplayPane( GameDisplay gameDisplaySelector ) {
+  public void defineGameDisplayPane( GameDisplay gameDisplay ) {
     if (this.gameManager != null)
-      this.gameManager.declareGameDisplayPane( gameDisplaySelector );
+      this.gameManager.declareGameDisplayPane( gameDisplay );
   }
 }

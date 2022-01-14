@@ -1,5 +1,6 @@
 package game;
 
+import application.Main;
 import game.sprites.Iteam;
 import game.sprites.PlayerCharacter;
 import javafx.beans.property.ObjectProperty;
@@ -55,6 +56,9 @@ public class GameManager {
   }
 
   public void startPlaying( ) {
+    /*int canWidth = Main.WINDOW_WIDTH * 15; //Main.gameManager.getCanvasWidthPx( );
+    this.gameEngine.getGameDisplayPane().initCanvas( canWidth );*/
+
     this.gameEngine.startPlaying( );
   }
 
@@ -102,11 +106,11 @@ public class GameManager {
 
   /* --- GETTER --- */
 
-  public ObjectProperty<GamePlayingState> getPlayingStateProperty() {
+  public ObjectProperty<GamePlayingState> getPlayingStateProperty( ) {
     return this.gamePlayingState;
   }
 
-  public GamePlayingState getPlayingState() {
+  public GamePlayingState getPlayingState( ) {
     return this.getPlayingStateProperty().getValue();
   }
 
@@ -114,7 +118,7 @@ public class GameManager {
     return this.gamePlayerPos;
   }
 
-  public int getPlayerPos() {
+  public int getPlayerPos( ) {
     return this.getPlayerPosProperty().getValue().intValue();
   }
 
@@ -122,7 +126,7 @@ public class GameManager {
     return this.gameLoadedLevel;
   }
 
-  public GameLevel getLoadedLevel() {
+  public GameLevel getLoadedLevel( ) {
     return this.getLoadedLevelProperty().getValue();
   }
 
@@ -130,7 +134,15 @@ public class GameManager {
     return this.gamePlayerScore;
   }
 
-  public int getPlayerScore() {
+  public int getPlayerScore( ) {
     return this.getPlayerScoreProperty().getValue().intValue();
+  }
+
+  public int getCanvasWidthPx( ) {
+    if (this.gameLoadedLevel.getValue( ) != null)
+      return this.gameLoadedLevel.getValue( ).getMapPixelWidth( );
+    else System.out.println( "Noch kein Canvas vorhanden! =null" );
+
+    return 0;
   }
 }

@@ -11,7 +11,7 @@ public class SpeedIteam  extends Iteam {
     public SpeedIteam( int xPos, int yPos ) {
         super(xPos,yPos);
         this.setFill(BLUE);
-        this.setRadius(200);
+        this.setRadius(20);
         this.setCenterX(xPos);
         this.setCenterY(yPos);
         //Image img = new Image("myjavafxapp/resources/texture_bg.png");

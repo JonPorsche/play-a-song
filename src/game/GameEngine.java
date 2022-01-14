@@ -5,7 +5,6 @@ package game;
 
 import application.Main;
 import game.sprites.Iteam;
-import game.sprites.PlayerCharacter;
 import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
 import javafx.beans.property.*;
@@ -30,8 +29,8 @@ public class GameEngine {
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
   protected HashMap<Number, Iteam> KnockableIteams= new HashMap<>();
   protected HashMap<Number, Iteam> Iteams= new HashMap<>();
-  protected  IntegerProperty gameWidth = new SimpleIntegerProperty(1000);
-  protected  int lastiteamX =0;
+  protected IntegerProperty gameWidth = new SimpleIntegerProperty(1000);
+  protected int lastiteamX =0;
 
 
 
@@ -44,11 +43,11 @@ public class GameEngine {
 
 
   public GameEngine(
-      ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
-      ObjectProperty<Boolean> isRunningPrPo, // <- GameManager.gameIsRunning
-      ObjectProperty<GameLevel> loadedLevelPrPo, // <- GameManager.gameLoadedLevel
-      ObjectProperty<Double> playerPosPrPo, // <- GameManager.gamePlayerPos
-      ObjectProperty<Number> playerScorePrPo // <- GameManager.gamePlayerScore
+    ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
+    ObjectProperty<Boolean> isRunningPrPo, // <- GameManager.gameIsRunning
+    ObjectProperty<GameLevel> loadedLevelPrPo, // <- GameManager.gameLoadedLevel
+    ObjectProperty<Double> playerPosPrPo, // <- GameManager.gamePlayerPos
+    ObjectProperty<Number> playerScorePrPo // <- GameManager.gamePlayerScore
   ) {
     // Declare PropertyPointers
     this.gamePlayingStatePropPointer = playingStatePrPo;
@@ -74,9 +73,14 @@ public class GameEngine {
     this.gameDisplaySelector = guiGameDisplaySelector;
   }
 
+  public GameDisplay getGameDisplayPane( ) {
+    return this.gameDisplaySelector;
+  }
+
   public void setNewLevel( GameLevel gL ) {
     // Update PropertyValues
 
+    this.gameDisplaySelector.initCanvas( gL.getMapPixelWidth( ) );
     this.gameLoadedLevelPropPointer.setValue( gL );
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
@@ -94,19 +98,19 @@ public class GameEngine {
 
   private void startEngine( ) {
     GameEngine gE = this;
+    if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
 
     new Thread( ) {
       @Override
       public void run( ) {
-        if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
 
         do {
           try {
             Thread.sleep( 16,666 );
-            //gE.worldSlideNext( );
-            gE.gamePlayerPosPropPointer.setValue(
-              gE.gamePlayerPosPropPointer.getValue( ) + ( Main.WINDOW_WIDTH / 180) // 360FPS pro Sichtfeldbreite
-            );
+            this.worldSlideNext( );
+            /*gE.gamePlayerPosPropPointer.setValue(
+
+            );*/
 
           } catch (InterruptedException e) {
             e.printStackTrace( );
@@ -115,6 +119,16 @@ public class GameEngine {
             gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )
         );
 
+      }
+
+      private void worldSlideNext( ) {
+        int curPlayerPosX = gE.getGamePlayerPosProperty( ).getValue( ).intValue( );
+        int gameSpeed = gE.getGameSpeedProperty( ).getValue( ).intValue( );
+        int defaultPosDistance = ( Main.WINDOW_WIDTH / 180); // 360Frames pro Sichtfeldbreite
+
+        gE.gamePlayerPosPropPointer.setValue( (double)(
+          curPlayerPosX + ( defaultPosDistance * gameSpeed )
+        ) ); // aktuelle Positon X + neue Position (inkl. SpeedMultiplikator)
       }
     }.start( );
 
@@ -158,14 +172,15 @@ public class GameEngine {
 
   public GameLevel getPlayingLevel( ) { return this.gameLoadedLevelPropPointer.getValue( ); }
 
-  private void worldSlideNext( ) {
+  /*private void worldSlideNext( ) {
     int curPlayerPosX = this.getGamePlayerPosProperty( ).getValue( ).intValue( );
     int gameSpeed = this.getGameSpeedProperty( ).getValue( ).intValue( );
+    int defaultPosDistance = ( Main.WINDOW_WIDTH / 180); // 360Frames pro Sichtfeldbreite
 
-    this.gamePlayerPosPropPointer.setValue(
-        (double)(curPlayerPosX + ( 1 * gameSpeed )) // aktuelle Positon X + neue Position (inkl. SpeedMultiplikator)
-    );
-  }
+    this.gamePlayerPosPropPointer.setValue( (double)(
+      curPlayerPosX + ( defaultPosDistance * gameSpeed )
+    ) ); // aktuelle Positon X + neue Position (inkl. SpeedMultiplikator)
+  }*/
 
 
   public void updateIteams(Double oPos, Double newPos){
@@ -269,34 +284,37 @@ public class GameEngine {
         }
       }
     }
-
-
   }
 
+  /*private int getRandomYPosInBounds( double posX ) {
+
+  }*/
+
   public void setGameIteams(){
-    int lengehtworld = gameLoadedLevelPropPointer.getValue().mapChunks.size();
+    int worldPixelLength = gameLoadedLevelPropPointer.getValue().getMapPixelWidth();
 
     int coin = 0;
     int x;
 
     int iteamCricle = 10;
-    Random ran = new Random();
-    for ( x= ran.nextInt(1000)+1000; x <= lengehtworld; ){
+
+    Random ran = new Random( );
+    for (x = ran.nextInt(1000)+1000; x <= worldPixelLength; ){
       GameIteam iteam = getRandom();
-      int y;
-      y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(x+100) - iteamCricle
-              - (gameLoadedLevelPropPointer.getValue().getDownBoarder(x) + iteamCricle))
-              + gameLoadedLevelPropPointer.getValue().getDownBoarder(x)+iteamCricle;
+      int y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(x+100) - iteamCricle
+          - (gameLoadedLevelPropPointer.getValue().getDownBoarder(x) + iteamCricle))
+          + gameLoadedLevelPropPointer.getValue().getDownBoarder(x)+iteamCricle;
 
       gameLoadedLevelPropPointer.getValue().setIteam(getRandomIteam(x,y));
       x= x+ ran.nextInt(1000);
     }
 
-    for ( int z =0; z<= lengehtworld;){
-      int y =ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
-              -gameLoadedLevelPropPointer.getValue().getDownBoarder(200))
-              + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
-      gameLoadedLevelPropPointer.getValue().setCoin(z,y);
+    for ( int z =0; z<= worldPixelLength;){
+      int y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
+          - gameLoadedLevelPropPointer.getValue().getDownBoarder(200))
+          + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
+
+      //gameLoadedLevelPropPointer.getValue().setCoin(z,y);
       z= z + ran.nextInt(100);
     }
   }
@@ -315,21 +333,46 @@ public class GameEngine {
   private void bindInternPropertyComputing( ) {
     // Verknüpfte X-Position mit GUI-Leinwand
     this.gamePlayerPosPropPointer.addListener(
-        (o, oPos, newPos) -> gameDisplaySelector.gameWorldPane.setCenterViewFrame( newPos.intValue( ))
-
-
+      (o, oPos, newPos) -> {
+        if (this.isDisplayCanvasReady( )) {
+          gameDisplaySelector.gameWorldPane.setCenterViewFrame(newPos.intValue());
+          gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue());/*updateIteams(oPos,newPos)*/
+        }
+      }
     );
-    this.gamePlayerPosPropPointer.addListener(
-            (o, oPos, newPos) -> gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue())/*updateIteams(oPos,newPos)*/);
-
 
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen
     ObjectProperty<GameLevel> pLevelProp = this.gameLoadedLevelPropPointer;
-    this.gamePlayerPosPropPointer.addListener( (o, oP, newPosition) -> pLevelProp.getValue( ).gamePlayerPos = newPosition );
-    this.gamePlayerScorePropPointer.addListener( (o, oS, newScore) -> pLevelProp.getValue( ).gamePlayerScore = newScore.intValue( ) );
-    this.playerPosX.addListener( (o, oP, newPosition) -> pLevelProp.getValue( ).playerPosX = newPosition.intValue( ) );
-    this.playerPosY.addListener( (o, oP, newPosition) -> pLevelProp.getValue( ).playerPosY = newPosition.intValue( ) );
-    this.playerRadius.addListener((o, oP, newPosition) -> pLevelProp.getValue( ).playerRadius = newPosition.intValue( ) );
+    this.gamePlayerPosPropPointer.addListener( (o, oP, newPosition) -> {
+      if (isLoadedLevelReady( ))
+        pLevelProp.getValue( ).gamePlayerPos = newPosition;
+    });
+    this.gamePlayerScorePropPointer.addListener( (o, oS, newScore) ->  {
+      if (isLoadedLevelReady( ))
+        pLevelProp.getValue( ).gamePlayerScore = newScore.intValue( );
+    });
+    this.playerPosX.addListener( (o, oP, newPosition) ->  {
+      if (isLoadedLevelReady( ))
+        pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
+    });
+    this.playerPosY.addListener( (o, oP, newPosition) ->  {
+      if (isLoadedLevelReady( ))
+        pLevelProp.getValue( ).playerPosY = newPosition.intValue( );
+    });
+    this.playerRadius.addListener((o, oP, newPosition) ->  {
+      if (isLoadedLevelReady( ))
+        pLevelProp.getValue( ).playerRadius = newPosition.intValue( );
+    });
+  }
+
+  private boolean isDisplayCanvasReady( ) {
+    return this.gameDisplaySelector.gameWorldPane != null
+    &&     this.gameDisplaySelector.gameWorldIteams != null;
+  }
+
+  private boolean isLoadedLevelReady( ) {
+    return this.gameLoadedLevelPropPointer != null
+    &&  this.gameLoadedLevelPropPointer.getValue( ) != null;
   }
 
   // PROPERTYS
