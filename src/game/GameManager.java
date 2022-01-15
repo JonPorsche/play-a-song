@@ -87,17 +87,6 @@ public class GameManager {
   }
 
 
-
-  public boolean voidIteamCollsion(Iteam iteam){
-    PlayerCharacter player = new PlayerCharacter();
-
-    //Use distance formula to check if a circle overlaps with another circle.
-    double distance = Math.sqrt(Math.pow(iteam.getCenterX() -player.getCenterX() , 2) + (Math.pow(iteam.getCenterY() - player.getCenterY(), 2)));
-    if(distance <= (player.getRadius() + iteam.getRadius()) && distance >= Math.abs(player.getRadius() -iteam.getRadius())){
-      return true;
-    };
-    return false;
-  }
   //@TODO punktKreisCollision
   public boolean mapCollsion(int x){
     gameLoadedLevel.getValue().getDownBoarder(x);

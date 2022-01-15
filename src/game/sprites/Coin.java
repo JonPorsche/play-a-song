@@ -15,11 +15,14 @@ public class Coin extends Iteam{
         //@TODO Coin(iteam) alle iteam spirtes hinzufügen
         File imgFile = new File("src/resources/Coin.png");
         Image img = new Image(imgFile.toURI().toString());
+        this.setImagePatterns( new ImagePattern(img) );
         File img2File = new File("src/resources/Coin2.png");
         Image img2 = new Image(img2File.toURI().toString());
-        this.setImagePatterns(img2);
-        this.x = xPos;
-        this.y = yPos;
+        this.setImagePatterns( new ImagePattern(img2) );
+        this.setImageContent();
+        this.setRadius(20);
+        this.setCenterX(xPos);
+        this.setCenterY(yPos);
 
     }
 }

@@ -112,7 +112,7 @@ public class GameLevel {
   }
 
   public void setIteam(Iteam iteam) {
-   sortedItemsByPosX.put(iteam.getCenterX(),iteam);
+   sortedItemsByPosX.put(iteam.getX(),iteam);
   }
 
   public void setCoin(int x, int y) {

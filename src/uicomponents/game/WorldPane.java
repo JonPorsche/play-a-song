@@ -7,8 +7,7 @@ import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.awt.*;
+import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,6 @@ public class WorldPane extends Canvas {
   }
 
   public void setCenterViewFrame( double playerPos ) {
-    int width = (int) this.getWidth();
-    System.out.println(width);
     Platform.runLater(
             ( ) -> this.setTranslateX( 0 - playerPos )
     );
@@ -50,12 +47,7 @@ public class WorldPane extends Canvas {
     gc.closePath( );
   }
 
-  public void  drawIteam(Image getImage){
-    GraphicsContext gc = this.getGraphicsContext2D();
-    gc.drawImage(javafx.scene.image.Image.impl_fromPlatformImage(getImage), 0, 0);
 
-
-  }
 
 
   private void drawWall(List<Number> wallSideSteps ) {

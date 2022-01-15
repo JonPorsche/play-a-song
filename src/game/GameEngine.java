@@ -218,7 +218,7 @@ public class GameEngine {
 
   public void setIteams() {
     for (Number i :Iteams.keySet()){
-      gameDisplaySelector.addIteam(Iteams.get(i).getI);
+      gameDisplaySelector.addIteam(Iteams.get(i));
 
     }
 
@@ -228,7 +228,7 @@ public class GameEngine {
     double playerX = 500;
     double playerY = getPlayerPosYProperty().get();
     double playerRadiu = playerRadius.get();
-    double distance = Math.sqrt(Math.pow(iteam.getX() -playerX , 2) + (Math.pow(iteam.getY() - playerY, 2)));
+    double distance = Math.sqrt(Math.pow(iteam.getCenterX() -playerX , 2) + (Math.pow(iteam.getCenterY() - playerY, 2)));
     if(distance <= (playerRadiu+ iteam.getRadius()) && distance >= Math.abs(playerRadiu -iteam.getRadius())){
       return true;
     };
@@ -251,7 +251,7 @@ public class GameEngine {
         Double radius = iteam.getRadius();
         iteam.setCenterX(iteam.getCenterX() - differncePos);
         if (i.doubleValue() + radius <= newPos - 500) {
-          iteam.setIsVisabile(false);
+          iteam.setIsVisabile(true);
           gameDisplaySelector.removeIteam(iteam);
         }
       }
@@ -266,9 +266,7 @@ public class GameEngine {
         int index = old;
         vissableIteams.put(index,Iteams.get(old));
         iteam.setIsVisabile(true);
-        iteam.setCenterX(iteam.getCenterX() -playerPosX.getValue());
-        gameDisplaySelector.addIteam(iteam);
-      }
+        }
       }
     }
 
@@ -322,7 +320,7 @@ public class GameEngine {
 
     );
     this.gamePlayerPosPropPointer.addListener(
-            (o, oPos, newPos) -> updateIteams(oPos,newPos));
+            (o, oPos, newPos) -> gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue())/*updateIteams(oPos,newPos)*/);
 
 
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen
