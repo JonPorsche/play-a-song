@@ -14,7 +14,7 @@ public class Iteam extends SpriteCircle {
   public SimpleBooleanProperty isVisabile;
   public SimpleIntegerProperty animationIndex;
 
-  public Iteam(int xPos,int yPos) {
+  public Iteam() {
     this.setRadius(10);
     isVisabile = new SimpleBooleanProperty();
     isUsed = new SimpleBooleanProperty();
