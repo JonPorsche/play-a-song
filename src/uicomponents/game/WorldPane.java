@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,13 @@ public class WorldPane extends Canvas {
     gc.stroke( );
     gc.fill( );
     gc.closePath( );
+  }
+
+  public void  drawIteam(Image getImage){
+    GraphicsContext gc = this.getGraphicsContext2D();
+    gc.drawImage(javafx.scene.image.Image.impl_fromPlatformImage(getImage), 0, 0);
+
+
   }
 
 

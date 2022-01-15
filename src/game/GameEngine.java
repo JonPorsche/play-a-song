@@ -218,7 +218,7 @@ public class GameEngine {
 
   public void setIteams() {
     for (Number i :Iteams.keySet()){
-      gameDisplaySelector.addIteam(Iteams.get(i));
+      gameDisplaySelector.addIteam(Iteams.get(i).getI);
 
     }
 
@@ -228,7 +228,7 @@ public class GameEngine {
     double playerX = 500;
     double playerY = getPlayerPosYProperty().get();
     double playerRadiu = playerRadius.get();
-    double distance = Math.sqrt(Math.pow(iteam.getCenterX() -playerX , 2) + (Math.pow(iteam.getCenterY() - playerY, 2)));
+    double distance = Math.sqrt(Math.pow(iteam.getX() -playerX , 2) + (Math.pow(iteam.getY() - playerY, 2)));
     if(distance <= (playerRadiu+ iteam.getRadius()) && distance >= Math.abs(playerRadiu -iteam.getRadius())){
       return true;
     };

@@ -1,28 +1,38 @@
 package game.sprites;
 
 import game.sprites.basic.SpriteCircle;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.paint.ImagePattern;
+;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Iteam extends SpriteCircle {
-  public List<ImagePattern>imagePatterns = new ArrayList<>();
+  public List<Image>images = new ArrayList<>();
   public SimpleBooleanProperty  isUsed;
   public SimpleBooleanProperty isVisabile;
   public SimpleIntegerProperty animationIndex;
+  public int x;
+  public int y;
 
   public Iteam(int xPos,int yPos) {
-    this.setRadius(10);
     isVisabile = new SimpleBooleanProperty();
     isUsed = new SimpleBooleanProperty();
     animationIndex = new SimpleIntegerProperty(0);
     isVisabile.set(false);
     isVisabile.addListener((oSt,oVis, newVis)-> animtionTimer(newVis));
-    animationIndex.addListener((oSt,oVis, newVis)-> setImageContent());
   }
+  public int getX(){
+    return x;
+  }
+  public int getY(){
+    return y;
+  }
+
+
+
 
   private void animtionTimer(Boolean newVis) {
 
@@ -37,7 +47,6 @@ public class Iteam extends SpriteCircle {
           }else{
             animationIndex.set(0);
           }*/
-          setImageContent();
           try {
             Thread.sleep(1000);
           } catch (InterruptedException e) {
@@ -50,14 +59,8 @@ public class Iteam extends SpriteCircle {
     t1.start();
 
   }
-  public void setCenterViewFrame( double playerPos ) {
-    Platform.runLater(
-            ( ) -> this.setTranslateX( 0 - playerPos )
-    );
-  }
-
-  public void setImagePatterns( ImagePattern imagePattern){
-    this.imagePatterns.add(imagePattern);
+  public void setImagePatterns( Image imagePattern){
+    this.images.add(imagePattern);
 
   }
   public void setIsVisabile(Boolean isVisable){
@@ -66,10 +69,9 @@ public class Iteam extends SpriteCircle {
   }
 
 
-  public void setImageContent() {
+  public Image getImageContent() {
+    return images.get(animationIndex.getValue());
 
-    this.setFill( imagePatterns.get(animationIndex.getValue()));
   }
-  public void setImageSerienContent(ImagePattern[] newStyles) { }
-  public void setImageSerienContent(List<ImagePattern> newStyles) { }
+ 
 }

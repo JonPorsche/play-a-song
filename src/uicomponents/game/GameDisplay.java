@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 
+import java.awt.*;
+
 public class GameDisplay extends StackPane {
   public WorldPane gameWorldPane = new WorldPane();
   public OverlayPane gameOverlayPanePane = new OverlayPane();
@@ -32,16 +34,16 @@ public class GameDisplay extends StackPane {
 
   }
 
-  public void addIteam(Iteam iteam) {
+  public void addIteam(Image iteam) {
     Platform.runLater(
-            () -> gameWorldIteams.getChildren().addAll(iteam)
+            () -> gameWorldPane.drawIteam(iteam)
     );
 
 
   }
 
   public void removeIteam(Iteam iteam) {
-    Platform.runLater(() -> gameWorldIteams.getChildren().remove(iteam));
+    Platform.runLater(() -> gameWorldPane.drawIteam(iteam) );
 
 
   }
