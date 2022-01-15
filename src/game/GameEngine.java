@@ -85,6 +85,7 @@ public class GameEngine {
     this.playerPosY.setValue( gL.playerPosY );
     this.setGameIteams();
     this.Iteams= gameLoadedLevelPropPointer.getValue().getSortedItems();
+    this.setIteams();
 
 
     if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 )
@@ -250,7 +251,7 @@ public class GameEngine {
         Double radius = iteam.getRadius();
         iteam.setCenterX(iteam.getCenterX() - differncePos);
         if (i.doubleValue() + radius <= newPos - 500) {
-          iteam.setIsVisabile(true);
+          iteam.setIsVisabile(false);
           gameDisplaySelector.removeIteam(iteam);
         }
       }
