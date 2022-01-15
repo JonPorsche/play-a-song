@@ -65,6 +65,7 @@ public class Iteam extends SpriteCircle {
 
 
   public void setImageContent() {
+    this.setFill(imagePatterns.get(animationIndex.getValue()));
 
   }
   public void setImageSerienContent(ImagePattern[] newStyles) { }
