@@ -11,12 +11,12 @@ import javafx.geometry.Bounds;
         || xy.contains( this.x + this.width, this.y + this.height );
   }
   boolean isInObjBounce( Sprite otherSpriteObj ) {
+  boolean isInObjBounce( Sprite otherSpriteObj ) {
     return this.isInObjBounce( otherSpriteObj.getBounds() );
   }
 }*/
 
 public interface Knockable<T> extends Drawable {
   boolean isInObjBounce(Bounds xy);
-
   boolean isInObjBounce(Knockable otherSpriteObj);
 }

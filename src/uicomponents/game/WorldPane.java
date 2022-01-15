@@ -1,6 +1,8 @@
 package uicomponents.game;
 
 import application.Main;
+import game.sprites.Coin;
+import game.sprites.Iteam;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,13 +15,19 @@ public class WorldPane extends Canvas {
 
   public WorldPane( ) {
     super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
+
+
   }
 
   public void setCenterViewFrame( double playerPos ) {
+    int width = (int) this.getWidth();
+    System.out.println(width);
     Platform.runLater(
-      ( ) -> this.setTranslateX( 0 - playerPos )
+            ( ) -> this.setTranslateX( 0 - playerPos )
     );
   }
+
+
 
   private void drawWall(List<Number> wallSideSteps, int yStartPos ) {
     GraphicsContext gc = this.getGraphicsContext2D();
@@ -55,7 +63,7 @@ public class WorldPane extends Canvas {
       double curAmpValue = allWorldSteps.get( curAmpPos );
       if (curAmpValue < 0) curAmpValue = 0 -curAmpValue;
 
-      int curDisplayAmpPercent = 100 / (int)(maxAmplitude / curAmpValue);
+      double curDisplayAmpPercent = 100 /(maxAmplitude / curAmpValue);
       double t = (maxAmplitude / curAmpValue);
       if (t > 100) t = 0;
 
@@ -70,5 +78,7 @@ public class WorldPane extends Canvas {
     this.drawWall( generatedWorldTopPath );
     this.drawWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT );
   }
+
+
 }
 

@@ -1,8 +1,8 @@
 package game;
 
+import game.sprites.Coin;
 import game.sprites.Iteam;
 import game.sprites.PlayerCharacter;
-import javafx.beans.property.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +35,7 @@ public class GameLevel {
 
   public int playerPosX = 0;
   public int playerPosY = 0;
+  public int playerRadius = 0;
   public float gameSpeed = 0;
   public double gamePlayerPos = 0.0;
   public int gamePlayerScore = 0;
@@ -60,6 +61,7 @@ public class GameLevel {
           if (maxAmplitude < curAmplValue) maxAmplitude = curAmplValue;
           mapChunks.add(curAmplValue);
         }
+        System.out.println(mapChunks);
 
       /*}
     }.start( );*/
@@ -77,6 +79,20 @@ public class GameLevel {
     return allResults;
   }
 
+  public List<Iteam> iteamVisbill(int startX){
+    int levelLength = 1000;
+    int curentX;
+    List<Iteam> allResults = new ArrayList<>( );
+    for (curentX = startX;curentX <= levelLength+startX; curentX++) {
+      Iteam result = sortedItemsByPosX.get(curentX);
+
+      if (result != null) allResults.add( result );
+    }
+
+    return allResults;
+  }
+
+
 
   public List<Double> getMapChunks() { return this.mapChunks; }
   public int getMapChunk( int chunkIndex ) { return this.mapChunks.get( chunkIndex ).intValue( ); }
@@ -84,4 +100,23 @@ public class GameLevel {
   public Iteam getItemFromPosX( int posX ) { return this.sortedItemsByPosX.get( posX ); }
   public PlayerCharacter getPlayerSprite( ) { return this.playerSpritesObject; }
   public double getMaxAmplitude( ) { return this.maxAmplitude; }
+
+
+
+  public int getUpperBoarder(int x) {
+    return x;
+  }
+
+  public int getDownBoarder(int x) {
+    return x;
+  }
+
+  public void setIteam(Iteam iteam) {
+   sortedItemsByPosX.put(iteam.getCenterX(),iteam);
+  }
+
+  public void setCoin(int x, int y) {
+    Coin coin = new Coin(x,y);
+    sortedItemsByPosX.put(x, coin);
+  }
 }
