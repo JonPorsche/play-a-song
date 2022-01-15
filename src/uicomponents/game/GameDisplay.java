@@ -5,11 +5,12 @@ import game.sprites.Iteam;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.Image;
 
 
-public class GameDisplay extends StackPane {
+public class GameDisplay extends Pane {
   public WorldPane gameWorldPane = new WorldPane();
   public OverlayPane gameOverlayPanePane = new OverlayPane();
   public IteamPane gameWorldIteams = new IteamPane();
@@ -29,7 +30,8 @@ public class GameDisplay extends StackPane {
     //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER_LEFT );
 
 
-    this.getChildren().addAll(this.gameWorldIteams,this.gameWorldPane, this.gameOverlayPanePane);
+    this.getChildren().addAll(this.gameWorldPane, this.gameOverlayPanePane, this.gameWorldIteams);
+
 
 
   }
