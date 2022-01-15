@@ -4,14 +4,19 @@ import application.Main;
 import game.sprites.Coin;
 import game.sprites.Iteam;
 import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-public class IteamPane extends AnchorPane {
+public class IteamPane extends Pane {
     public IteamPane() {
 
-        this.setHeight(Main.WINDOW_HEIGHT);
-        this.setWidth(Main.WINDOW_WIDTH);
+        this.setMinHeight(Main.WINDOW_HEIGHT);
+        this.setMinWidth(Main.WINDOW_WIDTH*15);
+        Label lable = new Label("hallo");
+
+
 
 
 
