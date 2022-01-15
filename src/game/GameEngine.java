@@ -274,22 +274,21 @@ public class GameEngine {
   }
 
   public void setGameIteams(){
-    int lengehtworld = gameLoadedLevelPropPointer.getValue().mapChunks.size();
+    double lengehtworld = gameDisplaySelector.gameWorldPane.getLength();
 
     int coin = 0;
     int x;
-
     int iteamCricle = 10;
     Random ran = new Random();
     for ( x= ran.nextInt(1000)+1000; x <= lengehtworld; ){
-      GameIteam iteam = getRandom();
+
       int y;
-      y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(x+100) - iteamCricle
-              - (gameLoadedLevelPropPointer.getValue().getDownBoarder(x) + iteamCricle))
-              + gameLoadedLevelPropPointer.getValue().getDownBoarder(x)+iteamCricle;
+      y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(500) - iteamCricle
+              - (gameLoadedLevelPropPointer.getValue().getDownBoarder(200) + iteamCricle))
+              + gameLoadedLevelPropPointer.getValue().getDownBoarder(200)+iteamCricle;
 
       gameLoadedLevelPropPointer.getValue().setIteam(getRandomIteam(x,y));
-      x= x+ ran.nextInt(1000);
+      x= x+ ran.nextInt(1000)+20;
     }
 
     for ( int z =0; z<= lengehtworld;){
@@ -297,7 +296,7 @@ public class GameEngine {
               -gameLoadedLevelPropPointer.getValue().getDownBoarder(200))
               + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
       gameLoadedLevelPropPointer.getValue().setCoin(z,y);
-      z= z + ran.nextInt(100);
+      z= z + ran.nextInt(100)+20;
     }
   }
 

@@ -80,5 +80,8 @@ public class WorldPane extends Canvas {
   }
 
 
+  public double getLength() {
+   return this.getWidth();
+  }
 }
 
