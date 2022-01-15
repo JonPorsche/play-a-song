@@ -27,21 +27,21 @@ public class GameDisplay extends StackPane {
     //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER_LEFT );
 
 
-    this.getChildren().addAll(this.gameWorldPane, this.gameOverlayPanePane);
+    this.getChildren().addAll(this.gameWorldPane,this.gameWorldIteams, this.gameOverlayPanePane);
 
 
   }
 
   public void addIteam(Iteam iteam) {
     Platform.runLater(
-            () -> this.getChildren().addAll(iteam)
+            () -> gameWorldIteams.getChildren().addAll(iteam)
     );
 
 
   }
 
   public void removeIteam(Iteam iteam) {
-    Platform.runLater(() -> this.getChildren().remove(iteam));
+    Platform.runLater(() -> gameWorldIteams.getChildren().remove(iteam));
 
 
   }

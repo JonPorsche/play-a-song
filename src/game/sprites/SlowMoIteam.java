@@ -21,8 +21,9 @@ public class SlowMoIteam extends Iteam {
     this.setCenterX(xPos);
     this.setCenterY(yPos);
     File imgFile = new File("src/resources/Coin.png");
-    Image img = new Image(imgFile.getAbsolutePath());
+    Image img = new Image(imgFile.toURI().toString());
     this.setImagePatterns( new ImagePattern(img) );
+
     this.setImageContent();
   }
 

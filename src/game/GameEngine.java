@@ -215,6 +215,14 @@ public class GameEngine {
 
   }
 
+  public void setIteams() {
+    for (Number i :Iteams.keySet()){
+      gameDisplaySelector.addIteam(Iteams.get(i));
+
+    }
+
+  }
+
   public boolean voidIteamCollsion(Iteam iteam){
     double playerX = 500;
     double playerY = getPlayerPosYProperty().get();
@@ -241,8 +249,8 @@ public class GameEngine {
       if (iteam != null) {
         Double radius = iteam.getRadius();
         iteam.setCenterX(iteam.getCenterX() - differncePos);
-        iteam.updateSprite();
         if (i.doubleValue() + radius <= newPos - 500) {
+          iteam.setIsVisabile(true);
           gameDisplaySelector.removeIteam(iteam);
         }
       }
@@ -254,7 +262,9 @@ public class GameEngine {
       if(Iteams.containsKey(old) && !(vissableIteams.containsKey(old))){
         Iteam iteam = Iteams.get(old);
         if (iteam != null) {
-        vissableIteams.put(old,Iteams.get(old));
+        int index = old;
+        vissableIteams.put(index,Iteams.get(old));
+        iteam.setIsVisabile(true);
         iteam.setCenterX(iteam.getCenterX() -playerPosX.getValue());
         gameDisplaySelector.addIteam(iteam);
       }
