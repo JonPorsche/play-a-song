@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
-public class IteamPane extends StackPane {
+public class IteamPane extends AnchorPane {
     public IteamPane() {
 
         this.setHeight(Main.WINDOW_HEIGHT);
