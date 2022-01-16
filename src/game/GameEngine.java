@@ -7,7 +7,10 @@ import application.Main;
 import game.sprites.Iteam;
 import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
+import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import uicomponents.game.GameDisplay;
 
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static game.GameIteam.getRandom;
+import static javafx.scene.paint.Color.RED;
 
 public class GameEngine {
 
@@ -87,6 +91,12 @@ public class GameEngine {
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
     this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
+    // @Todo: testen ob Dublikat!
+    /*gL.getPlayerSpritesObject().setCenterX(playerPosX.doubleValue());
+    gL.getPlayerSpritesObject().setCenterY(playerPosY.doubleValue());
+    this.playerRadius.setValue(40);
+
+    this.gameDisplaySelector.getChildren().add(gL.getPlayerSpritesObject());*/
     this.setGameIteams();
     this.Iteams= gameLoadedLevelPropPointer.getValue().getSortedItems();
     this.setIteams();
@@ -197,51 +207,42 @@ public class GameEngine {
       if(KnockableIteams.containsKey(i)){
         Iteam iteam = KnockableIteams.get(i);
         Double radius = iteam.getRadius();
-        if( iteam.getCenterX() +radius < 500 - playerRadius.getValue()&&  iteam.getCenterX() -radius < 500 + playerRadius.getValue()){
-          gameDisplaySelector.removeIteam(iteam);
+        if( iteam.getCenterX() +radius < getPlayerPosYProperty().get() - playerRadius.getValue()){
+         KnockableIteams.remove(iteam);
         }
       }
-
-      Iteam iteam = vissableIteams.get(i);
-      double x = iteam.getCenterX();
-
-
     }
     for (Number i :vissableIteams.keySet()){
       double x =vissableIteams.get(i).getCenterX();
       double rd =vissableIteams.get(i).getRadius();
-      if(x-rd > 500+playerRadius.getValue()){
-        return;}
-      else if (x+rd < 500- playerRadius.getValue()){
-        return;
-      }
-      else{
+      if (x-rd > gamePlayerPosPropPointer.get()+playerRadius.getValue()){
+        }
+      else if (x+rd < gamePlayerPosPropPointer.get()- playerRadius.getValue()){ }
+      else {
         KnockableIteams.put(i,vissableIteams.get(i));
+        System.out.println("knockable");
       }
-
-
     }
     for (Number i :KnockableIteams.keySet()){
      if( voidIteamCollsion(KnockableIteams.get(i))){
        System.out.println("collsion");
+       //@TODO Make collsion
+       KnockableIteams.get(i).collision();
+       KnockableIteams.remove(KnockableIteams.get(i));
+       gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i));
      };
-
     }
-
-
   }
 
   public void setIteams() {
     for (Number i :Iteams.keySet()){
-      gameDisplaySelector.addIteam(Iteams.get(i));
-
+     // gameDisplaySelector.addIteam(Iteams.get(i));
     }
-
   }
 
   public boolean voidIteamCollsion(Iteam iteam){
-    double playerX = 500;
-    double playerY = getPlayerPosYProperty().get();
+    double playerX = gamePlayerPosPropPointer.get();
+    double playerY = Main.WINDOW_HEIGHT/2;
     double playerRadiu = playerRadius.get();
     double distance = Math.sqrt(Math.pow(iteam.getCenterX() -playerX , 2) + (Math.pow(iteam.getCenterY() - playerY, 2)));
     if(distance <= (playerRadiu+ iteam.getRadius()) && distance >= Math.abs(playerRadiu -iteam.getRadius())){
@@ -266,19 +267,18 @@ public class GameEngine {
         Double radius = iteam.getRadius();
         iteam.setCenterX(iteam.getCenterX() - differncePos);
         if (i.doubleValue() + radius <= newPos - 500) {
-          iteam.setIsVisabile(true);
+          iteam.setIsVisabile(false);
           gameDisplaySelector.removeIteam(iteam);
         }
       }
     }
     //@TODO Do sprite
-
-
-    for (int old = oPos.intValue(); old <= newPos.intValue() +1000; old++){
+    for (int old = oPos.intValue(); old <= newPos.intValue() +1500; old++){
       if(Iteams.containsKey(old) && !(vissableIteams.containsKey(old))){
         Iteam iteam = Iteams.get(old);
         if (iteam != null) {
         int index = old;
+        gameDisplaySelector.gameWorldIteams.addIteam(iteam);
         vissableIteams.put(index,Iteams.get(old));
         iteam.setIsVisabile(true);
         }
@@ -293,53 +293,58 @@ public class GameEngine {
   public void setGameIteams(){
     int worldPixelLength = gameLoadedLevelPropPointer.getValue().getMapPixelWidth();
 
+    double lengehtworld = gameDisplaySelector.gameWorldPane.getLength();
     int coin = 0;
     int x;
-
     int iteamCricle = 10;
 
     Random ran = new Random( );
-    for (x = ran.nextInt(1000)+1000; x <= worldPixelLength; ){
-      GameIteam iteam = getRandom();
-      int y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(x+100) - iteamCricle
-          - (gameLoadedLevelPropPointer.getValue().getDownBoarder(x) + iteamCricle))
-          + gameLoadedLevelPropPointer.getValue().getDownBoarder(x)+iteamCricle;
+    for ( x= ran.nextInt(1000)+1000; x <= lengehtworld; ){
 
-      gameLoadedLevelPropPointer.getValue().setIteam(getRandomIteam(x,y));
-      x= x+ ran.nextInt(1000);
+      double y;
+      y = ran.nextInt((int) (gameLoadedLevelPropPointer.getValue().getUpperBoarder(500) - iteamCricle
+                    - (gameLoadedLevelPropPointer.getValue().getDownBoarder(200) + iteamCricle)))
+              + gameLoadedLevelPropPointer.getValue().getDownBoarder(200)+iteamCricle;
+
+      gameLoadedLevelPropPointer.getValue().setIteam(getRandomIteam(x, (int) y));
+      x= x+ ran.nextInt(1000)+500;
     }
 
-    for ( int z =0; z<= worldPixelLength;){
-      int y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
-          - gameLoadedLevelPropPointer.getValue().getDownBoarder(200))
-          + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
-
-      //gameLoadedLevelPropPointer.getValue().setCoin(z,y);
-      z= z + ran.nextInt(100);
+    for ( int z =0; z<= lengehtworld;){
+      double y =ran.nextInt((int) (gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
+                    -gameLoadedLevelPropPointer.getValue().getDownBoarder(200)))
+              + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
+      gameLoadedLevelPropPointer.getValue().setCoin(z, (int) y);
+      z= z + ran.nextInt(100)+300;
     }
   }
 
   private Iteam getRandomIteam(int x, int y) {
-
     GameIteam random = GameIteam.getRandom();
     switch (random) {
       case SLOW: return new SlowMoIteam(x,y);
       case SPEED:return new SpeedIteam(x,y);
     }
     return null;
-
   }
 
   private void bindInternPropertyComputing( ) {
     // Verknüpfte X-Position mit GUI-Leinwand
-    this.gamePlayerPosPropPointer.addListener(
-      (o, oPos, newPos) -> {
-        if (this.isDisplayCanvasReady( )) {
-          gameDisplaySelector.gameWorldPane.setCenterViewFrame(newPos.intValue());
-          gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue());/*updateIteams(oPos,newPos)*/
+    PlayerCharacter playerTest = new PlayerCharacter();
+
+    this.gamePlayerPosPropPointer.addListener( new ChangeListener<Double>() {
+        @Override
+        public void changed(ObservableValue<? extends Double> o, Double oPos, Double newPos) {
+          if (isDisplayCanvasReady()) {
+            // @ToDo: Prüfe ob doppelt
+            //gameDisplaySelector.UpdateView(newValue);
+            updateIteams( oPos, newPos );
+            
+            gameDisplaySelector.gameWorldPane.setCenterViewFrame(newPos.intValue());
+            gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue());/*updateIteams(oPos,newPos)*/
+          }
         }
-      }
-    );
+    } );
 
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen
     ObjectProperty<GameLevel> pLevelProp = this.gameLoadedLevelPropPointer;

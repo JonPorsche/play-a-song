@@ -33,4 +33,10 @@ public class SlowMoIteam extends Iteam {
     Thread.sleep(1000);
     gE.resetEffects();*/
   }
+
+  @Override
+  public void collision() {
+    super.collision();
+
+  }
 }

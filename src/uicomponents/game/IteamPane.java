@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 public class IteamPane extends StackPane {
-  public IteamPane( int canWidth, int canHeight ) {
+  public IteamPane( double canWidth, double canHeight ) {
     this.setHeight( canHeight );
     this.setWidth( canWidth );
     this.setStyle( "-fx-background-color:rgba(0, 0, 0, 0);" );

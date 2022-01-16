@@ -1,13 +1,11 @@
 package uicomponents.game;
 
 import application.Main;
-import game.sprites.Coin;
-import game.sprites.Iteam;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +78,8 @@ public class WorldPane extends Canvas {
   }
 
 
+  public double getLength() {
+   return this.getWidth();
+  }
 }
 

@@ -3,6 +3,7 @@ package uicomponents.game;
 import application.Main;
 import game.GameManager;
 import game.sprites.Coin;
+import application.Main;
 import game.sprites.Iteam;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -11,12 +12,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 
 public class GameDisplay extends StackPane {
+  //double width = Main.WINDOW_WIDTH;
+  //double height = Main.WINDOW_HEIGHT;
   public WorldPane gameWorldPane = null;
   public IteamPane gameWorldIteams = null;
   public OverlayPane gameOverlayPanePane = new OverlayPane();
+  //public GamePane gamePane = new GamePane(gameWorldPane,gameWorldIteams,width,height);
 
   public GameDisplay( ) {
     super();
@@ -42,14 +47,17 @@ public class GameDisplay extends StackPane {
 
   public void addIteam(Iteam iteam) {
     Platform.runLater(
-      () -> gameWorldIteams.addIteam(iteam)
+        () -> gameWorldIteams.addIteam(iteam)
     );
   }
 
+  public void UpdateView( Double x ){
+    gameWorldPane.setCenterViewFrame( x );
+    gameWorldIteams.setCenterViewFrame( x );
+  }
+
   public void removeIteam(Iteam iteam) {
-    Platform.runLater(
-      () -> gameWorldIteams.removeIteam(iteam)
-    );
+    Platform.runLater(() -> gameWorldIteams.removeIteam(iteam) );
   }
 }
 
