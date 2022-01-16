@@ -19,7 +19,7 @@ import java.util.Map;
 public class Main extends Application {
   public static final int WINDOW_WIDTH = 1080;
   public static final int WINDOW_HEIGHT = 640;
-  public static final int PLAYER_RADIUS = 10;
+  public static final int PLAYER_RADIUS = 20;
 
   public static final int MAP_CHUNK_WIDTH_PX = 100;
   public static final double MAP_CHUNK_BASE_HEIGHT_PX = 50;

@@ -20,7 +20,7 @@ public class GameLevel {
   protected String levelSourceTrack;
   protected List<Double> mapChunks = new ArrayList<>();
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
-  public PlayerCharacter playerSpritesObject = new PlayerCharacter();
+  public PlayerCharacter playerSpritesObject; // = new PlayerCharacter();
   protected double maxAmplitude = 0;
 
   // PROPERTYS

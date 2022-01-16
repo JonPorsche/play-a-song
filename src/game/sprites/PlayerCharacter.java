@@ -9,7 +9,6 @@ public class PlayerCharacter extends SpriteCircle {
   public PlayerCharacter(){
     this.setFill(BLUE);
     this.setRadius(40);
-
   }
 
 

@@ -2,6 +2,7 @@ package uicomponents.game;
 
 import application.Main;
 import game.sprites.Iteam;
+import game.sprites.PlayerCharacter;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
@@ -12,7 +13,7 @@ public class GameDisplay extends StackPane {
   //double height = Main.WINDOW_HEIGHT;
   public WorldPane gameWorldPane = null;
   public IteamPane gameWorldIteams = null;
-  public OverlayPane gameOverlayPanePane = new OverlayPane();
+  public OverlayPane gameOverlayPanePane = new OverlayPane( );
   //public GamePane gamePane = new GamePane(gameWorldPane,gameWorldIteams,width,height);
 
   public GameDisplay( ) {
@@ -31,7 +32,7 @@ public class GameDisplay extends StackPane {
     this.gameWorldPane = new WorldPane( Main.WINDOW_WIDTH *15 /*canWidth*/, Main.WINDOW_HEIGHT );
     this.gameWorldIteams = new IteamPane( Main.WINDOW_WIDTH *15 /*canWidth*/, Main.WINDOW_HEIGHT );
 
-    StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER );
+    //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER );
     //StackPane.setMargin( this.gameWorldPane, new Insets(0, 0, 2, 5) );
 
     this.getChildren( ).addAll( this.gameWorldPane, this.gameWorldIteams, this.gameOverlayPanePane );
@@ -50,6 +51,10 @@ public class GameDisplay extends StackPane {
 
   public void removeIteam(Iteam iteam) {
     Platform.runLater(() -> gameWorldIteams.removeIteam(iteam) );
+  }
+
+  public void declarePlayerCharacter( PlayerCharacter playerCharacter ) {
+    this.gameOverlayPanePane.declarePlayerCharacter( playerCharacter );
   }
 }
 

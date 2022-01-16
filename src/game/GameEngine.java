@@ -23,9 +23,10 @@ public class GameEngine {
   private GameDisplay gameDisplaySelector;
 
   // PROPERTYS
-  protected IntegerProperty playerPosX = new SimpleIntegerProperty();
+  //protected IntegerProperty playerPosX = new SimpleIntegerProperty();
   protected IntegerProperty playerPosY = new SimpleIntegerProperty();
-  protected DoubleProperty playerRadius= new SimpleDoubleProperty();
+  //protected DoubleProperty playerRadius= new SimpleDoubleProperty();*/
+  protected PlayerCharacter player = new PlayerCharacter( );
   protected FloatProperty gameSpeed = new SimpleFloatProperty(1);
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
   protected HashMap<Number, Iteam> KnockableIteams= new HashMap<>();
@@ -72,6 +73,8 @@ public class GameEngine {
 
   public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
     this.gameDisplaySelector = guiGameDisplaySelector;
+
+    guiGameDisplaySelector.declarePlayerCharacter( this.player );
   }
 
   public GameDisplay getGameDisplayPane( ) {
@@ -86,17 +89,12 @@ public class GameEngine {
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
-    this.playerPosX.setValue( gL.playerPosX );
+    //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
-    // @Todo: testen ob Dublikat!
-    /*gL.getPlayerSpritesObject().setCenterX(playerPosX.doubleValue());
-    gL.getPlayerSpritesObject().setCenterY(playerPosY.doubleValue());
-    this.playerRadius.setValue(40);
 
-    this.gameDisplaySelector.getChildren().add(gL.getPlayerSpritesObject());*/
-    this.setGameIteams();
+    /*this.setGameIteams();
     this.Iteams= gameLoadedLevelPropPointer.getValue().getSortedItems();
-    this.setIteams();
+    this.setIteams();*/
 
 
     if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 )
@@ -204,7 +202,7 @@ public class GameEngine {
       if(KnockableIteams.containsKey(i)){
         Iteam iteam = KnockableIteams.get(i);
         Double radius = iteam.getRadius();
-        if( iteam.getCenterX() +radius < getPlayerPosYProperty().get() - playerRadius.getValue()){
+        if( iteam.getCenterX() +radius < getPlayerPosYProperty().get() - Main.PLAYER_RADIUS ){
          KnockableIteams.remove(iteam);
         }
       }
@@ -212,9 +210,9 @@ public class GameEngine {
     for (Number i :vissableIteams.keySet()){
       double x =vissableIteams.get(i).getCenterX();
       double rd =vissableIteams.get(i).getRadius();
-      if (x-rd > gamePlayerPosPropPointer.get()+playerRadius.getValue()){
+      if (x-rd > gamePlayerPosPropPointer.get() + Main.PLAYER_RADIUS){
         }
-      else if (x+rd < gamePlayerPosPropPointer.get()- playerRadius.getValue()){ }
+      else if (x+rd < gamePlayerPosPropPointer.get()- Main.PLAYER_RADIUS){ }
       else {
         KnockableIteams.put(i,vissableIteams.get(i));
         System.out.println("knockable");
@@ -240,7 +238,7 @@ public class GameEngine {
   public boolean voidIteamCollsion(Iteam iteam){
     double playerX = gamePlayerPosPropPointer.get();
     double playerY = Main.WINDOW_HEIGHT/2;
-    double playerRadiu = playerRadius.get();
+    double playerRadiu = Main.PLAYER_RADIUS;
     double distance = Math.sqrt(Math.pow(iteam.getCenterX() -playerX , 2) + (Math.pow(iteam.getCenterY() - playerY, 2)));
     if(distance <= (playerRadiu+ iteam.getRadius()) && distance >= Math.abs(playerRadiu -iteam.getRadius())){
       return true;
@@ -290,13 +288,12 @@ public class GameEngine {
   public void setGameIteams(){
     int worldPixelLength = gameLoadedLevelPropPointer.getValue().getMapPixelWidth();
 
-    double lengehtworld = gameDisplaySelector.gameWorldPane.getLength();
     int coin = 0;
     int x;
     int iteamCricle = 10;
 
     Random ran = new Random( );
-    for ( x= ran.nextInt(1000)+1000; x <= lengehtworld; ){
+    for ( x= ran.nextInt(1000)+1000; x <= worldPixelLength; ){
 
       double y;
       y = ran.nextInt((int) (gameLoadedLevelPropPointer.getValue().getUpperBoarder(500) - iteamCricle
@@ -307,7 +304,7 @@ public class GameEngine {
       x= x+ ran.nextInt(1000)+500;
     }
 
-    for ( int z =0; z<= lengehtworld;){
+    for ( int z =0; z<= worldPixelLength;){
       double y =ran.nextInt((int) (gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
                     -gameLoadedLevelPropPointer.getValue().getDownBoarder(200)))
               + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
@@ -327,7 +324,6 @@ public class GameEngine {
 
   private void bindInternPropertyComputing( ) {
     // Verknüpfte X-Position mit GUI-Leinwand
-    PlayerCharacter playerTest = new PlayerCharacter();
 
     this.gamePlayerPosPropPointer.addListener( new ChangeListener<Double>() {
       @Override
@@ -350,18 +346,18 @@ public class GameEngine {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).gamePlayerScore = newScore.intValue( );
     });
-    this.playerPosX.addListener( (o, oP, newPosition) ->  {
+    /*this.playerPosX.addListener( (o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
-    });
+    });*/
     this.playerPosY.addListener( (o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosY = newPosition.intValue( );
     });
-    this.playerRadius.addListener((o, oP, newPosition) ->  {
+    /*this.playerRadius.addListener((o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerRadius = newPosition.intValue( );
-    });
+    });*/
   }
 
   private boolean isDisplayCanvasReady( ) {
@@ -375,7 +371,7 @@ public class GameEngine {
   }
 
   // PROPERTYS
-  public IntegerProperty getPlayerPosXProperty( ) { return this.playerPosX; }
+  //public IntegerProperty getPlayerPosXProperty( ) { return this.playerPosX; }
   public IntegerProperty getPlayerPosYProperty( ) { return this.playerPosY; }
   public FloatProperty getGameSpeedProperty( ) { return this.gameSpeed; }
 
