@@ -5,9 +5,9 @@ package game;
 
 import application.Main;
 import game.sprites.Iteam;
+import game.sprites.PlayerCharacter;
 import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
-import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,9 +17,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static game.GameIteam.getRandom;
-import static javafx.scene.paint.Color.RED;
 
 public class GameEngine {
 
@@ -333,17 +330,14 @@ public class GameEngine {
     PlayerCharacter playerTest = new PlayerCharacter();
 
     this.gamePlayerPosPropPointer.addListener( new ChangeListener<Double>() {
-        @Override
-        public void changed(ObservableValue<? extends Double> o, Double oPos, Double newPos) {
-          if (isDisplayCanvasReady()) {
-            // @ToDo: Prüfe ob doppelt
-            //gameDisplaySelector.UpdateView(newValue);
-            updateIteams( oPos, newPos );
-            
-            gameDisplaySelector.gameWorldPane.setCenterViewFrame(newPos.intValue());
-            gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue());/*updateIteams(oPos,newPos)*/
-          }
+      @Override
+      public void changed( ObservableValue<? extends Double> o, Double oPos, Double newPos ) {
+        if (isDisplayCanvasReady( )) {
+          // @ToDo: Prüfe ob doppelt
+          gameDisplaySelector.updateAbsoluteLayerPos( newPos );
+          updateIteams( oPos, newPos );
         }
+      }
     } );
 
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen

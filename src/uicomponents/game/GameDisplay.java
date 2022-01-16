@@ -1,18 +1,10 @@
 package uicomponents.game;
 
 import application.Main;
-import game.GameManager;
-import game.sprites.Coin;
-import application.Main;
 import game.sprites.Iteam;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 
 
 public class GameDisplay extends StackPane {
@@ -51,7 +43,7 @@ public class GameDisplay extends StackPane {
     );
   }
 
-  public void UpdateView( Double x ){
+  public void updateAbsoluteLayerPos(Double x ){
     gameWorldPane.setCenterViewFrame( x );
     gameWorldIteams.setCenterViewFrame( x );
   }

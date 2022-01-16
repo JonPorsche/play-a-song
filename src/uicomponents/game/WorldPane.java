@@ -19,7 +19,7 @@ public class WorldPane extends Canvas {
     this.setStyle( "-fx-background-color:rgb(0, 100, 0);" );
   }
 
-  public void setCenterViewFrame( int playerPos ) {
+  public void setCenterViewFrame( double playerPos ) {
     Platform.runLater(
       ( ) -> this.setTranslateX( 0 - playerPos )
     );
