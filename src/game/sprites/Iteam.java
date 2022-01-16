@@ -29,29 +29,29 @@ public class Iteam extends SpriteCircle {
 
 
   private void animtionTimer(Boolean newVis) {
+    isVisabile.set(newVis);
+    if(newVis) {
+      Thread t1 = new Thread(new Runnable() {
+        public void run() {
+          while (isVisabile.getValue() == true) {
+            if (animationIndex.getValue() < imagePatterns.size() - 1) {
+              animationIndex.setValue(animationIndex.getValue() + 1);
+            } else {
+              animationIndex.set(0);
+            }
+            setImageContent();
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
 
-    Thread t1 = new Thread(new Runnable() {
-      public void run()
-      {
-        while(isVisabile.getValue() == true){
-         /* if(animationIndex.getValue() < imagePatterns.size()-1){
-            animationIndex.setValue( animationIndex.getValue() +1);
-
-
-          }else{
-            animationIndex.set(0);
-          }*/
-          setImageContent();
-          try {
-            Thread.sleep(1000);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
           }
-
+          // code goes here.
         }
-        // code goes here.
-      }});
-    t1.start();
+      });
+      t1.start();
+    }
 
   }
   public void setImagePatterns( ImagePattern imagePattern){

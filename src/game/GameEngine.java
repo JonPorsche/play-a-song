@@ -8,6 +8,7 @@ import game.sprites.Iteam;
 import game.sprites.PlayerCharacter;
 import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import uicomponents.game.GameDisplay;
 
@@ -17,6 +18,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static game.GameIteam.getRandom;
+import static javafx.scene.paint.Color.RED;
 
 public class GameEngine {
 
@@ -83,6 +85,10 @@ public class GameEngine {
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
     this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
+    gL.getPlayerSpritesObject().setCenterX(playerPosX.doubleValue());
+    gL.getPlayerSpritesObject().setCenterY(playerPosY.doubleValue());
+
+    this.gameDisplaySelector.getChildren().add(gL.getPlayerSpritesObject());
     this.setGameIteams();
     this.Iteams= gameLoadedLevelPropPointer.getValue().getSortedItems();
     this.setIteams();
@@ -196,9 +202,9 @@ public class GameEngine {
       double x =vissableIteams.get(i).getCenterX();
       double rd =vissableIteams.get(i).getRadius();
       if(x-rd > 500+playerRadius.getValue()){
-        return;}
+        }
       else if (x+rd < 500- playerRadius.getValue()){
-        return;
+
       }
       else{
         KnockableIteams.put(i,vissableIteams.get(i));
@@ -217,10 +223,10 @@ public class GameEngine {
   }
 
   public void setIteams() {
-    for (Number i :Iteams.keySet()){
-      gameDisplaySelector.addIteam(Iteams.get(i));
+   // for (Number i :Iteams.keySet()){
+      //gameDisplaySelector.addIteam(Iteams.get(i));
 
-    }
+    //}
 
   }
 
@@ -251,19 +257,18 @@ public class GameEngine {
         Double radius = iteam.getRadius();
         iteam.setCenterX(iteam.getCenterX() - differncePos);
         if (i.doubleValue() + radius <= newPos - 500) {
-          iteam.setIsVisabile(true);
+          iteam.setIsVisabile(false);
           gameDisplaySelector.removeIteam(iteam);
         }
       }
     }
     //@TODO Do sprite
-
-
-    for (int old = oPos.intValue(); old <= newPos.intValue() +1000; old++){
+    for (int old = oPos.intValue(); old <= newPos.intValue() +1500; old++){
       if(Iteams.containsKey(old) && !(vissableIteams.containsKey(old))){
         Iteam iteam = Iteams.get(old);
         if (iteam != null) {
         int index = old;
+        gameDisplaySelector.gameWorldIteams.addIteam(iteam);
         vissableIteams.put(index,Iteams.get(old));
         iteam.setIsVisabile(true);
         }
@@ -275,51 +280,56 @@ public class GameEngine {
 
   public void setGameIteams(){
     double lengehtworld = gameDisplaySelector.gameWorldPane.getLength();
-
     int coin = 0;
     int x;
     int iteamCricle = 10;
     Random ran = new Random();
     for ( x= ran.nextInt(1000)+1000; x <= lengehtworld; ){
 
-      int y;
-      y = ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(500) - iteamCricle
-              - (gameLoadedLevelPropPointer.getValue().getDownBoarder(200) + iteamCricle))
+      double y;
+      y = ran.nextInt((int) (gameLoadedLevelPropPointer.getValue().getUpperBoarder(500) - iteamCricle
+                    - (gameLoadedLevelPropPointer.getValue().getDownBoarder(200) + iteamCricle)))
               + gameLoadedLevelPropPointer.getValue().getDownBoarder(200)+iteamCricle;
 
-      gameLoadedLevelPropPointer.getValue().setIteam(getRandomIteam(x,y));
-      x= x+ ran.nextInt(1000)+20;
+      gameLoadedLevelPropPointer.getValue().setIteam(getRandomIteam(x, (int) y));
+      x= x+ ran.nextInt(1000)+500;
     }
 
     for ( int z =0; z<= lengehtworld;){
-      int y =ran.nextInt(gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
-              -gameLoadedLevelPropPointer.getValue().getDownBoarder(200))
+      double y =ran.nextInt((int) (gameLoadedLevelPropPointer.getValue().getUpperBoarder(500)-iteamCricle
+                    -gameLoadedLevelPropPointer.getValue().getDownBoarder(200)))
               + gameLoadedLevelPropPointer.getValue().getDownBoarder(200);
-      gameLoadedLevelPropPointer.getValue().setCoin(z,y);
-      z= z + ran.nextInt(100)+20;
+      gameLoadedLevelPropPointer.getValue().setCoin(z, (int) y);
+      z= z + ran.nextInt(100)+300;
     }
   }
 
   private Iteam getRandomIteam(int x, int y) {
-
     GameIteam random = GameIteam.getRandom();
     switch (random) {
       case SLOW: return new SlowMoIteam(x,y);
       case SPEED:return new SpeedIteam(x,y);
     }
     return null;
-
   }
 
   private void bindInternPropertyComputing( ) {
     // Verknüpfte X-Position mit GUI-Leinwand
+    PlayerCharacter playerTest = new PlayerCharacter();
+
     this.gamePlayerPosPropPointer.addListener(
         (o, oPos, newPos) -> gameDisplaySelector.gameWorldPane.setCenterViewFrame( newPos.intValue( ))
-
-
     );
     this.gamePlayerPosPropPointer.addListener(
-            (o, oPos, newPos) -> gameDisplaySelector.gameWorldIteams.setCenterViewFrame(newPos.intValue())/*updateIteams(oPos,newPos)*/);
+            (o, oPos, newPos) -> gameDisplaySelector.gamePane.setCenterViewFrame(newPos.intValue())/*updateIteams(oPos,newPos)*/);
+
+    this.gamePlayerPosPropPointer.addListener(
+            (o, oPos, newPos) -> updateIteams(oPos,newPos));
+
+
+
+
+
 
 
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen

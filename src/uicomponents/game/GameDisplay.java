@@ -1,5 +1,6 @@
 package uicomponents.game;
 
+import application.Main;
 import game.sprites.Coin;
 import game.sprites.Iteam;
 import javafx.application.Platform;
@@ -11,9 +12,12 @@ import javafx.scene.image.Image;
 
 
 public class GameDisplay extends Pane {
-  public WorldPane gameWorldPane = new WorldPane();
+  double width = Main.WINDOW_WIDTH;
+  double height = Main.WINDOW_HEIGHT;
+  public WorldPane gameWorldPane = new WorldPane(width,height);
   public OverlayPane gameOverlayPanePane = new OverlayPane();
-  public IteamPane gameWorldIteams = new IteamPane();
+  public IteamPane gameWorldIteams = new IteamPane(width,height);
+  public GamePane gamePane = new GamePane(gameWorldPane,gameWorldIteams,width,height);
 
   public GameDisplay() {
     super();
@@ -26,7 +30,7 @@ public class GameDisplay extends Pane {
     StackPane.setMargin( background, new Insets( 0, 0, 2, 5 ) );
 
      */
-    StackPane.setMargin(this.gameWorldPane, new Insets(0, 0, 2, 5));
+    //StackPane.setMargin(this.gameWorldPane, new Insets(0, 0, 2, 5));
     //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER_LEFT );
 
 

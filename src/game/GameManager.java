@@ -22,7 +22,7 @@ public class GameManager {
   private ObjectProperty<Boolean> gameIsRunning = new SimpleObjectProperty<>();
   protected ObjectProperty<GameLevel> gameLoadedLevel = new SimpleObjectProperty<>();
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
-  protected PlayerCharacter playerSpritesObject = new PlayerCharacter();
+  public PlayerCharacter playerSpritesObject = new PlayerCharacter();
 
   // Level Property Handle
   protected ObjectProperty<Double> gamePlayerPos = new SimpleObjectProperty<>();
@@ -38,7 +38,11 @@ public class GameManager {
     );
   }
 
-  public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
+  public PlayerCharacter getPlayerSpritesObject() {
+    return playerSpritesObject;
+  }
+
+  public void declareGameDisplayPane(GameDisplay guiGameDisplaySelector) {
     this.gameEngine.declareGameDisplayPane(guiGameDisplaySelector);
   }
 
@@ -60,9 +64,17 @@ public class GameManager {
 
   /* Actions */
   public void playerGoUp( ) {
+    double modValueUp = 20;
+    if (gameLoadedLevel.getValue().getUpperBoarder(gameLoadedLevel.getValue().gamePlayerPos) < playerSpritesObject.getCenterY()+modValueUp+playerSpritesObject.getRadius()) {
+      playerSpritesObject.setCenterY(playerSpritesObject.getY() + modValueUp);
 
+    }
   }
   public void playerGoDown( ) {
+    double modValueDown = 20;
+    if (gameLoadedLevel.getValue().getUpperBoarder(gameLoadedLevel.getValue().gamePlayerPos) < playerSpritesObject.getCenterY()+modValueDown+ playerSpritesObject.getRadius()) {
+      playerSpritesObject.setCenterY(playerSpritesObject.getY() + modValueDown);
+    }
 
   }
   public void play( ) {

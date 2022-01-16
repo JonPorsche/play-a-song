@@ -16,7 +16,7 @@ public class Coin extends Iteam{
         File imgFile = new File("src/resources/Coin.png");
         Image img = new Image(imgFile.toURI().toString());
         this.setImagePatterns( new ImagePattern(img) );
-        File img2File = new File("src/resources/Coin2.png");
+        File img2File = new File("src/resources/Coin-2.png");
         Image img2 = new Image(img2File.toURI().toString());
         this.setImagePatterns( new ImagePattern(img2) );
         this.setImageContent();

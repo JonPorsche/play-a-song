@@ -1,29 +1,28 @@
 package uicomponents.game;
 
 import application.Main;
-import game.sprites.Coin;
-import game.sprites.Iteam;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorldPane extends Canvas {
 
-  public WorldPane( ) {
-    super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
+  public WorldPane(double width, double height) {
+    super( width*15, height);
 
 
   }
-
-  public void setCenterViewFrame( double playerPos ) {
+  public void setCenterViewFrame(double playerPos ) {
     Platform.runLater(
             ( ) -> this.setTranslateX( 0 - playerPos )
     );
   }
+
+
 
 
 
