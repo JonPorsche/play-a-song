@@ -25,4 +25,10 @@ public class Coin extends Iteam{
         this.setCenterY(yPos);
 
     }
+
+    @Override
+    public void collision() {
+        super.collision();
+
+    }
 }

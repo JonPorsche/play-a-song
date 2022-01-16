@@ -10,6 +10,8 @@ import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import uicomponents.game.GameDisplay;
 
 import java.util.HashMap;
@@ -87,6 +89,7 @@ public class GameEngine {
     this.playerPosY.setValue( gL.playerPosY );
     gL.getPlayerSpritesObject().setCenterX(playerPosX.doubleValue());
     gL.getPlayerSpritesObject().setCenterY(playerPosY.doubleValue());
+    this.playerRadius.setValue(40);
 
     this.gameDisplaySelector.getChildren().add(gL.getPlayerSpritesObject());
     this.setGameIteams();
@@ -188,26 +191,22 @@ public class GameEngine {
       if(KnockableIteams.containsKey(i)){
         Iteam iteam = KnockableIteams.get(i);
         Double radius = iteam.getRadius();
-        if( iteam.getCenterX() +radius < 500 - playerRadius.getValue()&&  iteam.getCenterX() -radius < 500 + playerRadius.getValue()){
-          gameDisplaySelector.removeIteam(iteam);
+        if( iteam.getCenterX() +radius < getPlayerPosYProperty().get() - playerRadius.getValue()){
+         KnockableIteams.remove(iteam);
         }
       }
-
-      Iteam iteam = vissableIteams.get(i);
-      double x = iteam.getCenterX();
-
-
     }
     for (Number i :vissableIteams.keySet()){
       double x =vissableIteams.get(i).getCenterX();
       double rd =vissableIteams.get(i).getRadius();
-      if(x-rd > 500+playerRadius.getValue()){
+      if(x-rd > gamePlayerPosPropPointer.get()+playerRadius.getValue()){
         }
-      else if (x+rd < 500- playerRadius.getValue()){
+      else if (x+rd < gamePlayerPosPropPointer.get()- playerRadius.getValue()){
 
       }
       else{
         KnockableIteams.put(i,vissableIteams.get(i));
+        System.out.println("knockable");
       }
 
 
@@ -215,6 +214,10 @@ public class GameEngine {
     for (Number i :KnockableIteams.keySet()){
      if( voidIteamCollsion(KnockableIteams.get(i))){
        System.out.println("collsion");
+       //@TODO Make collsion
+       KnockableIteams.get(i).collision();
+       KnockableIteams.remove(KnockableIteams.get(i));
+       gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i));
      };
 
     }
@@ -223,16 +226,16 @@ public class GameEngine {
   }
 
   public void setIteams() {
-   // for (Number i :Iteams.keySet()){
-      //gameDisplaySelector.addIteam(Iteams.get(i));
+    for (Number i :Iteams.keySet()){
+     // gameDisplaySelector.addIteam(Iteams.get(i));
 
-    //}
+    }
 
   }
 
   public boolean voidIteamCollsion(Iteam iteam){
-    double playerX = 500;
-    double playerY = getPlayerPosYProperty().get();
+    double playerX = gamePlayerPosPropPointer.get();
+    double playerY = Main.WINDOW_HEIGHT/2;
     double playerRadiu = playerRadius.get();
     double distance = Math.sqrt(Math.pow(iteam.getCenterX() -playerX , 2) + (Math.pow(iteam.getCenterY() - playerY, 2)));
     if(distance <= (playerRadiu+ iteam.getRadius()) && distance >= Math.abs(playerRadiu -iteam.getRadius())){
@@ -318,20 +321,14 @@ public class GameEngine {
     PlayerCharacter playerTest = new PlayerCharacter();
 
     this.gamePlayerPosPropPointer.addListener(
-        (o, oPos, newPos) -> gameDisplaySelector.gameWorldPane.setCenterViewFrame( newPos.intValue( ))
-    );
-    this.gamePlayerPosPropPointer.addListener(
-            (o, oPos, newPos) -> gameDisplaySelector.gamePane.setCenterViewFrame(newPos.intValue())/*updateIteams(oPos,newPos)*/);
+            new ChangeListener<Double>() {
+              @Override
+              public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
+                gameDisplaySelector.UpdateView(newValue);
 
-    this.gamePlayerPosPropPointer.addListener(
-            (o, oPos, newPos) -> updateIteams(oPos,newPos));
-
-
-
-
-
-
-
+                updateIteams(oldValue,newValue);
+              }
+            });
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen
     ObjectProperty<GameLevel> pLevelProp = this.gameLoadedLevelPropPointer;
     this.gamePlayerPosPropPointer.addListener( (o, oP, newPosition) -> pLevelProp.getValue( ).gamePlayerPos = newPosition );

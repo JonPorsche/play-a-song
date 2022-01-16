@@ -70,4 +70,7 @@ public class Iteam extends SpriteCircle {
   }
   public void setImageSerienContent(ImagePattern[] newStyles) { }
   public void setImageSerienContent(List<ImagePattern> newStyles) { }
+
+  public void collision() {
+    }
 }

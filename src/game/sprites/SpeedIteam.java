@@ -16,12 +16,9 @@ public class SpeedIteam  extends Iteam {
         this.setCenterX(xPos);
         this.setCenterY(yPos);
         this.setFill(BLUE);
-        File imgFile = new File("src/resources/Coin.png");
+        File imgFile = new File("src/resources/Speed.png");
         Image img = new Image(imgFile.toURI().toString());
         this.setImagePatterns( new ImagePattern(img) );
-        File img2File = new File("src/resources/Coin-2.png");
-        Image img2 = new Image(img2File.toURI().toString());
-        this.setImagePatterns( new ImagePattern(img2) );
         //Image img = new Image("myjavafxapp/resources/texture_bg.png");
         //this.setImagePatterns(new ImagePattern(img));
         //this.setImageContent();
@@ -32,5 +29,11 @@ public class SpeedIteam  extends Iteam {
 
     Thread.sleep(1000);
     gE.resetEffects();*/
+    }
+
+    @Override
+    public void collision() {
+        super.collision();
+
     }
 }
