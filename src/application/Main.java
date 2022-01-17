@@ -21,9 +21,9 @@ public class Main extends Application {
   public static final int WINDOW_HEIGHT = 640;
   public static final int PLAYER_RADIUS = 20;
 
-  public static final int MAP_CHUNK_WIDTH_PX = 100;
-  public static final double MAP_CHUNK_BASE_HEIGHT_PX = 50;
-  public static final double MAP_CHUNK_HEIGHT_PX = 6;
+  public static final int MAP_CHUNK_WIDTH_PX = 75;
+  public static final int MAP_CHUNK_BASE_HEIGHT_PX = 50;
+  public static final int MAP_CHUNK_HEIGHT_PX = 6;
 
   public static final String MENU_VIEW = "MenuView";
   public static final String GAME_VIEW = "GameView";

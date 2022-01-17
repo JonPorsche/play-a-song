@@ -127,13 +127,18 @@ public class GameEngine {
       }
 
       private void worldSlideNext( ) {
+        int finishLinePosX = gE.getPlayingLevel( ).getMapPixelWidth( );
         int curPlayerPosX = gE.getGamePlayerPosProperty( ).getValue( ).intValue( );
         int gameSpeed = gE.getGameSpeedProperty( ).getValue( ).intValue( );
         int defaultPosDistance = ( Main.WINDOW_WIDTH / 180); // 360Frames pro Sichtfeldbreite
 
-        gE.gamePlayerPosPropPointer.setValue( (double)(
-          curPlayerPosX + ( defaultPosDistance * gameSpeed )
-        ) ); // aktuelle Positon X + neue Position (inkl. SpeedMultiplikator)
+        if (curPlayerPosX <= finishLinePosX) {
+          gE.gamePlayerPosPropPointer.setValue((double) (
+              curPlayerPosX + (defaultPosDistance * gameSpeed)
+          )); // aktuelle Positon X + neue Position (inkl. SpeedMultiplikator)
+        } else {
+          gE.gamePlayingStatePropPointer.setValue( GamePlayingState.FINISHED );
+        }
       }
     }.start( );
 

@@ -25,7 +25,7 @@ public class WorldPane extends Canvas {
     );
   }
 
-  private void drawWall(List<Number> wallSideSteps, int yStartPos ) {
+  private void drawWall( List<Number> wallSideSteps, int yStartPos ) {
     GraphicsContext gc = this.getGraphicsContext2D();
 
     gc.beginPath( );
@@ -35,10 +35,10 @@ public class WorldPane extends Canvas {
     gc.moveTo( 0, yStartPos );
 
     for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ); curDrawIndex++) {
-      int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
-      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
+      int curDisplayPosY = wallSideSteps.get( curDrawIndex ).intValue( );
+      double curDisplayPosX = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
 
-      gc.lineTo( curDisplayPos, curDisplayAmp );
+      gc.lineTo( curDisplayPosX, curDisplayPosY );
     }
     gc.stroke( );
     gc.fill( );
@@ -48,7 +48,7 @@ public class WorldPane extends Canvas {
 
 
 
-  private void drawWall(List<Number> wallSideSteps ) {
+  private void drawWall( List<Number> wallSideSteps ) {
     this.drawWall( wallSideSteps, 0 );
   }
 
@@ -67,7 +67,7 @@ public class WorldPane extends Canvas {
 
       if (curDisplayAmpPercent > 95 || curAmpValue < 0) curDisplayAmpPercent = 95;
 
-      double curDisplayAmp = curDisplayAmpPercent * 2.5;
+      double curDisplayAmp = Main.MAP_CHUNK_BASE_HEIGHT_PX + (curDisplayAmpPercent * 6);
 
       generatedWorldTopPath.add( curDisplayAmp );
       generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
