@@ -17,7 +17,6 @@ import java.util.Map;
 
 
 public class Main extends Application {
-
   public static final int WINDOW_WIDTH = 1080;
   public static final int WINDOW_HEIGHT = 640;
   public static final int PLAYER_RADIUS = 20;
@@ -49,89 +48,103 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
     Main.gameManager = new GameManager( );
 
-        // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
-        PlaylistManager.getInstance().checkM3UFileStatus();
+    this.menuViewController = new MenuViewController( this );
+    this.gameViewController = new GameViewController( this );
 
-        loadScenes();
-        setStartView();
+    // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
+    PlaylistManager.getInstance().checkM3UFileStatus();
 
-        scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
-        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+    loadScenes();
+    setStartView();
 
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Play a Song");
-        this.primaryStage.setScene(scene);
-        this.primaryStage.show();
-    }
+    scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+    scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-    /**
-     * Loads the scenes into a hash map
-     *
-     * @author Jones Porsche
-     */
-    private void loadScenes() {
-        scenes = new HashMap<String, Pane>();
-        scenes.put(MENU_VIEW, menuViewController.getMenuRootView());
-    }
+    this.primaryStage = primaryStage;
+    this.primaryStage.setTitle("Play a Song");
+    this.primaryStage.setScene(scene);
+    this.primaryStage.show();
+  }
 
-    /**
-     * Loads the start view to the primary stage. Is usually the menu view.
-     *
-     * @author Jones Porsche
-     */
-    private void setStartView() {
-        rootPane = scenes.get(MENU_VIEW);
-    }
+  /**
+   * Loads the scenes into a hash map
+   *
+   * @author Jones Porsche
+   */
+  private void loadScenes() {
+    scenes = new HashMap<String, Pane>();
+    scenes.put(MENU_VIEW, this.menuViewController.getMenuRootView());
+    scenes.put(GAME_VIEW, this.gameViewController.getMenuRootView());
+  }
 
-    /**
-     * Starts the game instance and controller and adds the game view to the scenes hash map
-     * @author Jones Porsche
-     */
-    public void startGame() {
-        // TODO Start the Game and GameController instances here
-        // game = new Game();
-        // gameController = new GameController(game);
-        // TODO Put the Game view in the scenes hash map
-        // scenes.put(GAME_VIEW, gameController.getGameDisplayPane());
-    }
+  /**
+   * Loads the start view to the primary stage. Is usually the menu view.
+   *
+   * @author Jones Porsche
+   */
+  private void setStartView() {
+    rootPane = scenes.get(MENU_VIEW);
+  }
 
-    /** Switches the scene of the primary stage based on the received name of the new scene
-     * @param scene String with the name of the scene
-     * @author Jones Porsche
-     */
-    public void switchScene(String scene) {
-        switch (scene) {
-            case GAME_VIEW:
+  /**
+   * Starts the game instance and controller and adds the game view to the scenes hash map
+   * @author Jones Porsche
+   */
+  public void startGame() {
+    // TODO Start the Game and GameController instances here
+    // game = new Game();
+    // gameController = new GameController(game);
+    // TODO Put the Game view in the scenes hash map
+    // scenes.put(GAME_VIEW, gameController.getGameDisplayPane());
+  }
 
-                System.out.println("Main.switchScene: switch to game view.");
+  private boolean keyEventIsBinded = false;
+  /** Switches the scene of the primary stage based on the received name of the new scene
+   * @param scene String with the name of the scene
+   * @author Jones Porsche
+   */
+  public void switchScene(String scene) {
+    switch (scene) {
+      case GAME_VIEW:
 
-                // TODO Take the Game view from the scenes hash map and set it to the primary stage
-                /*rootPane = scenes.get(scene);
-                Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
-                primaryStage.setScene(newScene);*/
+        System.out.println("Main.switchScene: switch to game view.");
 
-                // TODO Maybe handle this event in the game controller?
-                /*try {
-                    newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        // TODO Take the Game view from the scenes hash map and set it to the primary stage
+        rootPane = scenes.get(scene);
+        Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        primaryStage.setScene(newScene);
 
-                        @Override
-                        public void handle(KeyEvent t) {
-                            if (t.getCode() == KeyCode.ENTER) {
-                                gameController.getPlayerObject().updateHeigt(-30);
-                            } else if (t.getCode() == KeyCode.ESCAPE) {
-                                switchScene(MENU_VIEW);
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
-                break;
+        Main.gameManager.loadLevelFromSong( PlaylistManager.getInstance( ).getSelectedSongPath( ) );
+        Main.gameManager.startPlaying( );
 
-            case MENU_VIEW:
-                primaryStage.setScene(scenes.get(scene).getScene());
-                break;
+        // TODO Maybe handle this event in the game controller? (thx lg TS)
+        if( !this.keyEventIsBinded ) try {
+          newScene.setOnKeyPressed( new EventHandler<KeyEvent>( ) {
+
+            @Override
+            public void handle( KeyEvent t ) {
+              switch (t.getCode( )) {
+                case UP: gameManager.playerGoUp( );
+                  break;
+                case DOWN: gameManager.playerGoDown( );
+                  break;
+                case ESCAPE:
+                  gameManager.pause( );
+                  switchScene(MENU_VIEW);
+                  break;
+              }
+            }
+          });
+          this.keyEventIsBinded = true;
+        } catch (Exception e) {
+          e.printStackTrace();
         }
+        break;
+
+      case MENU_VIEW:
+        primaryStage.setScene(scenes.get(scene).getScene());
+        break;
+    }
   }
 
   public static void main(String[] args) {
