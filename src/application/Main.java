@@ -17,32 +17,37 @@ import java.util.Map;
 
 
 public class Main extends Application {
-    public static final int WINDOW_WIDTH = 1080;
-    public static final int WINDOW_HEIGHT = 640;
-    public static final int PLAYER_RADIUS = 10;
-    public static final String MENU_VIEW = "MenuView";
-    public static final String GAME_VIEW = "GameView";
 
-    // TODO Declare Game here
-    //Game game;
-    Map<String, Pane> scenes;
-    Pane rootPane;
-    Stage primaryStage;
-    Scene scene;
+  public static final int WINDOW_WIDTH = 1080;
+  public static final int WINDOW_HEIGHT = 640;
+  public static final int PLAYER_RADIUS = 20;
 
-    // CONTROLLERS
-    MenuViewController menuViewController;
-    // TODO Declare GameController here
-    // GameController gameController;
+  public static final int MAP_CHUNK_WIDTH_PX = 100;
+  public static final double MAP_CHUNK_BASE_HEIGHT_PX = 50;
+  public static final double MAP_CHUNK_HEIGHT_PX = 6;
 
-    @Override
-    public void init() throws Exception {
-        super.init();
-    }
+  public static final String MENU_VIEW = "MenuView";
+  public static final String GAME_VIEW = "GameView";
 
-    @Override
-    public void start(Stage primaryStage) {
-        menuViewController = new MenuViewController(this);
+  // TODO Declare Game here
+  public static GameManager gameManager;
+  Map<String, Pane> scenes;
+  Pane rootPane;
+  Stage primaryStage;
+  Scene scene;
+
+  // CONTROLLERS
+  MenuViewController menuViewController;
+  GameViewController gameViewController;
+
+  @Override
+  public void init() throws Exception {
+    super.init();
+  }
+
+  @Override
+  public void start(Stage primaryStage) {
+    Main.gameManager = new GameManager( );
 
         // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
         PlaylistManager.getInstance().checkM3UFileStatus();
@@ -126,7 +131,6 @@ public class Main extends Application {
             case MENU_VIEW:
                 primaryStage.setScene(scenes.get(scene).getScene());
                 break;
-
         }
   }
 
@@ -137,8 +141,8 @@ public class Main extends Application {
   public GameManager getGameManger( ) {
     return this.gameManager;
   }
-  public void defineGameDisplayPane( GameDisplay gameDisplaySelector ) {
+  public void defineGameDisplayPane( GameDisplay gameDisplay ) {
     if (this.gameManager != null)
-      this.gameManager.declareGameDisplayPane( gameDisplaySelector );
+      this.gameManager.declareGameDisplayPane( gameDisplay );
   }
 }

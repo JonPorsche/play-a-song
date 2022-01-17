@@ -1,25 +1,30 @@
 package scenes.gameview;
 
 import application.Main;
+import business.service.PlaylistManager;
 import game.GameManager;
 import scenes.BasicView;
+import uicomponents.game.GameDisplay;
 import uicomponents.game.WorldPane;
 
 public class GameViewController extends BasicView {
   protected GameManager gameManager;
+  public GameDisplay gameDisplayPane;
 
   public GameViewController( Main app ) {
     super( app );
 
     GameView gameViewPane = new GameView( );
     this.menuRootView = gameViewPane;
-    WorldPane worldPane = gameViewPane.gameDisplay.gameWorldPane;
 
-    this.gameManager = app.getGameManger( );
+    GameManager gM = app.getGameManger( );
+    this.gameManager = gM;
 
+    this.gameDisplayPane = gameViewPane.gameDisplay;
     app.defineGameDisplayPane( gameViewPane.gameDisplay);
 
-    GameManager gM = this.gameManager;
+    // Gib der Engine den AusgabePunkt mit
+    gM.declareGameDisplayPane( this.gameDisplayPane );
 
     /*/ Wenn sich die PlayerPosition (only X-Pos) verändert
     // Dann verschiebe die Leinwand auf die neue Position
@@ -50,7 +55,10 @@ public class GameViewController extends BasicView {
     // Wenn eine neues Level und somit eine neue World geladen wird
     // Dann Zeichne die Leinwand erneut...
     gM.getLoadedLevelProperty( ).addListener(
-      (o, oV, newLoadedLevel) -> worldPane.setWorldSteps( newLoadedLevel.getMapChunks( ), newLoadedLevel.getMaxAmplitude( ) )
+      (o, oV, newLoadedLevel) -> {
+        if (gameViewPane.gameDisplay.gameWorldPane != null)
+          gameViewPane.gameDisplay.gameWorldPane.setWorldSteps( newLoadedLevel.getMapChunks( ), newLoadedLevel.getMaxAmplitude( ) );
+      }
     );
   }
 }

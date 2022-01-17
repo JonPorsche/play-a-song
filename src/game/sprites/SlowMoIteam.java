@@ -1,19 +1,30 @@
 package game.sprites;
 
 import game.GameEngine;
-import game.sprites.basic.GameObject;
 import game.sprites.basic.Knockable;
-import game.sprites.basic.SpriteCircle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
+import java.io.File;
+
+import static javafx.scene.paint.Color.BLUE;
+import static javafx.scene.paint.Color.RED;
+
 public class SlowMoIteam extends Iteam {
 
-  public SlowMoIteam( int xPos ) {
-    super( xPos );
+  public SlowMoIteam( int xPos, int yPos ) {
+    super( xPos,yPos);
+    this.setCenterX(xPos);
+    this.setCenterY(yPos);
+    this.setFill(RED);
+    this.setRadius(20);
+    this.setCenterX(xPos);
+    this.setCenterY(yPos);
+    File imgFile = new File("src/resources/Coin.png");
+    Image img = new Image(imgFile.toURI().toString());
+    this.setImagePatterns( new ImagePattern(img) );
 
-    Image img = new Image("myjavafxapp/resources/texture_bg.png");
-    this.setImageContent( new ImagePattern(img,0,0,10,10,false) );
+    this.setImageContent();
   }
 
   public void onSmash( Knockable collidedObject, GameEngine gE ) {
@@ -21,5 +32,11 @@ public class SlowMoIteam extends Iteam {
 
     Thread.sleep(1000);
     gE.resetEffects();*/
+  }
+
+  @Override
+  public void collision() {
+    super.collision();
+
   }
 }

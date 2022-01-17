@@ -11,8 +11,12 @@ import java.util.List;
 
 public class WorldPane extends Canvas {
 
-  public WorldPane( ) {
-    super( Main.WINDOW_WIDTH *15, Main.WINDOW_HEIGHT);
+  public WorldPane( int canWidth, int canHeight ) {
+    super(
+      canWidth, //Main.gameManager.getCanvasWidthPx( ),
+      canHeight
+    );
+    this.setStyle( "-fx-background-color:rgb(0, 100, 0);" );
   }
 
   public void setCenterViewFrame( double playerPos ) {
@@ -32,7 +36,7 @@ public class WorldPane extends Canvas {
 
     for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ); curDrawIndex++) {
       int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
-      double curDisplayPos = curDrawIndex * 100;
+      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
 
       gc.lineTo( curDisplayPos, curDisplayAmp );
     }
@@ -40,6 +44,8 @@ public class WorldPane extends Canvas {
     gc.fill( );
     gc.closePath( );
   }
+
+
 
 
   private void drawWall(List<Number> wallSideSteps ) {
@@ -55,7 +61,7 @@ public class WorldPane extends Canvas {
       double curAmpValue = allWorldSteps.get( curAmpPos );
       if (curAmpValue < 0) curAmpValue = 0 -curAmpValue;
 
-      int curDisplayAmpPercent = 100 / (int)(maxAmplitude / curAmpValue);
+      double curDisplayAmpPercent = 100 /(maxAmplitude / curAmpValue);
       double t = (maxAmplitude / curAmpValue);
       if (t > 100) t = 0;
 
@@ -69,6 +75,11 @@ public class WorldPane extends Canvas {
 
     this.drawWall( generatedWorldTopPath );
     this.drawWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT );
+  }
+
+
+  public double getLength() {
+   return this.getWidth();
   }
 }
 
