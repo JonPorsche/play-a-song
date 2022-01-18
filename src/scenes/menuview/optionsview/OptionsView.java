@@ -4,7 +4,8 @@ import application.Main;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scenes.menuview.optionsview.infotextview.InfoTextViewController;
-import scenes.menuview.optionsview.keyoptionscellview.KeyOptionCellView;
+import scenes.menuview.optionsview.keyoptionscellview.KeyOptionCellViewController;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,10 @@ public class OptionsView extends VBox {
     Map<String, Pane> views;
     Pane infoTextView;
     InfoTextViewController infoTextViewController;
-    Pane moveUpKeyOptionView;
+    Pane moveUpView;
+    KeyOptionCellViewController moveUpViewController;
+    Pane moveDownView;
+    KeyOptionCellViewController moveDownViewController;
 
     public OptionsView(){
         startControllers();
@@ -23,8 +27,10 @@ public class OptionsView extends VBox {
         this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         setOptionsViewStyle();
 
-        infoTextView = views.get("InfoText");
-        this.getChildren().add(infoTextView);
+        infoTextView = views.get("info text");
+        moveUpView = views.get("move up");
+        moveDownView = views.get("move down");
+        this.getChildren().addAll(infoTextView, moveUpView, moveDownView);
     }
 
     private void setOptionsViewStyle(){
@@ -34,10 +40,14 @@ public class OptionsView extends VBox {
 
     private void startControllers(){
         infoTextViewController = new InfoTextViewController();
+        moveUpViewController = new KeyOptionCellViewController("Move Up");
+        moveDownViewController = new KeyOptionCellViewController("Move Down");
     }
 
     private void loadViews(){
         views = new HashMap<String, Pane>();
-        views.put("InfoText", infoTextViewController.getInfoTextRootView());
+        views.put("info text", infoTextViewController.getInfoTextRootView());
+        views.put("move up", moveUpViewController.getKeyOptionRootView());
+        views.put("move down", moveDownViewController.getKeyOptionRootView());
     }
 }

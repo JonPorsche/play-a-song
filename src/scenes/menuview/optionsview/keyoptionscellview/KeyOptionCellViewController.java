@@ -4,21 +4,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-public class keyOptionCellViewController {
+public class KeyOptionCellViewController {
     private Pane keyOptionRootView;
     private KeyOptionCellView keyOptionCellView;
     private Label functionName;
     private Button keySelectBtn;
 
-    public keyOptionCellViewController() {
-        keyOptionCellView = new KeyOptionCellView("Move Up");
+    public KeyOptionCellViewController(String functionName) {
+        keyOptionCellView = new KeyOptionCellView(functionName);
         this.functionName = keyOptionCellView.functionName;
-        this.keySelectBtn = keyOptionCellView.keySelectBtn;
-        keyOptionRootView = keyOptionCellView;
         initialize();
     }
 
     private void initialize() {
+        keySelectBtn = keyOptionCellView.keySelectBtn;
+        keyOptionRootView = keyOptionCellView;
     }
 
     public Pane getKeyOptionRootView() {
