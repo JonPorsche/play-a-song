@@ -1,16 +1,23 @@
-package scenes.menuview;
+package scenes.menuview.optionsview;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import scenes.menuview.optionsview.infotextview.InfoTextView;
+import scenes.menuview.optionsview.infotextview.InfoTextViewController;
+
+import java.util.Map;
 
 public class OptionsViewController {
     private Pane optionsRootView;
     private OptionsView optionsView;
-    private Label toBeDoneText;
+    private Pane infoTextView;
+    private InfoTextViewController infoTextViewController;
 
     public OptionsViewController(){
         optionsView = new OptionsView();
-        this.toBeDoneText = optionsView.toBeDoneText;
+        infoTextView = optionsView.infoTextView;
+        infoTextViewController = optionsView.infoTextViewController;
         optionsRootView = optionsView;
         initialize();
     }

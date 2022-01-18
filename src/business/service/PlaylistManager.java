@@ -22,9 +22,9 @@ public class PlaylistManager {
 
     private static PlaylistManager INSTANCE = new PlaylistManager();
     private static String directoryPath;
-    public static ObservableList<Song> songs = FXCollections.observableArrayList();
-    private String selectedSongPath = null;
-    public static File m3uFile = new File("./playlist/playlist.m3u");
+    public static ObservableList<Song> songs;
+    public static File m3uFile;
+    private String selectedSongPath;
     public SimpleObjectProperty<PlaylistStatus> playlistStatus;
 
     /**
@@ -32,6 +32,9 @@ public class PlaylistManager {
      * @author Jones Porsche
      */
     private PlaylistManager() {
+        m3uFile = new File("./playlist/playlist.m3u");
+        selectedSongPath = null;
+        songs = FXCollections.observableArrayList();
         playlistStatus = new SimpleObjectProperty<>();
     }
 

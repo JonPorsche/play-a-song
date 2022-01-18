@@ -7,15 +7,14 @@ import business.service.PlaylistStatus;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scenes.BasicView;
+import scenes.menuview.optionsview.OptionsViewController;
+import scenes.menuview.playlistview.PlaylistViewController;
 
 public class MenuViewController extends BasicView {
 
