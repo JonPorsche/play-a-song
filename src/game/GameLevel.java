@@ -20,7 +20,7 @@ public class GameLevel {
   protected String levelSourceTrack;
   protected List<Double> mapChunks = new ArrayList<>();
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
-  public PlayerCharacter playerSpritesObject; // = new PlayerCharacter();
+  protected PlayerCharacter playerSpritesObject = new PlayerCharacter();
   protected double maxAmplitude = 0;
 
   // PROPERTYS
@@ -35,11 +35,13 @@ public class GameLevel {
   protected ObjectProperty<Number> gamePlayerScorePropPointer;*/
 
   public int playerPosX = 500;
-  public int playerPosY = WINDOW_HEIGHT/2;
+  public int playerPosY = 350;
   public int playerRadius = 0;
   public float gameSpeed = 0;
   public double gamePlayerPos = 0.0;
   public int gamePlayerScore = 0;
+  private List<Double> upperBound;
+  private List<Double> bottomBound;
 
   public GameLevel( String newLevelSongPath ) {
     this.levelSourceTrack = newLevelSongPath;
@@ -65,7 +67,7 @@ public class GameLevel {
           if (maxAmplitude < curAmplValue) maxAmplitude = curAmplValue;
           mapChunks.add(curAmplValue);
         }
-        System.out.println(mapChunks);
+
 
       /*}
     }.start( );*/
@@ -109,14 +111,7 @@ public class GameLevel {
     return this.mapChunks.size() * Main.MAP_CHUNK_WIDTH_PX;
   }
 
-//@TODO getUpperLevelvalues
-  public double getUpperBoarder(double x) {
-    return x;
-  }
-  //@TODO getDownLevelvalues
-  public double getDownBoarder(double x) {
-    return x;
-  }
+
 
   public void setIteam(Iteam iteam) {
    putiteam((int) iteam.getX(),iteam);
@@ -139,5 +134,24 @@ public class GameLevel {
 
       sortedItemsByPosX.put(x,iteam);
     }
+  }
+
+  public void setBottombound(List<Double> allXYBottomArray) {
+    bottomBound = allXYBottomArray;
+  }
+
+  public void setUpperbound(List<Double> allXYUpperArray) {
+    upperBound = allXYUpperArray;
+  }
+
+  //@TODO getUpperLevelvalues
+  public double getUpperBoarder(double x) {
+
+    return upperBound.get((int) x) ;
+  }
+  //@TODO getDownLevelvalues
+  public double getDownBoarder(double x) {
+
+    return bottomBound.get((int) x);
   }
 }
