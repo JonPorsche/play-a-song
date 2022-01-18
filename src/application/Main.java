@@ -154,6 +154,7 @@ public class Main extends Application {
   public GameManager getGameManger( ) {
     return this.gameManager;
   }
+
   public void defineGameDisplayPane( GameDisplay gameDisplay ) {
     if (this.gameManager != null)
       this.gameManager.declareGameDisplayPane( gameDisplay );

@@ -40,8 +40,8 @@ public class OptionsView extends VBox {
 
     private void startControllers(){
         infoTextViewController = new InfoTextViewController();
-        moveUpViewController = new KeyOptionCellViewController("Move Up");
-        moveDownViewController = new KeyOptionCellViewController("Move Down");
+        moveUpViewController = new KeyOptionCellViewController("Move Up", infoTextViewController);
+        moveDownViewController = new KeyOptionCellViewController("Move Down", infoTextViewController);
     }
 
     private void loadViews(){
