@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.ImagePattern;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class Iteam extends SpriteCircle {
   public double scoreModifer;
   public int x;
   public int y;
+  public File soundfile;
 
   public Iteam(int xPos,int yPos) {
     isVisabile = new SimpleBooleanProperty();
