@@ -75,7 +75,7 @@ public class GameEngine {
   public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
     this.gameDisplaySelector = guiGameDisplaySelector;
     player = new PlayerCharacter();
-    player.setCenterY(600);
+    player.setCenterY(500);
     player.setRadius(30);
     player.setCenterX(500);
     guiGameDisplaySelector.declarePlayerCharacter( this.player );
@@ -272,6 +272,7 @@ public class GameEngine {
 
   public void updateVissableIteams(Double oPos, Double newPos){
     double differncePos = newPos-oPos;
+    System.out.println(gameLoadedLevelPropPointer.getValue().getUpperBoarder(newPos));
     Iterator<Number> iterator;
     for (iterator = vissableIteams.keySet().iterator(); iterator.hasNext(); ) {
       Number i = iterator.next();
@@ -308,10 +309,10 @@ public class GameEngine {
     Random ran = new Random( );
     for ( x= ran.nextInt(1000)+1000; x < worldPixelLength; ){
       double y;
-      int v = (int) (gL.getDownBoarder(x) -iteamCricle-20
-              - (gL.getUpperBoarder(x) +iteamCricle+20));
+      int v = (int) (gL.getDownBoarder(x) -iteamCricle-40
+              - (gL.getUpperBoarder(x) +iteamCricle+40));
       int b = ran.nextInt(v);
-      int d  = (int) (gL.getUpperBoarder(x)+iteamCricle+20);
+      int d  = (int) (gL.getUpperBoarder(x)+iteamCricle+40);
       y = b+d;
 
       gL.setIteam(getRandomIteam(x, (int) y));

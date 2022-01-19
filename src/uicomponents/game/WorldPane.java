@@ -108,29 +108,32 @@ public class WorldPane extends Canvas {
   private void calculateallXpoints(List<Point2D> cordinatesArray, List<Double> allXYArray ) {
     int length = cordinatesArray.size();
     int last = (int) cordinatesArray.get(length-1).getX();
-    double scale = this.getWidth()/100;
-    double point1X = cordinatesArray.get(0).getX()/100;
-    double point2X= scale*cordinatesArray.get(1).getX()/100;
+    double point1X = cordinatesArray.get(0).getX();
+    double point2X= cordinatesArray.get(1).getX();
     double point1Y= cordinatesArray.get(0).getY();
     double point2Y= cordinatesArray.get(1).getY();
-    double point3X= scale*cordinatesArray.get(2).getX()/100;
+    double point3X= cordinatesArray.get(2).getX();
     int index = 2;
     double m;
     double c;
     double y;
+    m = (point1Y-point2Y)/(point1X-point2X);
+    c = point1Y-(point1X*m);
     for(int x = 0; x < this.getWidth();x++ ){
-      if(x> point3X){
+      if(x > point3X && index<length-1){
         point1X = point2X;
         point1Y = point2Y;
         point2X = point3X;
         point2Y = cordinatesArray.get(index).getY();
         index++;
-        point3X =scale * cordinatesArray.get(index).getX();
+        point3X =cordinatesArray.get(index).getX();
+        m = (point2Y-point1Y)/(point2X-point1X);
+
+        c = point1Y-(point1X*m);
       }
-       m = (point1Y-point2Y)/(point1X-point2X);
-       c = point1Y-point1X*m;
-       y = m * x+c;
-       allXYArray.add(y);
+      y =(m * x)+c;
+      if(y<0){ y = y*-1; }
+      allXYArray.add(y);
     }
     isLoaded.set(isLoaded.getValue()+1);
 
