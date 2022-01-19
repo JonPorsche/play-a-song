@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"
+        standalone="no"?>
+<!DOCTYPE properties
+        SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Default Game Key Controls</comment>
+    <entry key="move-down">DOWN</entry>
+    <entry key="move-up">UP</entry>
+</properties>

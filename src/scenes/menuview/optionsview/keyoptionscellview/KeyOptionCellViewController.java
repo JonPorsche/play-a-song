@@ -85,7 +85,7 @@ public class KeyOptionCellViewController {
     }
 
     public void setButtonLabel(String buttonLabel) {
-        this.buttonLabel.set(buttonLabel);
+        this.buttonLabel.set(buttonLabel.toUpperCase());
     }
 
     public KeySelectionBtnStatus getKeySelectionBtnStatus() {

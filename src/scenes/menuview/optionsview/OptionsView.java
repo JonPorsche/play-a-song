@@ -41,8 +41,8 @@ public class OptionsView extends VBox {
 
     private void startControllers(){
         infoTextViewController = new InfoTextViewController();
-        String moveUpBtnLabel = KeyChoiceManager.getInstance().getMoveUp().getName();
-        String moveDownBtnLabel = KeyChoiceManager.getInstance().getMoveDown().getName();
+        String moveUpBtnLabel = KeyChoiceManager.getInstance().getMoveUp().getName().toUpperCase();
+        String moveDownBtnLabel = KeyChoiceManager.getInstance().getMoveDown().getName().toUpperCase();
         moveUpViewController = new KeyOptionCellViewController("Move Up", moveUpBtnLabel, infoTextViewController);
         moveDownViewController = new KeyOptionCellViewController("Move Down", moveDownBtnLabel, infoTextViewController);
     }

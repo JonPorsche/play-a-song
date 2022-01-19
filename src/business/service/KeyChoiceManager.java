@@ -9,8 +9,8 @@ public class KeyChoiceManager {
     private SimpleObjectProperty<KeyCode> moveDown;
 
     private KeyChoiceManager() {
-        moveUp = new SimpleObjectProperty<>(KeyCode.UP);
-        moveDown = new SimpleObjectProperty<>(KeyCode.DOWN);
+        moveUp = new SimpleObjectProperty<>();
+        moveDown = new SimpleObjectProperty<>();
     }
 
     public static KeyChoiceManager getInstance() {
