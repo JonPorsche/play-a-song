@@ -28,6 +28,7 @@ public class GameManager {
   // Level Property Handle
   protected ObjectProperty<Double> gamePlayerPos = new SimpleObjectProperty<>();
   protected ObjectProperty<Number> gamePlayerScore = new SimpleObjectProperty<>();
+  protected  ObjectProperty<Number> gamePlayerLife = new SimpleObjectProperty<>();
 
   public GameManager( ) {
     this.gameEngine = new GameEngine(
@@ -35,7 +36,8 @@ public class GameManager {
       this.gameIsRunning,
       this.gameLoadedLevel,
       this.gamePlayerPos,
-      this.gamePlayerScore
+      this.gamePlayerScore,
+            this.gamePlayerLife
     );
   }
 
@@ -53,9 +55,12 @@ public class GameManager {
       this.gameEngine.setNewLevel( new GameLevel (
           playingTrackFile.getAbsolutePath( )
       ) );
+
+    gameLoadedLevel.getValue().setSong(playingTrackFile.getAbsolutePath());
   }
 
   public void loadLevelFromSong( String newLevelSongPath ) {
+
     this.loadLevelFromSong( new File( newLevelSongPath ) );
   }
 
@@ -102,22 +107,12 @@ public class GameManager {
       this.gamePlayingState.setValue( GamePlayingState.PAUSE );
   }
 
-
-  //@TODO punktKreisCollision
-  public boolean mapCollsion(int x){
-    gameLoadedLevel.getValue().getDownBoarder(x);
-    gameLoadedLevel.getValue().getUpperBoarder(x);
-
-    return false;
-  }
-
   /* Propertys */
   public ObjectProperty<Boolean> gameIsRunningProperty( ) {
     return this.gameIsRunning;
   }
 
   /* --- GETTER --- */
-
   public ObjectProperty<GamePlayingState> getPlayingStateProperty( ) {
     return this.gamePlayingState;
   }

@@ -20,6 +20,8 @@ public class SlowMoIteam extends Iteam {
     this.setRadius(20);
     this.setCenterX(xPos);
     this.setCenterY(yPos);
+    this.gamespeed =0.95;
+    this.sizeModifer =5;
     File imgFile = new File("src/resources/Slow.png");
     Image img = new Image(imgFile.toURI().toString());
     this.setImagePatterns( new ImagePattern(img) );
@@ -34,9 +36,5 @@ public class SlowMoIteam extends Iteam {
     gE.resetEffects();*/
   }
 
-  @Override
-  public void collision() {
-    super.collision();
 
-  }
 }

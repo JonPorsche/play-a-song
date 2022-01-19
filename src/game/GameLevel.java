@@ -22,6 +22,7 @@ public class GameLevel {
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
   protected PlayerCharacter playerSpritesObject = new PlayerCharacter();
   protected double maxAmplitude = 0;
+  private String track;
 
   // PROPERTYS
   /*protected IntegerProperty playerPosX = new SimpleIntegerProperty();
@@ -37,7 +38,7 @@ public class GameLevel {
   public int playerPosX = 500;
   public int playerPosY = 350;
   public int playerRadius = 0;
-  public float gameSpeed = 0;
+  public float gameSpeed = 1;
   public double gamePlayerPos = 0.0;
   public int gamePlayerScore = 0;
   private List<Double> upperBound;
@@ -153,5 +154,14 @@ public class GameLevel {
   public double getDownBoarder(double x) {
 
     return bottomBound.get((int) x);
+  }
+
+  public void setSong(String newLevelSongPath) {
+    track = newLevelSongPath;
+
+  }
+  public String getSong(){
+    return track;
+
   }
 }

@@ -3,7 +3,7 @@ package game;
 
 // @ToDo: RandomItemGenerator, PlayerMovement(Up/Down), updateGuiCanvas,
 
-import application.Main;
+import business.service.Mp3Player;
 import game.sprites.Iteam;
 import game.sprites.PlayerCharacter;
 import game.sprites.SlowMoIteam;
@@ -14,8 +14,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Label;
-import javazoom.jl.player.Player;
 import uicomponents.game.GameDisplay;
 
 import java.util.HashMap;
@@ -36,28 +34,31 @@ public class GameEngine {
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
   protected ConcurrentHashMap<Number, Iteam> KnockableIteams= new ConcurrentHashMap<>();
   protected HashMap<Number, Iteam> Iteams= new HashMap<>();
+  Mp3Player mp3Player = new Mp3Player();
 
   // PROPERTYS - POINTER
-  protected ObjectProperty<GamePlayingState> gamePlayingStatePropPointer;
+  public ObjectProperty<GamePlayingState> gamePlayingStatePropPointer;
   protected ObjectProperty<Boolean> gameIsRunningPropPointer;
   protected ObjectProperty<GameLevel> gameLoadedLevelPropPointer;
   protected ObjectProperty<Double> gamePlayerPosPropPointer;
   protected ObjectProperty<Number> gamePlayerScorePropPointer;
+  protected  ObjectProperty<Number> gamePlayerLifePointer;
 
 
   public GameEngine(
-    ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
-    ObjectProperty<Boolean> isRunningPrPo, // <- GameManager.gameIsRunning
-    ObjectProperty<GameLevel> loadedLevelPrPo, // <- GameManager.gameLoadedLevel
-    ObjectProperty<Double> playerPosPrPo, // <- GameManager.gamePlayerPos
-    ObjectProperty<Number> playerScorePrPo // <- GameManager.gamePlayerScore
-  ) {
+          ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
+          ObjectProperty<Boolean> isRunningPrPo, // <- GameManager.gameIsRunning
+          ObjectProperty<GameLevel> loadedLevelPrPo, // <- GameManager.gameLoadedLevel
+          ObjectProperty<Double> playerPosPrPo, // <- GameManager.gamePlayerPos
+          ObjectProperty<Number> playerScorePrPo, // <- GameManager.gamePlayerScore
+          ObjectProperty<Number> gamePlayerLife) {
     // Declare PropertyPointers
     this.gamePlayingStatePropPointer = playingStatePrPo;
     this.gameIsRunningPropPointer = isRunningPrPo;
     this.gameLoadedLevelPropPointer = loadedLevelPrPo;
     this.gamePlayerPosPropPointer = playerPosPrPo;
     this.gamePlayerScorePropPointer = playerScorePrPo;
+    this.gamePlayerLifePointer = gamePlayerLife;
 
 
     this.bindInternPropertyComputing( );
@@ -69,7 +70,8 @@ public class GameEngine {
     &&     this.gameLoadedLevelPropPointer != null
     &&     this.gameLoadedLevelPropPointer.getValue( ) != null
     &&     this.gamePlayerPosPropPointer != null
-    &&     this.gamePlayerScorePropPointer != null;
+    &&     this.gamePlayerScorePropPointer != null
+    &&     this.gamePlayerLifePointer != null;
   }
 
   public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
@@ -109,6 +111,9 @@ public class GameEngine {
   }
 
   private void startEngine( ) {
+
+    mp3Player.load(getPlayingLevel().getSong());
+    mp3Player.play();
     GameEngine gE = this;
     if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
     AnimationTimer gameThread = new AnimationTimer() {
@@ -120,7 +125,7 @@ public class GameEngine {
       private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
       private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
       int curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
-      int gameSpeed = getGameSpeedProperty( ).getValue( ).intValue( );
+      float gameSpeed;
 
       @Override
       public void handle(long now) {
@@ -128,12 +133,11 @@ public class GameEngine {
             gameDisplaySelector.updateAbsoluteLayerPos((double) curPlayerPosX);
             lastRendered = now;
         }
-
         if (lastUpdated + UPNS_DELTA < now) {
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( ).intValue( );
-          gamePlayerPosPropPointer.setValue((double) ((curPlayerPosX + 5) * gameSpeed));
+          gamePlayerPosPropPointer.setValue((double) ((curPlayerPosX ) +(5* gameSpeed)));
           if (mapCollsion()){
             System.out.println("Map Collison");
           }
@@ -150,7 +154,6 @@ public class GameEngine {
   public void startPlaying( ) {
     if (this.isReady( ) && this.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.READY )) {
       this.gamePlayingStatePropPointer.setValue( GamePlayingState.PLAY );
-
       this.startEngine( );
     }
   }
@@ -211,16 +214,23 @@ public class GameEngine {
       }
     }
     for (Number i :KnockableIteams.keySet()){
+      Iteam iteam = KnockableIteams.get(i);
      if( voidIteamCollsion(KnockableIteams.get(i), newPos)){
        System.out.println("collsion");
        //@TODO Make collsion
-       KnockableIteams.get(i).collision();
+       iteam.collision(this, player);
+
        KnockableIteams.remove(KnockableIteams.get(i));
        gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i));
      };
     }
 
 
+  }
+
+  public void addScore(double score) {
+    int a = (int) (gamePlayerScorePropPointer.getValue().intValue()+ score);
+    gamePlayerScorePropPointer.setValue(a);
   }
 
   public void setIteams() {
@@ -239,13 +249,11 @@ public class GameEngine {
     };
     return false;
   }
-
+//@TODO Game not working to 100% schlägt 10 pixel zu früh aus
   public boolean mapCollsion(){
     int playerX = (int) (gamePlayerPosPropPointer.getValue()+500);
     double playerY = player.getY();
-    double differntValue = player.getRadius() +20;
-
-
+    double differntValue = player.getRadius();
     GameLevel gl = gameLoadedLevelPropPointer.getValue();
     if((gl.getDownBoarder(playerX)-differntValue > playerY) && (gl.getUpperBoarder(playerX)+differntValue < playerY)) {
       return false;
@@ -272,7 +280,6 @@ public class GameEngine {
 
   public void updateVissableIteams(Double oPos, Double newPos){
     double differncePos = newPos-oPos;
-    System.out.println(gameLoadedLevelPropPointer.getValue().getUpperBoarder(newPos));
     Iterator<Number> iterator;
     for (iterator = vissableIteams.keySet().iterator(); iterator.hasNext(); ) {
       Number i = iterator.next();
@@ -391,4 +398,25 @@ public class GameEngine {
   // PROPERTYS - POINTER
   public ObjectProperty<Double> getGamePlayerPosProperty( ) { return this.gamePlayerPosPropPointer; }
   public ObjectProperty<Number> getGamePlayerScoreProperty( ) { return this.gamePlayerScorePropPointer; }
+
+  public void addGamespeed(float gamespeedMod) {
+    new Thread(()->{
+      this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
+      int seconds = 0;
+      while (seconds <= 10) {
+        if (gamePlayingStatePropPointer.getValue() == GamePlayingState.PLAY){
+          seconds =+ 1;
+        }
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+      this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
+
+    }).start();
+
+  }
+
 }

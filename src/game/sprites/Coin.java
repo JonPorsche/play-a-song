@@ -1,5 +1,6 @@
 package game.sprites;
 
+import game.GameEngine;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
@@ -23,12 +24,12 @@ public class Coin extends Iteam{
         this.setRadius(20);
         this.setCenterX(xPos);
         this.setCenterY(yPos);
+        this.gamespeed = 1;
+        this.sizeModifer =-1;
 
     }
 
-    @Override
-    public void collision() {
-        super.collision();
+
 
     }
-}
+

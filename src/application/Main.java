@@ -114,6 +114,7 @@ public class Main extends Application {
         Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
         primaryStage.setScene(newScene);
 
+
         Main.gameManager.loadLevelFromSong( PlaylistManager.getInstance( ).getSelectedSongPath( ) );
         Main.gameManager.startPlaying( );
 
