@@ -1,5 +1,6 @@
 package game.sprites;
 
+import business.service.Mp3Player;
 import game.GameEngine;
 import game.GameLevel;
 import game.sprites.basic.SpriteCircle;
@@ -25,7 +26,7 @@ public class Iteam extends SpriteCircle {
   public double scoreModifer;
   public int x;
   public int y;
-  public File soundfile;
+  public File sound;
 
   public Iteam(int xPos,int yPos) {
     isVisabile = new SimpleBooleanProperty();
@@ -88,10 +89,12 @@ public class Iteam extends SpriteCircle {
       }
       ge.addScore(score);
       isUsed.setValue(true);
-    }
 
+      Mp3Player soundP = new Mp3Player();
+      soundP.load(sound.getAbsolutePath());
+      soundP.play();
 
-    }
+    }}
 
   public double getGamespeed() {
     return gamespeed;
