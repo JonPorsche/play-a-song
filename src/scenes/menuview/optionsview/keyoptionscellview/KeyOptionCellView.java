@@ -1,5 +1,6 @@
 package scenes.menuview.optionsview.keyoptionscellview;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,11 +15,13 @@ public class KeyOptionCellView extends HBox{
      HBox leftBox;
      HBox rightBox;
 
-    public KeyOptionCellView(String functionName) {
+    public KeyOptionCellView(String functionName, String buttonLabel) {
         this.functionName = new Label(functionName);
+        keySelectionBtn = new Button(buttonLabel);
+
         setKeyOptionCellViewStyle();
         setFunctionNameStyle();
-        keySelectionBtn = new Button("N / A");
+        setKeySelectionBtnStyle();
 
         leftBox = new HBox(this.functionName);
         rightBox = new HBox(keySelectionBtn);
@@ -37,5 +40,9 @@ public class KeyOptionCellView extends HBox{
     private void setFunctionNameStyle(){
         functionName.getStyleClass().add("text-font");
         functionName.setId("function-name");
+    }
+
+    private void setKeySelectionBtnStyle(){
+        keySelectionBtn.getStyleClass().add("titles");
     }
 }

@@ -4,8 +4,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-import static scenes.menuview.optionsview.infotextview.InfoTextView.ASSIGN_KEY_ACTIONS;
-import static scenes.menuview.optionsview.infotextview.InfoTextView.PRESS_KEY;
+import static scenes.menuview.optionsview.infotextview.InfoTextView.*;
 
 public class InfoTextViewController {
     private Pane infoTextRootView;
@@ -31,6 +30,10 @@ public class InfoTextViewController {
                 infoText.setText(ASSIGN_KEY_ACTIONS);
                 break;
         }
+    }
+
+    public void switchInfoText(String newText, String functionName){
+                infoText.setText(newText + functionName);
     }
 
     public Pane getInfoTextRootView() {

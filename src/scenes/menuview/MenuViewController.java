@@ -66,7 +66,7 @@ public class MenuViewController extends BasicView {
         this.playBtn = menuView.playBtn;
 
         playlistViewController = new PlaylistViewController(application);
-        optionsViewController = new OptionsViewController();
+        OptionsViewController.getInstance();
         selectionBox.setCenter(playlistViewController.getPlaylistRootView());
 
         this.menuRootView = menuView;
@@ -174,7 +174,7 @@ public class MenuViewController extends BasicView {
                 selectionBoxTitle.setText(PLAYLIST_VIEW);
                 break;
             case OPTIONS_VIEW:
-                selectionBox.setCenter(optionsViewController.getOptionsRootView());
+                selectionBox.setCenter(OptionsViewController.getInstance().getOptionsRootView());
                 selectionBoxTitle.setText(OPTIONS_VIEW);
                 break;
         }

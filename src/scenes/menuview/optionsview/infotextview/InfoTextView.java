@@ -13,8 +13,7 @@ public class InfoTextView extends HBox {
             "keys or buttons of your choice.";
     public static final String PRESS_KEY = "Press the key you want\n" +
             "to assign to this function.";
-    public static final String LOST_ASSIGNMENT = "Lost function assignment:\n" +
-            "Shift Down";
+    public static final String LOST_ASSIGNMENT = "Lost function assignment: ";
     Label infoText;
 
     public InfoTextView() {

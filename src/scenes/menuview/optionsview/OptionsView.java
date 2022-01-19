@@ -1,6 +1,7 @@
 package scenes.menuview.optionsview;
 
 import application.Main;
+import business.service.KeyChoiceManager;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scenes.menuview.optionsview.infotextview.InfoTextViewController;
@@ -40,8 +41,10 @@ public class OptionsView extends VBox {
 
     private void startControllers(){
         infoTextViewController = new InfoTextViewController();
-        moveUpViewController = new KeyOptionCellViewController("Move Up", infoTextViewController);
-        moveDownViewController = new KeyOptionCellViewController("Move Down", infoTextViewController);
+        String moveUpBtnLabel = KeyChoiceManager.getInstance().getMoveUp().getName();
+        String moveDownBtnLabel = KeyChoiceManager.getInstance().getMoveDown().getName();
+        moveUpViewController = new KeyOptionCellViewController("Move Up", moveUpBtnLabel, infoTextViewController);
+        moveDownViewController = new KeyOptionCellViewController("Move Down", moveDownBtnLabel, infoTextViewController);
     }
 
     private void loadViews(){
