@@ -8,8 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-import java.util.Stack;
-
 
 public class GameDisplay extends Pane {
   //double width = Main.WINDOW_WIDTH;
@@ -18,33 +16,23 @@ public class GameDisplay extends Pane {
   public IteamPane gameWorldIteams = null;
   public OverlayPane gameOverlayPanePane = new OverlayPane();
   public GamePane gamePane;
+  public loadingPane load = new loadingPane();
 
   public GameDisplay() {
     super();
     /*
-
     Pane background = new Pane( );
     background.getChildren( ).add( this.gameWorldPane );
-
     StackPane.setMargin( background, new Insets( 0, 0, 2, 5 ) );
 
-     */
-  }
-
+     */}
   public void initCanvas(int canWidth) {
     this.gameWorldPane = new WorldPane(Main.WINDOW_WIDTH * 15 /*canWidth*/, Main.WINDOW_HEIGHT);
     this.gameWorldIteams = new IteamPane(Main.WINDOW_WIDTH * 15 /*canWidth*/, Main.WINDOW_HEIGHT);
     this.gamePane = new GamePane(gameWorldPane, gameWorldIteams, Main.WINDOW_WIDTH * 15 /*canWidth*/, Main.WINDOW_HEIGHT);
-
     //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER );
     //StackPane.setMargin( this.gameWorldPane, new Insets(0, 0, 2, 5) );
-    this.getChildren().addAll(this.gameWorldPane,this.gameWorldIteams, this.gameOverlayPanePane);
-  }
 
-  public void addIteam(Iteam iteam) {
-    Platform.runLater(
-            () -> gameWorldIteams.addIteam(iteam)
-    );
   }
 
   public void updateAbsoluteLayerPos(Double x) {
@@ -61,5 +49,18 @@ public class GameDisplay extends Pane {
 
 
   }
+  public void showLoading() {
+      Platform.runLater(()->this.getChildren().addAll(load));
+
+    }
+    public void showPlay(){
+
+     Platform.runLater(()-> this.getChildren().addAll(this.gameWorldPane,this.gameWorldIteams, this.gameOverlayPanePane));
+    }
+    public void removeLoading(){
+    load.setAlignment(Pos.CENTER);
+    Platform.runLater(()->this.getChildren().remove(load));
+
+    }
 }
 

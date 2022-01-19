@@ -19,7 +19,7 @@ public class GameManager {
   private GameEngine gameEngine;
 
   // Global Property Handle
-  protected ObjectProperty<GamePlayingState> gamePlayingState = new SimpleObjectProperty<>();
+  protected ObjectProperty<GamePlayingState> gamePlayingState = new SimpleObjectProperty<>(GamePlayingState.NOTREADY);
   private ObjectProperty<Boolean> gameIsRunning = new SimpleObjectProperty<>();
   protected ObjectProperty<GameLevel> gameLoadedLevel = new SimpleObjectProperty<>();
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
@@ -39,6 +39,7 @@ public class GameManager {
       this.gamePlayerScore,
             this.gamePlayerLife
     );
+    gamePlayingState.setValue(GamePlayingState.LOADING);
   }
 
   /*public PlayerCharacter getPlayerSpritesObject() {

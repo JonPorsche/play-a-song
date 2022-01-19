@@ -43,6 +43,7 @@ public class GameEngine {
   protected ObjectProperty<Double> gamePlayerPosPropPointer;
   protected ObjectProperty<Number> gamePlayerScorePropPointer;
   protected  ObjectProperty<Number> gamePlayerLifePointer;
+  protected FloatProperty pastgameSpeed = new SimpleFloatProperty(1);
 
 
   public GameEngine(
@@ -134,6 +135,9 @@ public class GameEngine {
             lastRendered = now;
         }
         if (lastUpdated + UPNS_DELTA < now) {
+          if(!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )){
+            stop();
+          }
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( ).intValue( );
@@ -148,6 +152,7 @@ public class GameEngine {
     };
 
     gameThread.start();
+
 
   }
 
