@@ -69,7 +69,7 @@ public class GameManager {
   /* Actions */
   public void playerGoUp( ) {
     double modValueUp = 20;
-    /*if (gameLoadedLevel.getValue().getUpperBoarder(gameLoadedLevel.getValue().gamePlayerPos) < playerSpritesObject.getCenterY()+modValueUp+playerSpritesObject.getRadius()) {
+ /*   if (gameLoadedLevel.getValue().getUpperBoarder(gameLoadedLevel.getValue().gamePlayerPos) < playerSpritesObject.getCenterY()+modValueUp+playerSpritesObject.getRadius()) {
       playerSpritesObject.setCenterY(playerSpritesObject.getY() + modValueUp);
 
     }*/
