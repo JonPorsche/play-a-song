@@ -36,11 +36,17 @@ public class GameViewController extends BasicView {
     // Dann pass die GUI auf das neue Szenario an
     gM.getPlayingStateProperty( ).addListener( (o, oV, newState) -> {
       switch (newState) { // @ToDo: GameViewPanel Switching
+        case LOADING:
+            //Display Loadingscreen
+            gameDisplayPane.showLoading();
         case NOTREADY:
           // Display ErrorMsg
           break;
         case READY:
+          gameDisplayPane.removeLoading();
+          gameDisplayPane.showPlay();
           // Display GoButton
+          //
           break;
         case PAUSE:
           // Display PauseMenu

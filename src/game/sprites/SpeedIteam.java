@@ -17,6 +17,9 @@ public class SpeedIteam  extends Iteam {
         this.setCenterX(xPos);
         this.setCenterY(yPos);
         this.setFill(BLUE);
+        this.gamespeed =1.5;
+        this.sizeModifer =5;
+        this.sound = new File("src/resources/sounds/speed.mp3");
         File imgFile = new File("src/resources/Speed.png");
         Image img = new Image(imgFile.toURI().toString());
         this.setImagePatterns( new ImagePattern(img) );
@@ -32,9 +35,5 @@ public class SpeedIteam  extends Iteam {
     gE.resetEffects();*/
     }
 
-    @Override
-    public void collision() {
-        super.collision();
 
-    }
 }

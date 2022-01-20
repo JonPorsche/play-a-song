@@ -1,5 +1,8 @@
 package game.sprites;
 
+import business.service.Mp3Player;
+import game.GameEngine;
+import game.GameLevel;
 import game.sprites.basic.SpriteCircle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -7,6 +10,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.ImagePattern;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +19,14 @@ public class Iteam extends SpriteCircle {
   public SimpleBooleanProperty  isUsed;
   public SimpleBooleanProperty isVisabile;
   public SimpleIntegerProperty animationIndex;
+  public double gamespeed;
+  public double points;
+  public double pointsModifer;
+  public double score;
+  public double scoreModifer;
   public int x;
   public int y;
+  public File sound;
 
   public Iteam(int xPos,int yPos) {
     isVisabile = new SimpleBooleanProperty();
@@ -70,6 +80,35 @@ public class Iteam extends SpriteCircle {
   public void setImageSerienContent(ImagePattern[] newStyles) { }
   public void setImageSerienContent(List<ImagePattern> newStyles) { }
 
-  public void collision() {
-    }
+  public void collision(GameEngine ge, PlayerCharacter pl) {
+    if(!isUsed.getValue()) {
+      if(gamespeed != 1){
+      ge.addGamespeed((float) gamespeed);}
+      if(sizeModifer != 1){
+      pl.addSizeModifer(sizeModifer,ge);
+      }
+      ge.addScore(score);
+      isUsed.setValue(true);
+
+      Mp3Player soundP = new Mp3Player();
+      soundP.load(sound.getAbsolutePath());
+      soundP.play();
+
+    }}
+
+  public double getGamespeed() {
+    return gamespeed;
+  }
+
+  public double getSizeModifer() {
+    return sizeModifer;
+  }
+
+  public double getScore() {
+    return score;
+  }
+
+  public double getScoreModifer() {
+    return scoreModifer;
+  }
 }

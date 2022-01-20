@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class OverlayPane extends StackPane {
+public class OverlayPane extends Pane {
   //public PlayerCharacter player = new PlayerCharacter();
   public Label scoreLabel;
   public Label positionPercentLabel;

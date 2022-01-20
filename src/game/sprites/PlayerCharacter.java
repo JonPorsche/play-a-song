@@ -1,5 +1,7 @@
 package game.sprites;
 
+import game.GameEngine;
+import game.GamePlayingState;
 import game.sprites.basic.SpriteCircle;
 
 import static javafx.scene.paint.Color.BLUE;
@@ -18,5 +20,25 @@ public class PlayerCharacter extends SpriteCircle {
   public boolean gethasIteam() {
     return hasIteam;
   }
-}
+
+  public void addSizeModifer(double sizeModifer, GameEngine gE) {
+    new Thread(()->{
+      this.setRadius(getRadius()+sizeModifer);
+      int seconds = 0;
+      while (seconds <= 10) {
+        if (gE.gamePlayingStatePropPointer.getValue() == GamePlayingState.PLAY){
+          seconds =+ 1;
+        }
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+      this.setRadius(getRadius()-sizeModifer);
+    }).start();
+  }
+
+
+  }
 

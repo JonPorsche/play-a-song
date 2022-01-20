@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class Main extends Application {
+
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 640;
     public static final int PLAYER_RADIUS = 20;
@@ -130,6 +131,7 @@ public class Main extends Application {
                 Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
                 primaryStage.setScene(newScene);
 
+
                 Main.gameManager.loadLevelFromSong(PlaylistManager.getInstance().getSelectedSongPath());
                 Main.gameManager.startPlaying();
 
@@ -157,11 +159,6 @@ public class Main extends Application {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;
-
-            case MENU_VIEW:
-                primaryStage.setScene(scenes.get(scene).getScene());
-                break;
         }
     }
 
