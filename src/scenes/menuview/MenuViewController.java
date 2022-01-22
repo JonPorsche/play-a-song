@@ -171,10 +171,19 @@ public class MenuViewController extends BasicView {
         switch (newSelectionBoxView){
             case PLAYLIST_VIEW:
                 selectionBox.setCenter(playlistViewController.getPlaylistRootView());
+                optionsBtn.getStyleClass().remove("text-btn-enabled-color");
+                optionsBtn.getStyleClass().remove("text-btn-disabled-color");
+                optionsBtn.getStyleClass().add("text-btn-disabled-color");
+                playlistBtn.getStyleClass().remove("text-btn-disabled-color");
+                playlistBtn.getStyleClass().add("text-btn-enabled-color");
                 selectionBoxTitle.setText(PLAYLIST_VIEW);
                 break;
             case OPTIONS_VIEW:
                 selectionBox.setCenter(OptionsViewController.getInstance().getOptionsRootView());
+                playlistBtn.getStyleClass().remove("text-btn-enabled-color");
+                playlistBtn.getStyleClass().add("text-btn-disabled-color");
+                optionsBtn.getStyleClass().remove("text-btn-disabled-color");
+                optionsBtn.getStyleClass().add("text-btn-enabled-color");
                 selectionBoxTitle.setText(OPTIONS_VIEW);
                 break;
         }

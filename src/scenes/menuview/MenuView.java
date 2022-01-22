@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+// TODO Divide the view of this class in more classes
 public class MenuView extends Pane {
     HBox menuContainer = new HBox();
 
@@ -40,6 +41,7 @@ public class MenuView extends Pane {
     public MenuView(){
         setMenuContainerStyle();
         setMenuBtnBoxStyle();
+        setBtnsStyle();
         setSelectionBoxStyle();
         setSelectionBoxHeaderStyle();
         setSelectionBoxCenterStyle();
@@ -81,7 +83,14 @@ public class MenuView extends Pane {
 
         VBox.setMargin(playlistBtn, new Insets(0,0,4,0));
         VBox.setMargin(optionsBtn, new Insets(4,0,0,0));
+    }
 
+    private void setBtnsStyle(){
+        playlistBtn.getStyleClass().addAll("text-btn", "text-btn-enabled-color", "titles");
+        optionsBtn.getStyleClass().addAll("text-btn", "text-btn-disabled-color","titles");
+
+        VBox.setMargin(playlistBtn, new Insets(8));
+        VBox.setMargin(playlistBtn, new Insets(8));
     }
 
     private void setSelectionBoxStyle(){

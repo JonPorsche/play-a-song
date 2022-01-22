@@ -54,3 +54,32 @@
 .transparent-bkg{
     -fx-background-color: transparent;
 }
+
+* {
+    -fx-primary-color: rgba(98,0,238,1);
+    -fx-btn-hover-fill: rgba(98,0,238,0.04);
+    -fx-btn-bkg-color: transparent;
+    -fx-text-btn-disabled-fill: rgba(0,0,0,0.38);
+}
+
+.text-btn{
+    -fx-background-color: -fx-btn-bkg-color;
+    -fx-border-radius: 6px;
+    -fx-min-width: 160px;
+    -fx-max-width: 160px;
+    -fx-min-height: 48px;
+    -fx-max-height: 48px;
+}
+
+.text-btn:hover{
+    -fx-background-color: -fx-btn-hover-fill;
+    -fx-text-fill: -fx-primary-color;
+}
+
+.text-btn-enabled-color{
+    -fx-text-fill: -fx-primary-color;
+}
+
+.text-btn-disabled-color{
+    -fx-text-fill: -fx-text-btn-disabled-fill;
+}
