@@ -1,8 +1,9 @@
 package uicomponents.game;
 
 import application.Main;
-import game.sprites.Iteam;
+
 import game.sprites.PlayerCharacter;
+import game.sprites.basic.Iteam;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;

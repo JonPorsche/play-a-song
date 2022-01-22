@@ -4,10 +4,10 @@ package game;
 // @ToDo: RandomItemGenerator, PlayerMovement(Up/Down), updateGuiCanvas,
 
 import business.service.Mp3Player;
-import game.sprites.Iteam;
 import game.sprites.PlayerCharacter;
 import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
+import game.sprites.basic.Iteam;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -344,8 +344,8 @@ public class GameEngine {
   private Iteam getRandomIteam(int x, int y) {
     GameIteam random = GameIteam.getRandom();
     switch (random) {
-      case SLOW: return new SlowMoIteam(x,y);
-      case SPEED:return new SpeedIteam(x,y);
+      case SLOW: return (Iteam) new SlowMoIteam(x,y);
+      case SPEED:return (Iteam) new SpeedIteam(x,y);
     }
     return null;
   }

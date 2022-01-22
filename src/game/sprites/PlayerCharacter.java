@@ -3,14 +3,19 @@ package game.sprites;
 import game.GameEngine;
 import game.GamePlayingState;
 import game.sprites.basic.SpriteCircle;
+import javafx.scene.shape.Circle;
 
 import static javafx.scene.paint.Color.BLUE;
 
 public class PlayerCharacter extends SpriteCircle {
   private boolean hasIteam;
+  private Circle eye;
+  private Circle eye2;
+
   public PlayerCharacter(){
     this.setFill(BLUE);
     this.setRadius(40);
+
   }
 
 

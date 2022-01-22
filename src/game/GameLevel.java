@@ -2,8 +2,9 @@ package game;
 
 import application.Main;
 import game.sprites.Coin;
-import game.sprites.Iteam;
+
 import game.sprites.PlayerCharacter;
+import game.sprites.basic.Iteam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public class GameLevel {
 
 
   public void setIteam(Iteam iteam) {
-   putiteam((int) iteam.getX(),iteam);
+   putiteam((int) iteam.getCenterX(),iteam);
   }
 
   public void setCoin(int x, int y) {
