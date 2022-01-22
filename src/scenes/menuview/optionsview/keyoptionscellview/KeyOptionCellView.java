@@ -8,11 +8,11 @@ import javafx.scene.layout.Priority;
 
 import static scenes.menuview.optionsview.OptionsView.OPTIONS_VIEW_HEIGHT;
 
-public class KeyOptionCellView extends HBox{
-     Label functionName;
-     Button keySelectionBtn;
-     HBox leftBox;
-     HBox rightBox;
+public class KeyOptionCellView extends HBox {
+    Label functionName;
+    Button keySelectionBtn;
+    HBox leftBox;
+    HBox rightBox;
 
     public KeyOptionCellView(String functionName, String buttonLabel) {
         this.functionName = new Label(functionName);
@@ -31,17 +31,22 @@ public class KeyOptionCellView extends HBox{
         this.getChildren().addAll(leftBox, rightBox);
     }
 
-    private void setKeyOptionCellViewStyle(){
+    private void setKeyOptionCellViewStyle() {
         this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         this.setMinHeight(OPTIONS_VIEW_HEIGHT * 0.1538);
     }
 
-    private void setFunctionNameStyle(){
+    private void setFunctionNameStyle() {
         functionName.getStyleClass().add("text-font");
         functionName.setId("function-name");
     }
 
-    private void setKeySelectionBtnStyle(){
-        keySelectionBtn.getStyleClass().add("titles");
+    private void setKeySelectionBtnStyle() {
+        keySelectionBtn.getStyleClass().addAll(
+                "titles",
+                "outlined-btn-enabled-color",
+                "outlined-btn"
+        );
+
     }
 }
