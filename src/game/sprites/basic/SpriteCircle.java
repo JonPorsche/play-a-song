@@ -66,4 +66,8 @@ public class SpriteCircle extends Circle implements Knockable, GameObject {
   public void setY(double y) {
     this.setCenterY( y );
   }
+
 }
+
+
+
