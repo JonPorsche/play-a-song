@@ -20,7 +20,7 @@ public class SlowMoIteam extends Iteam {
     this.setRadius(20);
     this.setCenterX(xPos);
     this.setCenterY(yPos);
-    this.gamespeed =0.95;
+    this.gamespeed =0.90;
     this.sizeModifer =5;
     File imgFile = new File("src/resources/Slow.png");
     this.sound = new File("src/resources/sounds/slow.mp3");

@@ -118,6 +118,7 @@ public class GameEngine {
     GameEngine gE = this;
     if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
     AnimationTimer gameThread = new AnimationTimer() {
+
       private long lastUpdated = 0;
       private long lastRendered = 0;
       private final int UPS = 144;
@@ -127,7 +128,6 @@ public class GameEngine {
       private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
       int curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
       float gameSpeed;
-
       @Override
       public void handle(long now) {
         if (lastRendered + FPNS_DELTA < now) {
@@ -140,7 +140,7 @@ public class GameEngine {
           }
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
-          gameSpeed = getGameSpeedProperty( ).getValue( ).intValue( );
+          gameSpeed = getGameSpeedProperty( ).getValue( );
           gamePlayerPosPropPointer.setValue((double) ((curPlayerPosX ) +(5* gameSpeed)));
           if (mapCollsion()){
             System.out.println("Map Collison");
@@ -148,6 +148,7 @@ public class GameEngine {
           lastUpdated = now;
         }
       }
+
 
     };
 
@@ -405,8 +406,8 @@ public class GameEngine {
   public ObjectProperty<Number> getGamePlayerScoreProperty( ) { return this.gamePlayerScorePropPointer; }
 
   public void addGamespeed(float gamespeedMod) {
+    this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
     new Thread(()->{
-      this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
       int seconds = 0;
       while (seconds <= 10) {
         if (gamePlayingStatePropPointer.getValue() == GamePlayingState.PLAY){
@@ -419,8 +420,7 @@ public class GameEngine {
         }
       }
       this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
-
-    }).start();
+    }).start();//
 
   }
 
