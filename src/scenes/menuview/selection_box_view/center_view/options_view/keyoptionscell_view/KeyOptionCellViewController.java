@@ -1,4 +1,4 @@
-package scenes.menuview.selection_box_view.options_view.keyoptionscell_view;
+package scenes.menuview.selection_box_view.center_view.options_view.keyoptionscell_view;
 
 import business.service.KeyChoiceManager;
 import javafx.beans.property.SimpleObjectProperty;
@@ -8,10 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import scenes.menuview.MenuViewController;
-import scenes.menuview.selection_box_view.options_view.OptionsViewController;
-import scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.OptionsViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextViewController;
 
-import static scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextView.*;
+import static scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextView.*;
 
 public class KeyOptionCellViewController {
     private Pane keyOptionRootView;

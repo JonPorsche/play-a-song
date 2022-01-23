@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scenes.menuview.selection_box_view.bottom_view.BottomViewController;
-import scenes.menuview.selection_box_view.playlist_view.PlaylistViewController;
+import scenes.menuview.selection_box_view.center_view.message_view.MessageViewController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,33 +20,31 @@ public class SelectionBoxView extends BorderPane {
     public static final double SELECTION_BOX_R_L_MARGINS = 18;
     Map<String, Pane> selectionBoxViews;
     Pane bottomView;
+    Pane centerView;
+    MessageViewController messageViewController;
 
     // Selection box top
     VBox selectionBoxHeader;
     Label selectionBoxTitle;
 
-    // Selection box center
-    VBox selectionBoxCenter;
-    Label instructionText;
-
     public SelectionBoxView() {
-        this.selectionBoxViews = new HashMap<String, Pane>();
-        this.selectionBoxHeader = new VBox();
-        this.selectionBoxTitle = new Label("PLAYLIST");
-        this.selectionBoxCenter = new VBox();
-        this.instructionText = new Label("To add songs select a folder with mp3 files");
+        selectionBoxViews = new HashMap<String, Pane>();
+        messageViewController = new MessageViewController();
+        selectionBoxHeader = new VBox();
+        selectionBoxTitle = new Label("PLAYLIST");
 
         setSelectionBoxStyle();
         setSelectionBoxHeaderStyle();
-        setSelectionBoxCenterStyle();
         setTitleStyle();
 
         loadSelectionBoxViews();
-        this.bottomView = selectionBoxViews.get("BottomView");
+
+        centerView = selectionBoxViews.get("MessageView");
+        bottomView = selectionBoxViews.get("BottomView");
         selectionBoxHeader.getChildren().add(selectionBoxTitle);
-        selectionBoxCenter.getChildren().add(instructionText);
 
         this.setTop(selectionBoxHeader);
+        this.setCenter(centerView);
         this.setBottom(bottomView);
     }
 
@@ -69,18 +67,12 @@ public class SelectionBoxView extends BorderPane {
         selectionBoxTitle.setAlignment(Pos.CENTER);
     }
 
-    private void setSelectionBoxCenterStyle() {
-        selectionBoxCenter.setId("selection-box-center");
-        selectionBoxCenter.setMinHeight(Main.WINDOW_HEIGHT * 0.6625);
-        selectionBoxCenter.setMaxHeight(Main.WINDOW_HEIGHT * 0.6625);
-        selectionBoxCenter.setAlignment(Pos.BOTTOM_CENTER);
-    }
-
     private void setTitleStyle() {
         selectionBoxTitle.getStyleClass().add("titles");
     }
 
     private void loadSelectionBoxViews(){
+        selectionBoxViews.put("MessageView", messageViewController.getMessageRootView());
         selectionBoxViews.put("BottomView", BottomViewController.getInstance().getBottomRootView());
     }
 }

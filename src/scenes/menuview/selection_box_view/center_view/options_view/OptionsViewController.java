@@ -1,4 +1,4 @@
-package scenes.menuview.selection_box_view.options_view;
+package scenes.menuview.selection_box_view.center_view.options_view;
 
 import business.service.KeyChoiceManager;
 import javafx.event.EventHandler;
@@ -6,12 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextViewController;
-import scenes.menuview.selection_box_view.options_view.keyoptionscell_view.KeyOptionCellViewController;
-import scenes.menuview.selection_box_view.options_view.keyoptionscell_view.KeySelectionBtnStatus;
+import scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.keyoptionscell_view.KeyOptionCellViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.keyoptionscell_view.KeySelectionBtnStatus;
 
-import static scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextView.ASSIGN_KEY_ACTIONS;
-import static scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextView.LOST_ASSIGNMENT;
+import static scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextView.ASSIGN_KEY_ACTIONS;
+import static scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextView.LOST_ASSIGNMENT;
 
 public class OptionsViewController {
     private static OptionsViewController INSTANCE = new OptionsViewController();

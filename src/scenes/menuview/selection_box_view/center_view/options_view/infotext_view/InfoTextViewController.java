@@ -1,9 +1,9 @@
-package scenes.menuview.selection_box_view.options_view.infotext_view;
+package scenes.menuview.selection_box_view.center_view.options_view.infotext_view;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-import static scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextView.*;
+import static scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextView.*;
 
 public class InfoTextViewController {
     private Pane infoTextRootView;

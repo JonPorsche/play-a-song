@@ -1,11 +1,11 @@
-package scenes.menuview.selection_box_view.options_view.infotext_view;
+package scenes.menuview.selection_box_view.center_view.options_view.infotext_view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import static scenes.menuview.selection_box_view.options_view.OptionsView.OPTIONS_VIEW_HEIGHT;
-import static scenes.menuview.selection_box_view.options_view.OptionsView.OPTIONS_VIEW_WIDTH;
+import static scenes.menuview.selection_box_view.center_view.options_view.OptionsView.OPTIONS_VIEW_HEIGHT;
+import static scenes.menuview.selection_box_view.center_view.options_view.OptionsView.OPTIONS_VIEW_WIDTH;
 
 public class InfoTextView extends HBox {
 

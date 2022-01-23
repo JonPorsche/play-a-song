@@ -1,4 +1,4 @@
-package scenes.menuview.selection_box_view.playlist_view;
+package scenes.menuview.selection_box_view.center_view.playlist_view;
 
 import application.Main;
 import business.data.Song;
@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import scenes.BasicView;
-import scenes.menuview.MenuViewController;
 
 public class PlaylistViewController extends BasicView {
 

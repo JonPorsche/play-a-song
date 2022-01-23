@@ -8,16 +8,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import scenes.BasicView;
 import scenes.menuview.button_box_view.ButtonBoxViewController;
 import scenes.menuview.selection_box_view.SelectionBoxViewController;
-import scenes.menuview.selection_box_view.options_view.OptionsViewController;
-import scenes.menuview.selection_box_view.playlist_view.PlaylistViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.OptionsViewController;
+import scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController;
 
 public class MenuViewController extends BasicView {
     private static MenuViewController INSTANCE = new MenuViewController(application);
