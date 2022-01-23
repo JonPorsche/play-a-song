@@ -177,14 +177,14 @@ public class MenuViewController extends BasicView {
             case PLAYLIST_VIEW:
                 selectionBoxTitle.setText(PLAYLIST_VIEW);
                 selectionBox.setCenter(playlistViewController.getPlaylistRootView());
-                switchBtnStyle(optionsBtn, "text-btn-enabled-color", "text-btn-disabled-color", "text-btn-disabled-color");
-                switchBtnStyle(playlistBtn, "text-btn-disabled-color", "text-btn-enabled-color");
+                switchBtnStyle(optionsBtn, "text-btn-enabled-color", "text-btn-disabled-color", "text-btn-focused", "text-btn-disabled-color");
+                switchBtnStyle(playlistBtn, "text-btn-disabled-color", "text-btn-focused");
                 break;
             case OPTIONS_VIEW:
                 selectionBoxTitle.setText(OPTIONS_VIEW);
                 selectionBox.setCenter(OptionsViewController.getInstance().getOptionsRootView());
-                switchBtnStyle(playlistBtn, "text-btn-enabled-color", "text-btn-disabled-color");
-                switchBtnStyle(optionsBtn, "text-btn-disabled-color", "text-btn-enabled-color");
+                switchBtnStyle(playlistBtn, "text-btn-enabled-color", "text-btn-focused","text-btn-disabled-color");
+                switchBtnStyle(optionsBtn, "text-btn-disabled-color", "text-btn-focused");
                 break;
         }
     }
@@ -197,6 +197,13 @@ public class MenuViewController extends BasicView {
     public static void switchBtnStyle(Button button, String remove1, String remove2, String add) {
         button.getStyleClass().remove(remove1);
         button.getStyleClass().remove(remove2);
+        button.getStyleClass().add(add);
+    }
+
+    public static void switchBtnStyle(Button button, String remove1, String remove2, String remove3, String add) {
+        button.getStyleClass().remove(remove1);
+        button.getStyleClass().remove(remove2);
+        button.getStyleClass().remove(remove3);
         button.getStyleClass().add(add);
     }
 }
