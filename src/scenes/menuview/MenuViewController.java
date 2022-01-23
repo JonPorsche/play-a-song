@@ -12,23 +12,22 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Font.*;
 import scenes.BasicView;
-import scenes.menuview.optionsview.OptionsViewController;
-import scenes.menuview.playlistview.PlaylistViewController;
+import scenes.menuview.button_box_view.ButtonBoxViewController;
+import scenes.menuview.options_view.OptionsViewController;
+import scenes.menuview.playlist_view.PlaylistViewController;
 
 public class MenuViewController extends BasicView {
-
+    private static MenuViewController INSTANCE = new MenuViewController(application);
     public static final String PLAYLIST_VIEW = "PLAYLIST";
     public static final String OPTIONS_VIEW = "OPTIONS";
 
     private HBox menuContainer;
 
     // MENU BUTTON BOX
-    private VBox menuBtnBox;
+/*    private VBox menuBtnBox;
     private Button playlistBtn;
-    private Button optionsBtn;
+    private Button optionsBtn;*/
 
     // SELECTION BOX
     private BorderPane selectionBox;
@@ -48,16 +47,12 @@ public class MenuViewController extends BasicView {
 
     // CONTROLLERS
     private PlaylistViewController playlistViewController;
-    private OptionsViewController optionsViewController;
 
-    public MenuViewController(Main application) {
+    private MenuViewController(Main application) {
         super(application);
 
         MenuView menuView = new MenuView();
         this.menuContainer = menuView.menuContainer;
-        this.menuBtnBox = menuView.menuBtnBox;
-        this.playlistBtn = menuView.playlistBtn;
-        this.optionsBtn = menuView.optionsBtn;
         this.selectionBox = menuView.selectionBox;
         this.selectionBoxTitle = menuView.selectionBoxTitle;
         this.selectionBoxHeader = menuView.selectionBoxHeader;
@@ -75,22 +70,19 @@ public class MenuViewController extends BasicView {
         initialize();
     }
 
+    public static MenuViewController getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new MenuViewController(application);
+        }
+        return INSTANCE;
+    }
+
     public void initialize() {
-        handlePlaylistBtnClick();
-        handleOptionsBtnClick();
         handlePlayBtnClick();
         handleAddSongsBtnClick();
         handleClearPlaylistBtnClick();
         handlePlaylistStatusChanges();
         handleSongsArrayChanges();
-    }
-
-    private void handlePlaylistBtnClick() {
-        playlistBtn.setOnAction(event -> switchSelectionBoxView(PLAYLIST_VIEW));
-    }
-
-    private void handleOptionsBtnClick() {
-        optionsBtn.setOnAction(event -> switchSelectionBoxView(OPTIONS_VIEW));
     }
 
     private void handlePlayBtnClick() {
@@ -164,27 +156,30 @@ public class MenuViewController extends BasicView {
         });
     }
 
-    /**
-     * Triggered by the playlist and options buttons.
-     * Switches the center view of the BorderPane that composes the selection box,
-     * between playlist and option view.
-     *
-     * @param newSelectionBoxView String with the name of the new view.
-     * @author Jones Porsche
-     */
     public void switchSelectionBoxView(String newSelectionBoxView) {
         switch (newSelectionBoxView) {
             case PLAYLIST_VIEW:
                 selectionBoxTitle.setText(PLAYLIST_VIEW);
                 selectionBox.setCenter(playlistViewController.getPlaylistRootView());
-                switchBtnStyle(optionsBtn, "text-btn-enabled-color", "text-btn-disabled-color", "text-btn-focused", "text-btn-disabled-color");
-                switchBtnStyle(playlistBtn, "text-btn-disabled-color", "text-btn-focused");
+                switchBtnStyle(ButtonBoxViewController.getInstance().getOptionsBtn(),
+                        "text-btn-enabled-color",
+                        "text-btn-disabled-color",
+                        "text-btn-focused",
+                        "text-btn-disabled-color");
+                switchBtnStyle(ButtonBoxViewController.getInstance().getPlaylistBtn(),
+                        "text-btn-disabled-color",
+                        "text-btn-focused");
                 break;
             case OPTIONS_VIEW:
                 selectionBoxTitle.setText(OPTIONS_VIEW);
                 selectionBox.setCenter(OptionsViewController.getInstance().getOptionsRootView());
-                switchBtnStyle(playlistBtn, "text-btn-enabled-color", "text-btn-focused","text-btn-disabled-color");
-                switchBtnStyle(optionsBtn, "text-btn-disabled-color", "text-btn-focused");
+                switchBtnStyle(ButtonBoxViewController.getInstance().getPlaylistBtn(),
+                        "text-btn-enabled-color",
+                        "text-btn-focused",
+                        "text-btn-disabled-color");
+                switchBtnStyle(ButtonBoxViewController.getInstance().getOptionsBtn(),
+                        "text-btn-disabled-color",
+                        "text-btn-focused");
                 break;
         }
     }
@@ -206,4 +201,6 @@ public class MenuViewController extends BasicView {
         button.getStyleClass().remove(remove3);
         button.getStyleClass().add(add);
     }
+
+
 }

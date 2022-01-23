@@ -1,21 +1,17 @@
-package scenes.menuview.optionsview.keyoptionscellview;
+package scenes.menuview.options_view.keyoptionscell_view;
 
 import business.service.KeyChoiceManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import scenes.menuview.MenuViewController;
-import scenes.menuview.optionsview.OptionsViewController;
-import scenes.menuview.optionsview.infotextview.InfoTextViewController;
+import scenes.menuview.options_view.OptionsViewController;
+import scenes.menuview.options_view.infotext_view.InfoTextViewController;
 
-import static scenes.menuview.optionsview.infotextview.InfoTextView.*;
+import static scenes.menuview.options_view.infotext_view.InfoTextView.*;
 
 public class KeyOptionCellViewController {
     private Pane keyOptionRootView;

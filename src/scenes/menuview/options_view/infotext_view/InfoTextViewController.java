@@ -1,10 +1,9 @@
-package scenes.menuview.optionsview.infotextview;
+package scenes.menuview.options_view.infotext_view;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-import static scenes.menuview.optionsview.infotextview.InfoTextView.*;
+import static scenes.menuview.options_view.infotext_view.InfoTextView.*;
 
 public class InfoTextViewController {
     private Pane infoTextRootView;

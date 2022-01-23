@@ -1,4 +1,4 @@
-package scenes.menuview.playlistview;
+package scenes.menuview.playlist_view;
 
 import application.Main;
 import business.data.Song;

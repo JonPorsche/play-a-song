@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 
 public class BasicView {
 
-  protected Main application;
+  protected static Main application;
   protected Pane menuRootView;
 
   public BasicView( Main application ) {

@@ -61,7 +61,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         Main.gameManager = new GameManager();
 
-        this.menuViewController = new MenuViewController(this);
+        //this.menuViewController = new MenuViewController(this);
+        MenuViewController.getInstance();
         this.gameViewController = new GameViewController(this);
 
         // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
@@ -86,7 +87,7 @@ public class Main extends Application {
      */
     private void loadScenes() {
         scenes = new HashMap<String, Pane>();
-        scenes.put(MENU_VIEW, this.menuViewController.getMenuRootView());
+        scenes.put(MENU_VIEW, MenuViewController.getInstance().getMenuRootView());
         scenes.put(GAME_VIEW, this.gameViewController.getMenuRootView());
     }
 

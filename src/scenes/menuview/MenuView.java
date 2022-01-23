@@ -5,10 +5,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
+import scenes.menuview.button_box_view.ButtonBoxViewController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 // TODO Divide the view of this class in more classes
 public class MenuView extends Pane {
@@ -17,13 +19,11 @@ public class MenuView extends Pane {
     private static final double SELECTION_BOX_R_L_MARGINS = 18;
     private static final double FOOTER_HEIGHT = SELECTION_BOX_HEIGHT * 0.1479;
     private static final double FOOTER_WIDTH = SELECTION_BOX_WIDTH-SELECTION_BOX_R_L_MARGINS*2;
-
+    Map<String, Pane> menuViews;
     HBox menuContainer = new HBox();
 
     // MENU BUTTON BOX
-    VBox menuBtnBox = new VBox();
-    Button playlistBtn = new Button("PLAYLIST");
-    Button optionsBtn = new Button("OPTIONS");
+    Pane buttonBoxView;
 
     // SELECTION BOX
     BorderPane selectionBox = new BorderPane();
@@ -45,9 +45,10 @@ public class MenuView extends Pane {
     Button playBtn = new Button("PLAY");
 
     public MenuView() {
+        this.menuViews = new HashMap<String, Pane>();
+        loadMenuViews();
+
         setMenuContainerStyle();
-        setMenuBtnBoxStyle();
-        setBtnsStyle();
         setSelectionBoxStyle();
         setSelectionBoxHeaderStyle();
         setSelectionBoxCenterStyle();
@@ -55,23 +56,20 @@ public class MenuView extends Pane {
         setToolBarStyle();
         setLeftBtnsStyle();
 
-        playlistBtn.getStyleClass().add("titles");
-        optionsBtn.getStyleClass().add("titles");
         addSongsBtn.getStyleClass().add("titles");
         clearPlaylistBtn.getStyleClass().add("titles");
         playBtn.getStyleClass().add("titles");
         selectionBoxTitle.getStyleClass().add("titles");
 
-        menuBtnBox.getChildren().addAll(playlistBtn, optionsBtn);
         selectionBoxHeader.getChildren().add(selectionBoxTitle);
         selectionBoxCenter.getChildren().add(instructionText);
         leftBtns.getChildren().addAll(addSongsBtn, clearPlaylistBtn);
         toolBar.getItems().addAll(leftBtns, playBtn);
         selectionBoxFooter.getChildren().addAll(toolBar);
         selectionBox.setTop(selectionBoxHeader);
-        //selectionBox.setCenter(selectionBoxCenter);
         selectionBox.setBottom(selectionBoxFooter);
-        menuContainer.getChildren().addAll(menuBtnBox, selectionBox);
+        buttonBoxView = menuViews.get("ButtonBoxView");
+        menuContainer.getChildren().addAll(buttonBoxView, selectionBox);
         this.getChildren().add(menuContainer);
     }
 
@@ -79,28 +77,6 @@ public class MenuView extends Pane {
         this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         menuContainer.setId("menu-container");
         menuContainer.setMinSize(Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
-    }
-
-    private void setMenuBtnBoxStyle() {
-        menuBtnBox.setMinSize(Main.WINDOW_WIDTH * 0.4592, Main.WINDOW_HEIGHT * 0.8875);
-        menuBtnBox.setAlignment(Pos.CENTER);
-
-        HBox.setMargin(menuBtnBox, new Insets(
-                Main.WINDOW_HEIGHT * 0.05625,
-                Main.WINDOW_WIDTH * 0.0074,
-                Main.WINDOW_HEIGHT * 0.05625,
-                Main.WINDOW_WIDTH * 0.0074));
-
-        VBox.setMargin(playlistBtn, new Insets(0, 0, 4, 0));
-        VBox.setMargin(optionsBtn, new Insets(4, 0, 0, 0));
-    }
-
-    private void setBtnsStyle() {
-        playlistBtn.getStyleClass().addAll("text-btn", "text-btn-focused", "titles");
-        optionsBtn.getStyleClass().addAll("text-btn", "text-btn-disabled-color", "titles");
-
-        VBox.setMargin(playlistBtn, new Insets(8));
-        VBox.setMargin(playlistBtn, new Insets(8));
     }
 
     private void setToolBarStyle() {
@@ -154,5 +130,9 @@ public class MenuView extends Pane {
         selectionBoxFooter.setMinHeight(FOOTER_HEIGHT);
         selectionBoxFooter.setMaxHeight(FOOTER_HEIGHT);
         selectionBoxFooter.setAlignment(Pos.CENTER);
+    }
+
+    private void loadMenuViews(){
+        menuViews.put("ButtonBoxView", ButtonBoxViewController.getInstance().getButtonBoxRootView());
     }
 }
