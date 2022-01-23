@@ -11,61 +11,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scenes.BasicView;
 import scenes.menuview.button_box_view.ButtonBoxViewController;
-import scenes.menuview.options_view.OptionsViewController;
-import scenes.menuview.playlist_view.PlaylistViewController;
+import scenes.menuview.selection_box_view.SelectionBoxViewController;
+import scenes.menuview.selection_box_view.options_view.OptionsViewController;
+import scenes.menuview.selection_box_view.playlist_view.PlaylistViewController;
 
 public class MenuViewController extends BasicView {
     private static MenuViewController INSTANCE = new MenuViewController(application);
     public static final String PLAYLIST_VIEW = "PLAYLIST";
     public static final String OPTIONS_VIEW = "OPTIONS";
-
     private HBox menuContainer;
-
-    // MENU BUTTON BOX
-/*    private VBox menuBtnBox;
-    private Button playlistBtn;
-    private Button optionsBtn;*/
-
-    // SELECTION BOX
-    private BorderPane selectionBox;
-
-    // Selection box top
-    private VBox selectionBoxHeader;
-    private Label selectionBoxTitle;
-
-    // Selection box center
-    private Label instructionText;
-
-    // Selection box bottom
-    private HBox selectionBoxFooter;
-    private Button addSongsBtn;
-    private Button clearPlaylistBtn;
-    private Button playBtn;
-
-    // CONTROLLERS
-    private PlaylistViewController playlistViewController;
 
     private MenuViewController(Main application) {
         super(application);
-
         MenuView menuView = new MenuView();
-        this.menuContainer = menuView.menuContainer;
-        this.selectionBox = menuView.selectionBox;
-        this.selectionBoxTitle = menuView.selectionBoxTitle;
-        this.selectionBoxHeader = menuView.selectionBoxHeader;
-        this.instructionText = menuView.instructionText;
-        this.selectionBoxFooter = menuView.selectionBoxFooter;
-        this.addSongsBtn = menuView.addSongsBtn;
-        this.clearPlaylistBtn = menuView.clearPlaylistBtn;
-        this.playBtn = menuView.playBtn;
-
-        playlistViewController = new PlaylistViewController(application);
-        OptionsViewController.getInstance();
-        selectionBox.setCenter(playlistViewController.getPlaylistRootView());
-
         this.menuRootView = menuView;
         initialize();
     }
@@ -78,49 +40,8 @@ public class MenuViewController extends BasicView {
     }
 
     public void initialize() {
-        handlePlayBtnClick();
-        handleAddSongsBtnClick();
-        handleClearPlaylistBtnClick();
         handlePlaylistStatusChanges();
         handleSongsArrayChanges();
-    }
-
-    private void handlePlayBtnClick() {
-        playBtn.setOnAction(event -> {
-            if (PlaylistManager.songs.isEmpty()) {
-                System.out.println("Add songs to start playing");
-            } else {
-                if (PlaylistManager.getInstance().getSelectedSongPath() == null) {
-                    String firstSongPath = PlaylistManager.songs.get(0).getSongFilePath();
-                    PlaylistManager.getInstance().setSelectedSongPath(firstSongPath);
-                }
-                application.startGame();
-                application.switchScene(Main.GAME_VIEW);
-            }
-        });
-    }
-
-    /**
-     * When the button "Add Songs" is clicked a system default window opens.
-     * The user selects a directory, a start point to look for mp3 files in the folder and its subfolders.
-     * Finally a playlist is created.
-     *
-     * @author Jones Porsche
-     */
-    private void handleAddSongsBtnClick() {
-        addSongsBtn.setOnAction(event -> PlaylistManager.selectDirectory());
-    }
-
-    /**
-     * When the button "Clear Playlist" is clicked the m3u playlist file and the playlist songs array are cleared.
-     *
-     * @author Jones Porsche
-     */
-    private void handleClearPlaylistBtnClick() {
-        clearPlaylistBtn.setOnAction(event -> {
-            PlaylistManager.cleanM3UFile();
-            PlaylistManager.songs.clear();
-        });
     }
 
     /**
@@ -136,10 +57,10 @@ public class MenuViewController extends BasicView {
             public void changed(ObservableValue<? extends PlaylistStatus> observable, PlaylistStatus oldPlaylistStatus, PlaylistStatus newPlaylistStatus) {
                 switch (newPlaylistStatus) {
                     case EMPTY:
-                        playlistViewController.switchPlaylistView(PlaylistViewController.PLAYLIST_EMPTY);
+                        PlaylistViewController.getInstance().switchPlaylistView(PlaylistViewController.PLAYLIST_EMPTY);
                         break;
                     case FILLED:
-                        playlistViewController.switchPlaylistView(PlaylistViewController.PLAYLIST_FILLED);
+                        PlaylistViewController.getInstance().switchPlaylistView(PlaylistViewController.PLAYLIST_FILLED);
                         break;
                 }
             }
@@ -159,8 +80,8 @@ public class MenuViewController extends BasicView {
     public void switchSelectionBoxView(String newSelectionBoxView) {
         switch (newSelectionBoxView) {
             case PLAYLIST_VIEW:
-                selectionBoxTitle.setText(PLAYLIST_VIEW);
-                selectionBox.setCenter(playlistViewController.getPlaylistRootView());
+                SelectionBoxViewController.getInstance().updateSelectionBoxView(PLAYLIST_VIEW,
+                        PlaylistViewController.getInstance().getPlaylistRootView());
                 switchBtnStyle(ButtonBoxViewController.getInstance().getOptionsBtn(),
                         "text-btn-enabled-color",
                         "text-btn-disabled-color",
@@ -171,8 +92,8 @@ public class MenuViewController extends BasicView {
                         "text-btn-focused");
                 break;
             case OPTIONS_VIEW:
-                selectionBoxTitle.setText(OPTIONS_VIEW);
-                selectionBox.setCenter(OptionsViewController.getInstance().getOptionsRootView());
+                SelectionBoxViewController.getInstance().updateSelectionBoxView(OPTIONS_VIEW,
+                        OptionsViewController.getInstance().getOptionsRootView());
                 switchBtnStyle(ButtonBoxViewController.getInstance().getPlaylistBtn(),
                         "text-btn-enabled-color",
                         "text-btn-focused",

@@ -1,11 +1,11 @@
-package scenes.menuview.options_view;
+package scenes.menuview.selection_box_view.options_view;
 
 import application.Main;
 import business.service.KeyChoiceManager;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import scenes.menuview.options_view.infotext_view.InfoTextViewController;
-import scenes.menuview.options_view.keyoptionscell_view.KeyOptionCellViewController;
+import scenes.menuview.selection_box_view.options_view.infotext_view.InfoTextViewController;
+import scenes.menuview.selection_box_view.options_view.keyoptionscell_view.KeyOptionCellViewController;
 
 import java.util.HashMap;
 import java.util.Map;

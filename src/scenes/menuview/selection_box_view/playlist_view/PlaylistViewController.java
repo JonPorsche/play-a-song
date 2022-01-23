@@ -1,4 +1,4 @@
-package scenes.menuview.playlist_view;
+package scenes.menuview.selection_box_view.playlist_view;
 
 import application.Main;
 import business.data.Song;
@@ -10,9 +10,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
+import scenes.BasicView;
+import scenes.menuview.MenuViewController;
 
-public class PlaylistViewController {
+public class PlaylistViewController extends BasicView {
 
+    private static PlaylistViewController INSTANCE = new PlaylistViewController(application);
     public static final String PLAYLIST_EMPTY = "empty";
     public static final String PLAYLIST_FILLED = "filled";
     private Pane playlistRootView;
@@ -20,12 +23,21 @@ public class PlaylistViewController {
     private Label instructionText;
     private PlaylistView playlistView;
 
-    public PlaylistViewController(Main application){
+    private PlaylistViewController(Main application){
+        super(application);
+
         playlistView = new PlaylistView();
         this.songsListView = playlistView.songsListView;
         this.instructionText = playlistView.instructionText;
         playlistRootView = playlistView;
         initialize();
+    }
+
+    public static PlaylistViewController getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new PlaylistViewController(application);
+        }
+        return INSTANCE;
     }
 
     public void initialize(){

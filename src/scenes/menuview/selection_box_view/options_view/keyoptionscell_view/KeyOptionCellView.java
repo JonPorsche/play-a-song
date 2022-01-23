@@ -1,4 +1,4 @@
-package scenes.menuview.options_view.keyoptionscell_view;
+package scenes.menuview.selection_box_view.options_view.keyoptionscell_view;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-import static scenes.menuview.options_view.OptionsView.OPTIONS_VIEW_HEIGHT;
+import static scenes.menuview.selection_box_view.options_view.OptionsView.OPTIONS_VIEW_HEIGHT;
 
 public class KeyOptionCellView extends HBox {
     Label functionName;

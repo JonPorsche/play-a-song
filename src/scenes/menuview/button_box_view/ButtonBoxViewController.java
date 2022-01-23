@@ -3,7 +3,6 @@ package scenes.menuview.button_box_view;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import scenes.menuview.MenuViewController;
-import scenes.menuview.options_view.OptionsViewController;
 
 import static scenes.menuview.MenuViewController.OPTIONS_VIEW;
 import static scenes.menuview.MenuViewController.PLAYLIST_VIEW;
