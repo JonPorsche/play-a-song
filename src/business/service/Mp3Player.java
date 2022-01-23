@@ -1,13 +1,20 @@
 package business.service;
 
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
+import ddf.minim.AudioOutput;
 import de.hsrm.mi.eibo.simpleplayer.SimpleAudioPlayer;
 import de.hsrm.mi.eibo.simpleplayer.SimpleMinim;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.io.IOException;
+
 public class Mp3Player {
 
-    private SimpleMinim minim = new SimpleMinim();
+    private SimpleMinim minim = new SimpleMinim(true);
     int playlistSize;
     private SimpleIntegerProperty time = new SimpleIntegerProperty();
     private SimpleAudioPlayer audioPlayer;
@@ -30,6 +37,13 @@ public class Mp3Player {
                     }}
         }.start();
         timer();
+
+    }
+    public int getLenghth( String fileLoaction) throws InvalidDataException, UnsupportedTagException, IOException {
+
+        Mp3File mp3File = new Mp3File(fileLoaction);
+        double test =mp3File.getLengthInSeconds();
+        return (int)mp3File.getLengthInSeconds();
 
     }
     public void timer() {
@@ -68,6 +82,13 @@ public class Mp3Player {
         }
 
     }
+
+    public void setSpeed( float gameSpeed){
+        //@TODO PlayerSpeed not working Sadge
+        audioPlayer.play();
+
+    }
+
 
     public void stop() {
         try {

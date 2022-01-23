@@ -19,9 +19,9 @@ public class PlayerCharacter extends SpriteCircle {
   File imgFile = new File("src/resources/Playerdefault.png");
   Image imgNormal = new Image(imgFile.toURI().toString());
   File img2File = new File("src/resources/PlayerSlow.png");
-  Image imgSpeed = new Image(img2File.toURI().toString());
-  File img3File = new File("src/resources/PlayerSpeed.png");
   Image imgSlow = new Image(img2File.toURI().toString());
+  File img3File = new File("src/resources/PlayerSpeed.png");
+  Image imgSpeed = new Image(img3File.toURI().toString());
 
 
 
@@ -32,6 +32,14 @@ public class PlayerCharacter extends SpriteCircle {
     this.setFill(new ImagePattern(imgNormal));
 
 
+
+  }
+  public void setPlayerImgSpeed(){
+    this.setFill(new ImagePattern(imgSpeed));
+
+  }
+  public void setPlayerimgSlow(){
+    this.setFill(new ImagePattern(imgSlow));
 
   }
 

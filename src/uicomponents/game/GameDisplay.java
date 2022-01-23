@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-
 public class GameDisplay extends Pane {
   //double width = Main.WINDOW_WIDTH;
   //double height = Main.WINDOW_HEIGHT;

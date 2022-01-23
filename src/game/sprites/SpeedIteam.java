@@ -19,8 +19,8 @@ public class SpeedIteam extends IteamLogic implements Iteam {
         this.setCenterX(xPos);
         this.setCenterY(yPos);
         this.setFill(BLUE);
-        this.gamespeed =1.1;
-        this.sizeModifer =5;
+        this.gamespeed =3;
+        this.sizeModifer =-5;
         this.sound = new File("src/resources/sounds/speed.mp3");
         File imgFile = new File("src/resources/Speed.png");
         Image img = new Image(imgFile.toURI().toString());
@@ -41,6 +41,7 @@ public class SpeedIteam extends IteamLogic implements Iteam {
     public void collision(GameEngine ge, PlayerCharacter pl) {
         if (!isUsed.getValue()) {
             pl.addSizeModifer(sizeModifer,ge);
+            pl.setPlayerImgSpeed();
             ge.addGamespeed((float) gamespeed);
             ge.addScore(score);
             isUsed.setValue(true);

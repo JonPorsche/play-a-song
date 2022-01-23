@@ -4,6 +4,8 @@ package game;
 // @ToDo: RandomItemGenerator, PlayerMovement(Up/Down), updateGuiCanvas,
 
 import business.service.Mp3Player;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import game.sprites.PlayerCharacter;
 import game.sprites.SlowMoIteam;
 import game.sprites.SpeedIteam;
@@ -16,9 +18,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import uicomponents.game.GameDisplay;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GameEngine {
@@ -30,7 +31,7 @@ public class GameEngine {
   protected IntegerProperty playerPosY = new SimpleIntegerProperty();
   //protected DoubleProperty playerRadius= new SimpleDoubleProperty();*/
   protected PlayerCharacter player = new PlayerCharacter( );
-  protected FloatProperty gameSpeed = new SimpleFloatProperty(1);
+  protected DoubleProperty gameSpeed = new SimpleDoubleProperty(1/144);
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
   protected ConcurrentHashMap<Number, Iteam> KnockableIteams= new ConcurrentHashMap<>();
   protected HashMap<Number, Iteam> Iteams= new HashMap<>();
@@ -102,7 +103,34 @@ public class GameEngine {
         gL.setUpperbound(gameDisplaySelector.gameWorldPane.getAllXYUpperArray());
         gL.setBottombound(gameDisplaySelector.gameWorldPane.getAllXYBottomArray());
         this.Iteams= gameLoadedLevelPropPointer.getValue().getSortedItems();
-          this.setGameIteams();
+        int worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
+        int lengent = worldPixelLength/ 10;
+        List<Thread> threads = new ArrayList<>();
+        for (int x= 0 ; x < worldPixelLength; x+= lengent ){
+          int xStart =x;
+          int xEnd = x+lengent;
+
+          Thread t1 = new Thread(()->{
+            setGamecoins(xStart,xEnd);
+
+          });
+        Thread t = new Thread(()->{
+          setGameIteams(xStart,xEnd);
+
+        });
+        t1.start();
+        t.start();
+        threads.add(t1);
+        threads.add(t);
+        }
+        for (int i = 0; i < threads.size(); i++) {
+          try {
+            threads.get(i).join();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+
+        }
         if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 )
           this.gamePlayingStatePropPointer.setValue( GamePlayingState.READY );
           startPlaying();
@@ -115,21 +143,42 @@ public class GameEngine {
 
     mp3Player.load(getPlayingLevel().getSong());
     mp3Player.play();
+    getGameSpeedProperty( ).setValue( (double) 1/ (double)60);
+    Double test = getGameSpeedProperty().get();
+
+
+
+
+
     GameEngine gE = this;
     if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
     AnimationTimer gameThread = new AnimationTimer() {
 
       private long lastUpdated = 0;
       private long lastRendered = 0;
-      private final int UPS = 144;
-      private final int FPS = 144;
+      private final int UPS = 60;
+      private final int FPS = 60;
       private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000;
       private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
       private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
-      int curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
-      float gameSpeed;
+      double curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
+      double gameSpeed;
+      double pixelPerSceond;
+      {
+        try {
+          pixelPerSceond = 16200/mp3Player.getLenghth(gameLoadedLevelPropPointer.getValue().getSong());
+        } catch (InvalidDataException e) {
+          e.printStackTrace();
+        } catch (UnsupportedTagException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+
       @Override
       public void handle(long now) {
+
         if (lastRendered + FPNS_DELTA < now) {
             gameDisplaySelector.updateAbsoluteLayerPos((double) curPlayerPosX);
             lastRendered = now;
@@ -141,7 +190,8 @@ public class GameEngine {
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( );
-          gamePlayerPosPropPointer.setValue((double) ((curPlayerPosX ) +(5* gameSpeed)));
+          System.out.println( pixelPerSceond * gameSpeed);
+          gamePlayerPosPropPointer.setValue(((curPlayerPosX ) +(pixelPerSceond* gameSpeed)));
           if (mapCollsion()){
             System.out.println("Map Collison");
           }
@@ -255,7 +305,6 @@ public class GameEngine {
     };
     return false;
   }
-//@TODO Game not working to 100% schlägt 10 pixel zu früh aus
   public boolean mapCollsion(){
     int playerX = (int) (gamePlayerPosPropPointer.getValue()+500);
     double playerY = player.getY();
@@ -271,11 +320,13 @@ public class GameEngine {
       tempPlayer.setCenterY(playerY);
       for (int width = (int) (playerX - player.getRadius()); width < playerX + player.getRadius(); width++) {
         if(tempPlayer.getLayoutBounds().contains(new Point2D(width, gl.getUpperBoarder(width)))){
+          player.setCenterY(gl.getUpperBoarder(width)+player.getRadius());
 
           return true;}
         Bounds test = tempPlayer.getLayoutBounds();
        Point2D boarder = new Point2D(width, gl.getDownBoarder(width));
         if(tempPlayer.getLayoutBounds().contains(boarder)){
+          player.setCenterY(gl.getDownBoarder(width)-player.getRadius());
           return true;
         }
       }
@@ -313,14 +364,12 @@ public class GameEngine {
     }
   }
 
-  public void setGameIteams(){
-    int worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
-    int coin = 0;
+  public void setGameIteams( int startX, int endX){
     int x;
     int iteamCricle = 20;
     GameLevel gL= gameLoadedLevelPropPointer.getValue();
     Random ran = new Random( );
-    for ( x= ran.nextInt(1000)+1000; x < worldPixelLength; ){
+    for ( x = startX +100; x < endX; ){
       double y;
       int v = (int) (gL.getDownBoarder(x) -iteamCricle-40
               - (gL.getUpperBoarder(x) +iteamCricle+40));
@@ -332,15 +381,22 @@ public class GameEngine {
       x= x+ ran.nextInt(1000)+500;
     }
 
-    for ( int z =0; z<= worldPixelLength;){
-      int v = (int) (gL.getDownBoarder(z) - iteamCricle-20 - (gL.getUpperBoarder(z) + iteamCricle+20));
-      int b = ran.nextInt(v);
-      int d  = (int) (gL.getUpperBoarder(z)+iteamCricle+20);
-      double y = b+d;
-      gL.setCoin(z, (int) y);
-      z= z + ran.nextInt(100)+300;
     }
-  }
+    private void setGamecoins( int startX, int endX) {
+      int iteamCricle = 20;
+      GameLevel gL = gameLoadedLevelPropPointer.getValue();
+      Random ran = new Random();
+      Random random = new Random();
+      for (int z = startX; z <= endX; ) {
+        int v = (int) (gL.getDownBoarder(z) - iteamCricle - 20 - (gL.getUpperBoarder(z) + iteamCricle + 20));
+        int b = random.nextInt(v);
+        int d = (int) (gL.getUpperBoarder(z) + iteamCricle + 20);
+        double y = b + d;
+        gL.setCoin(z, (int) y);
+        z = z + random.nextInt(100) + 300;
+
+      }
+    }
   private Iteam getRandomIteam(int x, int y) {
     GameIteam random = GameIteam.getRandom();
     switch (random) {
@@ -365,9 +421,14 @@ public class GameEngine {
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen
     ObjectProperty<GameLevel> pLevelProp = this.gameLoadedLevelPropPointer;
     this.gamePlayerPosPropPointer.addListener( (o, oP, newPosition) -> {
-      if (isLoadedLevelReady( ))
-        pLevelProp.getValue( ).gamePlayerPos = newPosition;
+      if (isLoadedLevelReady( )) {
+        pLevelProp.getValue().gamePlayerPos = newPosition;
+      }
+      if (newPosition > 16000){
+        gamePlayingStatePropPointer.setValue(GamePlayingState.FINISHED);
+      }
     });
+
     this.gamePlayerScorePropPointer.addListener( (o, oS, newScore) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).gamePlayerScore = newScore.intValue( );
@@ -399,7 +460,7 @@ public class GameEngine {
   // PROPERTYS
   //public IntegerProperty getPlayerPosXProperty( ) { return this.playerPosX; }
   public IntegerProperty getPlayerPosYProperty( ) { return this.playerPosY; }
-  public FloatProperty getGameSpeedProperty( ) { return this.gameSpeed; }
+  public DoubleProperty getGameSpeedProperty( ) { return this.gameSpeed; }
 
   // PROPERTYS - POINTER
   public ObjectProperty<Double> getGamePlayerPosProperty( ) { return this.gamePlayerPosPropPointer; }

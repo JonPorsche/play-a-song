@@ -4,6 +4,7 @@ import application.Main;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -22,9 +23,10 @@ public class WorldPane extends Canvas {
   public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
   public WorldPane( int canWidth, int canHeight ) {
     super(
-            canWidth, //Main.gameManager.getCanvasWidthPx( ),
+            canWidth , //Main.gameManager.getCanvasWidthPx( ),
             canHeight
     );
+
     System.out.println(this.isResizable());
     System.out.println(canHeight);
     this.setStyle("-fx-background-color:rgb(0, 100, 0);");
@@ -89,6 +91,7 @@ public class WorldPane extends Canvas {
     List<Number> generatedWorldTopPath = new ArrayList<>( );
     List<Number> generatedWorldBottomPath = new ArrayList<>( );
     int sampleCount = allWorldSteps.size( );
+
     for (int curAmpPos = 0; curAmpPos < sampleCount; curAmpPos++) {
       double curAmpValue = allWorldSteps.get( curAmpPos );
       if (curAmpValue < 0) curAmpValue = 0 -curAmpValue;

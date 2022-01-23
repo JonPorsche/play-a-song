@@ -22,7 +22,7 @@ public class SlowMoIteam extends IteamLogic implements Iteam {
     this.setRadius(20);
     this.setCenterX(xPos);
     this.setCenterY(yPos);
-    this.gamespeed =0.90;
+    this.gamespeed =0.80;
     this.sizeModifer =5;
     File imgFile = new File("src/resources/Slow.png");
     this.sound = new File("src/resources/sounds/slow.mp3");
@@ -44,6 +44,7 @@ public class SlowMoIteam extends IteamLogic implements Iteam {
   public void collision(GameEngine ge, PlayerCharacter pl) {
     if (!isUsed.getValue()) {
       pl.addSizeModifer(sizeModifer,ge);
+      pl.setPlayerimgSlow();
       ge.addScore(score);
       isUsed.setValue(true);
       Mp3Player soundP = new Mp3Player();
