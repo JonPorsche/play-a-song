@@ -15,7 +15,6 @@ import java.util.Map;
 
 // TODO Divide the view of this class in more classes
 public class MenuView extends Pane {
-
     Map<String, Pane> menuViews;
     HBox menuContainer = new HBox();
     Pane buttonBoxView;

@@ -29,7 +29,7 @@ public class PlaylistViewController extends BasicView {
         playlistView = new PlaylistView();
         this.songsListView = playlistView.songsListView;
         this.instructionText = playlistView.instructionText;
-        playlistRootView = playlistView;
+        this.playlistRootView = playlistView;
         initialize();
     }
 

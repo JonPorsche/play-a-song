@@ -23,11 +23,17 @@ public class MenuViewController extends BasicView {
     private static MenuViewController INSTANCE = new MenuViewController(application);
     public static final String PLAYLIST_VIEW = "PLAYLIST";
     public static final String OPTIONS_VIEW = "OPTIONS";
+    private MenuView menuView;
     private HBox menuContainer;
+    private Pane buttonBoxView;
+    private Pane selectionBoxView;
 
     private MenuViewController(Main application) {
         super(application);
-        MenuView menuView = new MenuView();
+        this.menuView = new MenuView();
+        this.menuContainer = menuView.menuContainer;
+        this.buttonBoxView = menuView.buttonBoxView;
+        this.selectionBoxView = menuView.selectionBoxView;
         this.menuRootView = menuView;
         initialize();
     }
@@ -122,6 +128,4 @@ public class MenuViewController extends BasicView {
         button.getStyleClass().remove(remove3);
         button.getStyleClass().add(add);
     }
-
-
 }
