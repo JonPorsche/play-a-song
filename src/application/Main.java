@@ -145,11 +145,11 @@ public class Main extends Application {
 
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveDown()) {
                                 gameManager.playerGoDown();
-                                System.out.println("UP");
+                                System.out.println("DOWN");
                             }
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveUp()) {
                                 gameManager.playerGoUp();
-                                System.out.println("DOWN");
+                                System.out.println("UP");
                             }
 
 
