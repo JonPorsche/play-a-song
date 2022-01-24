@@ -27,9 +27,9 @@ public class GameEngine {
   private GameDisplay gameDisplaySelector;
 
   // PROPERTYS
-  //protected IntegerProperty playerPosX = new SimpleIntegerProperty();
+  protected IntegerProperty playerPosX = new SimpleIntegerProperty();
   protected IntegerProperty playerPosY = new SimpleIntegerProperty();
-  //protected DoubleProperty playerRadius= new SimpleDoubleProperty();*/
+  protected DoubleProperty playerRadius= new SimpleDoubleProperty();
   protected PlayerCharacter player = new PlayerCharacter( );
   protected DoubleProperty gameSpeed = new SimpleDoubleProperty(1/144);
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
@@ -462,7 +462,8 @@ public class GameEngine {
   // PROPERTYS
   //public IntegerProperty getPlayerPosXProperty( ) { return this.playerPosX; }
   public IntegerProperty getPlayerPosYProperty( ) { return this.playerPosY; }
-  public DoubleProperty getGameSpeedProperty( ) { return this.gameSpeed; }
+  public DoubleProperty getGameSpeedProperty( ) { return this.gameSpeed;
+  }
 
   // PROPERTYS - POINTER
   public ObjectProperty<Double> getGamePlayerPosProperty( ) { return this.gamePlayerPosPropPointer; }

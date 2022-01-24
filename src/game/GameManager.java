@@ -72,16 +72,17 @@ public class GameManager {
     this.gameEngine.getGameDisplayPane().initCanvas( canWidth );*/
 
     this.gameEngine.startPlaying( );
+
   }
 
   /* Actions */
   public void playerGoUp( ) {
     double modValueUp = 20;
-    playerCharacterObject.setCenterY(playerCharacterObject.getCenterY()+20);
+    gameEngine.player.setCenterY(gameEngine.player.getCenterY()+20);
   }
   public void playerGoDown( ) {
     double modValueDown = 20;
-    playerCharacterObject.setCenterY(playerCharacterObject.getCenterY()-20);
+    gameEngine.player.setCenterY(gameEngine.player.getCenterY()-20);
 
 
   }
