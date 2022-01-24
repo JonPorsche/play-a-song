@@ -1,20 +1,17 @@
-package scenes.menuview.optionsview.keyoptionscellview;
+package scenes.menuview.selection_box_view.center_view.options_view.keyoptionscell_view;
 
 import business.service.KeyChoiceManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import scenes.menuview.optionsview.OptionsViewController;
-import scenes.menuview.optionsview.infotextview.InfoTextViewController;
+import scenes.menuview.MenuViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.OptionsViewController;
+import scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextViewController;
 
-import static scenes.menuview.optionsview.infotextview.InfoTextView.*;
+import static scenes.menuview.selection_box_view.center_view.options_view.infotext_view.InfoTextView.*;
 
 public class KeyOptionCellViewController {
     private Pane keyOptionRootView;
@@ -46,32 +43,38 @@ public class KeyOptionCellViewController {
         moveDown.bindBidirectional(KeyChoiceManager.getInstance().moveDownProperty());
         handleKeySelectBtnClick();
         handleButtonLabelChange();
+        handleKeySelectionBtnStatusChanges();
     }
 
     private void handleKeySelectBtnClick(){
-        keySelectionBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switch (keySelectionBtnStatus.get()){
-                    case DEFAULT:
-                        keySelectionBtnStatus.setValue(KeySelectionBtnStatus.PRESSED);
-                        infoTextViewController.switchInfoText(PRESS_KEY);
-                        OptionsViewController.getInstance().captureKey(functionName.getText(), keySelectionBtn.getScene());
-                        break;
-                    case PRESSED:
-                        keySelectionBtnStatus.setValue(KeySelectionBtnStatus.DEFAULT);
-                        infoTextViewController.switchInfoText(ASSIGN_KEY_ACTIONS);
-                        break;
-                }
+        keySelectionBtn.setOnAction(event -> {
+            switch (keySelectionBtnStatus.get()){
+                case DEFAULT:
+                    keySelectionBtnStatus.setValue(KeySelectionBtnStatus.PRESSED);
+                    infoTextViewController.switchInfoText(PRESS_KEY);
+                    OptionsViewController.getInstance().captureKey(functionName.getText(), keySelectionBtn.getScene());
+                    break;
+                case PRESSED:
+                    keySelectionBtnStatus.setValue(KeySelectionBtnStatus.DEFAULT);
+                    infoTextViewController.switchInfoText(ASSIGN_KEY_ACTIONS);
+                    break;
             }
         });
     }
 
     private void handleButtonLabelChange(){
-        buttonLabel.addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                keySelectionBtn.setText(newValue);
+        buttonLabel.addListener((observable, oldValue, newValue) -> keySelectionBtn.setText(newValue));
+    }
+
+    private void handleKeySelectionBtnStatusChanges(){
+        keySelectionBtnStatus.addListener((observable, oldValue, newValue) -> {
+            switch (newValue){
+                case DEFAULT:
+                    MenuViewController.switchBtnStyle(keySelectionBtn,"outlined-btn-focused","outlined-btn");
+                    break;
+                case PRESSED:
+                    MenuViewController.switchBtnStyle(keySelectionBtn,"outlined-btn","outlined-btn-focused");
+                    break;
             }
         });
     }

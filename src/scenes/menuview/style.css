@@ -1,11 +1,14 @@
 #menu-container{
     -fx-background-color: white;
+    -fx-background-image: url("../../assets/bkgs/menu-bkg-1.png");
 }
 
 #selection-box{
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: -bkg-color;
+    -fx-opacity: 1;
+    -fx-background-radius: 9px;
 }
 
 #selection-box-center{
-    -fx-background-color: red;
+    -fx-background-color: transparent;
 }

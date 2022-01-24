@@ -1,4 +1,4 @@
-package scenes.menuview.optionsview.keyoptionscellview;
+package scenes.menuview.selection_box_view.center_view.options_view.keyoptionscell_view;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -6,13 +6,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-import static scenes.menuview.optionsview.OptionsView.OPTIONS_VIEW_HEIGHT;
+import static scenes.menuview.selection_box_view.center_view.options_view.OptionsView.OPTIONS_VIEW_HEIGHT;
 
-public class KeyOptionCellView extends HBox{
-     Label functionName;
-     Button keySelectionBtn;
-     HBox leftBox;
-     HBox rightBox;
+public class KeyOptionCellView extends HBox {
+    Label functionName;
+    Button keySelectionBtn;
+    HBox leftBox;
+    HBox rightBox;
 
     public KeyOptionCellView(String functionName, String buttonLabel) {
         this.functionName = new Label(functionName);
@@ -31,17 +31,22 @@ public class KeyOptionCellView extends HBox{
         this.getChildren().addAll(leftBox, rightBox);
     }
 
-    private void setKeyOptionCellViewStyle(){
+    private void setKeyOptionCellViewStyle() {
         this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         this.setMinHeight(OPTIONS_VIEW_HEIGHT * 0.1538);
     }
 
-    private void setFunctionNameStyle(){
-        functionName.getStyleClass().add("text-font");
+    private void setFunctionNameStyle() {
+        functionName.getStyleClass().addAll("text-font","text-fill");
         functionName.setId("function-name");
     }
 
-    private void setKeySelectionBtnStyle(){
-        keySelectionBtn.getStyleClass().add("titles");
+    private void setKeySelectionBtnStyle() {
+        keySelectionBtn.getStyleClass().addAll(
+                "titles",
+                "outlined-btn-enabled-color",
+                "outlined-btn"
+        );
+
     }
 }

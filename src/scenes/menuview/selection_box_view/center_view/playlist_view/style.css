@@ -9,38 +9,38 @@
 #song-title{
     -fx-font-weight: 500;
     -fx-font-size: 16;
-    -fx-text-fill:black;
     -fx-text-alignment: left;
 }
 
 #artist{
     -fx-font-weight: 300;
     -fx-font-size: 14;
-    -fx-text-fill: #404040;
     -fx-text-alignment: left;
 }
 
 #album{
     -fx-font-weight: 100;
     -fx-font-size: 12;
-    -fx-text-fill: #7F7F7F;
     -fx-text-alignment: left;
 }
 
 #duration{
     -fx-font-weight: 300;
     -fx-font-size: 14;
-    -fx-text-fill: #333333;
 }
 
 .instruction-text{
     -fx-font-weight: 100;
     -fx-font-size: 16;
-    -fx-text-fill: #A9A9A9;
+    -fx-text-fill: -text-fill;
 }
 
 .list-view {
     -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: -list-cell;
 }
 
 .list-cell:empty {
@@ -51,17 +51,17 @@
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
     /* 3:, 4: */
-    -fx-background-color: #D3D3D3;
+    -fx-background-color: -list-cell-selected;
     -fx-text-fill: white; /* 5 */
 }
 
 .list-cell:filled:hover {
-    -fx-background-color: #E2E2E2;
+    -fx-background-color: -bkg-color;
 }
 
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
-    -fx-background-color :#D3D3D3;
+    -fx-background-color :-bkg-color;
     -fx-border-color :transparent;
     -fx-background-radius : 0.0em;
     -fx-border-radius :2.0em;
@@ -98,7 +98,7 @@
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color :derive(#949494,0.0%);
+    -fx-background-color :derive(#7E7E7E,0.0%);
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
