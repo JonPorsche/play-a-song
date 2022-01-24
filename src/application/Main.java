@@ -3,6 +3,7 @@ package application;
 import business.service.KeyChoiceManager;
 import business.service.PlaylistManager;
 import game.GameManager;
+import game.GamePlayingState;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -135,33 +136,32 @@ public class Main extends Application {
 
                 Main.gameManager.loadLevelFromSong(PlaylistManager.getInstance().getSelectedSongPath());
                 Main.gameManager.startPlaying();
+                newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
-                // TODO Maybe handle this event in the game controller? (thx lg TS)
-                if (!this.keyEventIsBinded) try {
-                    newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent t) {
 
-                        @Override
-                        public void handle(KeyEvent t) {
-                            switch (t.getCode()) {
-                                case UP:
-                                    gameManager.playerGoUp();
-                                    break;
-                                case DOWN:
-                                    gameManager.playerGoDown();
-                                    break;
-                                case ESCAPE:
-                                    gameManager.pause();
-                                    switchScene(MENU_VIEW);
-                                    break;
+                        if (gameManager.getPlayingStateProperty().getValue() == GamePlayingState.PLAY){
+
+                            if (t.getCode() == KeyChoiceManager.getInstance().getMoveDown()) {
+                                gameManager.playerGoDown();
+                                System.out.println("UP");
                             }
+                            if (t.getCode() == KeyChoiceManager.getInstance().getMoveUp()) {
+                                gameManager.playerGoUp();
+                                System.out.println("DOWN");
+                            }
+
+
                         }
-                    });
-                    this.keyEventIsBinded = true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    }
+                });
+
         }
-    }
+
+        }
+
+
 
     private void loadProperties() {
         try {

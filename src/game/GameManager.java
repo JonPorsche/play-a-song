@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static application.Main.PLAYER_RADIUS;
+import static application.Main.gameManager;
 
 public class GameManager {
   //private List<GameLevel> loadedLevelList; // @ToDo: DoThis
@@ -24,7 +25,7 @@ public class GameManager {
   private ObjectProperty<Boolean> gameIsRunning = new SimpleObjectProperty<>();
   protected ObjectProperty<GameLevel> gameLoadedLevel = new SimpleObjectProperty<>();
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
-  //public PlayerCharacter playerSpritesObject = new PlayerCharacter();
+  protected PlayerCharacter playerCharacterObject = new PlayerCharacter();
 
   // Level Property Handle
   protected ObjectProperty<Double> gamePlayerPos = new SimpleObjectProperty<>();
@@ -76,16 +77,12 @@ public class GameManager {
   /* Actions */
   public void playerGoUp( ) {
     double modValueUp = 20;
- /*   if (gameLoadedLevel.getValue().getUpperBoarder(gameLoadedLevel.getValue().gamePlayerPos) < playerSpritesObject.getCenterY()+modValueUp+playerSpritesObject.getRadius()) {
-      playerSpritesObject.setCenterY(playerSpritesObject.getY() + modValueUp);
-
-    }*/
+    playerCharacterObject.setCenterY(playerCharacterObject.getCenterY()+20);
   }
   public void playerGoDown( ) {
     double modValueDown = 20;
-    /*if (gameLoadedLevel.getValue().getUpperBoarder(gameLoadedLevel.getValue().gamePlayerPos) < playerSpritesObject.getCenterY()+modValueDown+ playerSpritesObject.getRadius()) {
-      playerSpritesObject.setCenterY(playerSpritesObject.getY() + modValueDown);
-    }*/
+    playerCharacterObject.setCenterY(playerCharacterObject.getCenterY()-20);
+
 
   }
   public void play( ) {

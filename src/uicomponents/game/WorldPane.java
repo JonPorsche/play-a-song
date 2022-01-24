@@ -19,7 +19,7 @@ public class WorldPane extends Canvas {
   public List<Point2D> BottomCordinatesArray = new ArrayList<>();
   List<Double> allXYUpperArray = new ArrayList<>();
   List<Double> allXYBottomArray = new ArrayList<>();
-  public SimpleBooleanProperty isDone = new SimpleBooleanProperty(false);
+  public SimpleBooleanProperty isDoneLoadingLevel = new SimpleBooleanProperty(false);
   public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
   public WorldPane( int canWidth, int canHeight ) {
     super(
@@ -32,7 +32,7 @@ public class WorldPane extends Canvas {
     this.setStyle("-fx-background-color:rgb(0, 100, 0);");
     isLoaded.addListener((o, oldP, newP) -> {
       if (newP == (Number) 2) {
-        isDone.set(true);
+        isDoneLoadingLevel.set(true);
         System.out.println("done");
 
       }});
@@ -102,7 +102,7 @@ public class WorldPane extends Canvas {
 
       if (curDisplayAmpPercent > 95 || curAmpValue < 0) curDisplayAmpPercent = 95;
 
-      double curDisplayAmp = curDisplayAmpPercent * 2.5;
+      double curDisplayAmp = Main.MAP_CHUNK_BASE_HEIGHT_PX + curDisplayAmpPercent * 2.5;
 
       generatedWorldTopPath.add( curDisplayAmp );
       generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
@@ -154,8 +154,8 @@ public class WorldPane extends Canvas {
 
   }
 
-  public SimpleBooleanProperty isDoneProperty() {
-    return isDone;
+  public SimpleBooleanProperty isDoneLoadingLevelProperty() {
+    return isDoneLoadingLevel;
   }
 
   public double getLength() {
