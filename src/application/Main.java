@@ -140,6 +140,7 @@ public class Main extends Application {
 
                     @Override
                     public void handle(KeyEvent t) {
+                        System.out.println("key pressed");
 
                         if (gameManager.getPlayingStateProperty().getValue() == GamePlayingState.PLAY){
 
@@ -150,6 +151,7 @@ public class Main extends Application {
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveUp()) {
                                 gameManager.playerGoUp();
                                 System.out.println("UP");
+
                             }
 
 
