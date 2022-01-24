@@ -78,11 +78,11 @@ public class GameManager {
   /* Actions */
   public void playerGoUp( ) {
     double modValueUp = 20;
-    gameEngine.player.setCenterY(gameEngine.player.getCenterY()+20);
+    gameEngine.player.setCenterY(gameEngine.player.getCenterY()-20);
   }
   public void playerGoDown( ) {
     double modValueDown = 20;
-    gameEngine.player.setCenterY(gameEngine.player.getCenterY()-20);
+    gameEngine.player.setCenterY(gameEngine.player.getCenterY()+20);
 
 
   }
