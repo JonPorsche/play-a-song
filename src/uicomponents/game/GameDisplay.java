@@ -51,23 +51,20 @@ public class GameDisplay extends Pane {
 
    public void declarePlayerCharacter(PlayerCharacter playerCharacter) {
      this.getChildren().add(playerCharacter);
-
-
-
-   }
+    }
    public void showLoading() {
       Platform.runLater(()->this.getChildren().addAll(load));
 
     }
     public void showPlay(){
 
-    Platform.runLater(()-> {this.getChildren().addAll(this.gameWorldPane,this.gameWorldIteams);
-        /*gameView.overlayView.getChildren().add(gameOverlayPanePane);*/}
 
-    );
+    Platform.runLater(()-> {this.getChildren().addAll(this.gameWorldPane,this.gameWorldIteams);
+        /*gameView.overlayView.getChildren().add(gameOverlayPanePane);*/});
 
 
     }
+
 
     public void removeLoading(){
     load.setAlignment(Pos.CENTER);

@@ -86,25 +86,14 @@ public class GameManager {
 
 
   }
-  public void play( ) {
-    GamePlayingState curState = this.gamePlayingState.getValue( );
 
-    switch (curState) {
-      case FINISHED:
-        // @ToDo: Reset to Start ( auch erneut Items spawnen? )
-      case READY:
-      case PAUSE:
-        this.gamePlayingState.setValue( GamePlayingState.PLAY );
-        break;
-      case NOTREADY: System.out.println( "TODO MSG: Bitte wählen Sie einen Track aus!"); break;
-      default:
-    }
+
+  public void play( ) {
+   gameEngine.startPlaying();
   }
   public void pause( ) {
     GamePlayingState curState = this.gamePlayingState.getValue( );
-
-    if (curState.equals( GamePlayingState.PLAY ))
-      this.gamePlayingState.setValue( GamePlayingState.PAUSE );
+    gameEngine.pausePlaying();
   }
 
   /* Propertys */

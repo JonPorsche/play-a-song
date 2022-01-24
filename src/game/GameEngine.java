@@ -98,6 +98,7 @@ public class GameEngine {
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
     //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
+
     this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
   }
 
@@ -137,22 +138,20 @@ public class GameEngine {
 
       }
       if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 )
+        mp3Player.load(getPlayingLevel().getSong());
         this.gamePlayingStatePropPointer.setValue( GamePlayingState.READY );
-      startPlaying();
+
     }
   }
 
+
+
   private void startEngine( ) {
 
-    mp3Player.load(getPlayingLevel().getSong());
+
     mp3Player.play();
     getGameSpeedProperty( ).setValue( (double) 1/ (double)60);
     Double test = getGameSpeedProperty().get();
-
-
-
-
-
     GameEngine gE = this;
     if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
     AnimationTimer gameThread = new AnimationTimer() {
@@ -188,6 +187,7 @@ public class GameEngine {
         }
         if (lastUpdated + UPNS_DELTA < now) {
           if(!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )){
+            mp3Player.pause();
             stop();
           }
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
@@ -210,11 +210,11 @@ public class GameEngine {
   }
 
   public void startPlaying( ) {
-    if (this.isReady( ) && this.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.READY )) {
+
       this.gamePlayingStatePropPointer.setValue( GamePlayingState.PLAY );
       this.startEngine( );
     }
-  }
+
 
   public void pausePlaying( ) {
     if (this.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY ))
@@ -458,6 +458,8 @@ public class GameEngine {
     return this.gameLoadedLevelPropPointer != null
     &&  this.gameLoadedLevelPropPointer.getValue( ) != null;
   }
+
+
 
   // PROPERTYS
   //public IntegerProperty getPlayerPosXProperty( ) { return this.playerPosX; }

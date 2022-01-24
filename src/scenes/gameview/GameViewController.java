@@ -3,6 +3,7 @@ package scenes.gameview;
 import application.Main;
 import business.service.PlaylistManager;
 import game.GameManager;
+import game.GamePlayingState;
 import scenes.BasicView;
 import uicomponents.game.GameDisplay;
 import uicomponents.game.WorldPane;
@@ -45,10 +46,22 @@ public class GameViewController extends BasicView {
         case READY:
           gameDisplayPane.removeLoading();
           gameDisplayPane.showPlay();
+          gameManager.play();
           // Display GoButton
           //
           break;
+        case PLAY:
+          gameViewPane.gameOverlayPanePane.pauseButton.setOnAction(event -> {
+            if (gM.getPlayingStateProperty().getValue() == GamePlayingState.PLAY) {
+              gameManager.pause();
+            }});
+          break;
         case PAUSE:
+          gameViewPane.gameOverlayPanePane.pauseButton.setOnAction(event -> {
+            if (gM.getPlayingStateProperty().getValue() == GamePlayingState.PAUSE) {
+            gameManager.play();
+          }});
+          //DisplayPauseScreen
           // Display PauseMenu
           break;
         case FINISHED:
