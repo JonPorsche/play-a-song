@@ -37,7 +37,7 @@ public class KeyOptionCellView extends HBox {
     }
 
     private void setFunctionNameStyle() {
-        functionName.getStyleClass().add("text-font");
+        functionName.getStyleClass().addAll("text-font","text-fill");
         functionName.setId("function-name");
     }
 

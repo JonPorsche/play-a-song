@@ -50,8 +50,8 @@ public class BottomView extends HBox {
         addSongsBtn.setId("add-songs");
         clearPlaylistBtn.getStyleClass().addAll("fab-extended-btn", "titles");
         clearPlaylistBtn.setId("clear-playlist");
-        playBtn.getStyleClass().addAll("fab-extended-btn", "titles");
-        playBtn.setId("play");
+        playBtn.getStyleClass().add( "titles");
+        playBtn.setId("play-btn");
 
         BorderPane.setMargin(this,
                 new Insets(0, SELECTION_BOX_R_L_MARGINS, 0, SELECTION_BOX_R_L_MARGINS));

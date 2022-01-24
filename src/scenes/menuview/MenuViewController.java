@@ -13,8 +13,11 @@ import javafx.scene.layout.Pane;
 import scenes.BasicView;
 import scenes.menuview.button_box_view.ButtonBoxViewController;
 import scenes.menuview.selection_box_view.SelectionBoxViewController;
+import scenes.menuview.selection_box_view.bottom_view.BottomViewController;
 import scenes.menuview.selection_box_view.center_view.options_view.OptionsViewController;
 import scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController;
+import static scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController.PLAYLIST_EMPTY;
+import static scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController.PLAYLIST_FILLED;
 
 public class MenuViewController extends BasicView {
     private static MenuViewController INSTANCE = new MenuViewController(application);
@@ -60,10 +63,12 @@ public class MenuViewController extends BasicView {
             public void changed(ObservableValue<? extends PlaylistStatus> observable, PlaylistStatus oldPlaylistStatus, PlaylistStatus newPlaylistStatus) {
                 switch (newPlaylistStatus) {
                     case EMPTY:
-                        PlaylistViewController.getInstance().switchPlaylistView(PlaylistViewController.PLAYLIST_EMPTY);
+                        PlaylistViewController.getInstance().switchPlaylistView(PLAYLIST_EMPTY);
+                        BottomViewController.getInstance().hideBtns();
                         break;
                     case FILLED:
-                        PlaylistViewController.getInstance().switchPlaylistView(PlaylistViewController.PLAYLIST_FILLED);
+                        PlaylistViewController.getInstance().switchPlaylistView(PLAYLIST_FILLED);
+                        BottomViewController.getInstance().showBtns();
                         break;
                 }
             }
@@ -86,24 +91,24 @@ public class MenuViewController extends BasicView {
                 SelectionBoxViewController.getInstance().updateSelectionBoxView(PLAYLIST_VIEW,
                         PlaylistViewController.getInstance().getPlaylistRootView());
                 switchBtnStyle(ButtonBoxViewController.getInstance().getOptionsBtn(),
-                        "text-btn-enabled-color",
-                        "text-btn-disabled-color",
-                        "text-btn-focused",
-                        "text-btn-disabled-color");
+                        "text-btn-contained-enabled-color",
+                        "text-btn-contained-disabled-color",
+                        "text-btn-contained-focused",
+                        "text-btn-contained-disabled-color");
                 switchBtnStyle(ButtonBoxViewController.getInstance().getPlaylistBtn(),
-                        "text-btn-disabled-color",
-                        "text-btn-focused");
+                        "text-btn-contained-disabled-color",
+                        "text-btn-contained-focused");
                 break;
             case OPTIONS_VIEW:
                 SelectionBoxViewController.getInstance().updateSelectionBoxView(OPTIONS_VIEW,
                         OptionsViewController.getInstance().getOptionsRootView());
                 switchBtnStyle(ButtonBoxViewController.getInstance().getPlaylistBtn(),
-                        "text-btn-enabled-color",
-                        "text-btn-focused",
-                        "text-btn-disabled-color");
+                        "text-btn-contained-enabled-color",
+                        "text-btn-contained-focused",
+                        "text-btn-contained-disabled-color");
                 switchBtnStyle(ButtonBoxViewController.getInstance().getOptionsBtn(),
-                        "text-btn-disabled-color",
-                        "text-btn-focused");
+                        "text-btn-contained-disabled-color",
+                        "text-btn-contained-focused");
                 break;
         }
     }

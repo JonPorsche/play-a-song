@@ -44,11 +44,20 @@
     -fx-font-family: Roboto;
 }
 
+.text-fill {
+    -fx-text-fill: -text-fill;
+}
+
+.list-text-fill{
+    -fx-text-fill: -list-text-fill;
+}
+
 .titles {
     -fx-font-family: "Roboto Mono";
     -fx-font-weight: 500;
     -fx-font-size: 16;
     -fx-text-alignment: center;
+    -fx-text-fill: -text-fill;
 }
 
 .transparent-bkg {
@@ -56,21 +65,31 @@
 }
 
 * {
-    -primary-color: rgba(98, 0, 238, 1);
+    -primary-color: rgba(187, 134, 252, 1);
     -secondary-color: rgba(3, 218, 197, 1);
+    -tertiary-color:rgba(98,0,238,1);
     -btn-hover-fill: rgba(98, 0, 238, 0.04);
-    -fab-ext-btn-hover-color: rgba(112, 239, 222, 1);
-    -fab-ext-text-fill: rgba(0,0,0,0.87);
-    -btn-focused-fill: rgba(98, 0, 238, 0.12);
-    -btn-bkg-color: transparent;
-    -text-btn-disabled-fill: rgba(0, 0, 0, 0.38);
-    -outl-btn-border-color: rgba(0, 0, 0, 0.12);
+    -btn-outlined-hover-fill: rgba(98, 0, 238, 0.12);
+    -fab-ext-btn-hover-color: rgba(187, 134, 252, 0.88);
+    -play-btn-hover-color: rgba(3, 218, 197, 0.88);
+    -fab-ext-text-fill: rgba(0, 0, 0, 0.87);
+    -btn-focused-fill: rgba(187, 134, 252, 0.12);
+    -text-contained-focused-fill:rgba(98, 0, 238, 0.12);
+    -btn-bkg-color: white;
+    -outl-btn-border-color: rgba(255, 255, 255, 0.12);
+    -outl-btn-enabled-color: transparent;
+    -bkg-color: rgba(41, 41, 41, 1);
+    -text-fill: rgba(255, 255, 255, 0.87);
+    -list-cell: rgba(255, 255, 255, 0.04);
+    -list-cell-selected: rgba(187, 134, 252, 0.12);
+    -list-text-fill: rgba(255,255,255,0.6);
+    -scroll-bar-color: rgba(255,255,255,0.38);
 }
 
 .fab-extended-btn {
-    -fx-background-color: -secondary-color;
+    -fx-background-color: -primary-color;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: 12px,50%;
+    -fx-background-position: 12px, 50%;
     -fx-text-fill: -fab-ext-text-fill;
     -fx-background-radius: 24px;
     -fx-min-height: 48px;
@@ -79,24 +98,56 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.14), 5, 0, 0.0, 4);
 }
 
-#add-songs{
-    -fx-background-image: url("../assets/icons/add_black_24dp.png");
-}
-
-#play{
-    -fx-background-image: url("../assets/icons/play_arrow_black_24dp.png");
-}
-
-#clear-playlist{
-    -fx-background-image: url("../assets/icons/clear_black_24dp.png");
-}
-
 .fab-extended-btn:hover {
     -fx-background-color: -fab-ext-btn-hover-color;
 }
 
-.text-btn {
-    -fx-background-color: -btn-bkg-color;
+.fab-btn {
+    -fx-background-color: -primary-color;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 12px, 50%;
+    -fx-text-fill: -fab-ext-text-fill;
+    -fx-background-radius: 24px;
+    -fx-min-height: 48px;
+    -fx-max-height: 48px;
+    -fx-min-width: 48px;
+    -fx-max-width: 48px;
+    -fx-padding: 12px 12px 12px 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.14), 5, 0, 0.0, 4);
+}
+
+.fab-btn:hover {
+    -fx-background-color: -fab-ext-btn-hover-color;
+}
+
+#add-songs {
+    -fx-background-image: url("../assets/icons/add_black_24dp.png");
+}
+
+#play-btn {
+    -fx-background-color: -secondary-color;
+    -fx-background-image: url("../assets/icons/play_arrow_black_24dp.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 12px, 50%;
+    -fx-text-fill: -fab-ext-text-fill;
+    -fx-background-radius: 24px;
+    -fx-min-height: 48px;
+    -fx-max-height: 48px;
+    -fx-padding: 12px 24px 12px 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.14), 5, 0, 0.0, 4);
+}
+
+#play-btn:hover {
+    -fx-background-color: -play-btn-hover-color;
+}
+
+#clear-playlist {
+    -fx-background-image: url("../assets/icons/clear_black_24dp.png");
+}
+
+.text-btn-contained {
+    -fx-background-color: transparent;
+    -fx-text-fill: -tertiary-color;
     -fx-background-radius: 6px;
     -fx-border-radius: 6px;
     -fx-min-width: 160px;
@@ -105,26 +156,20 @@
     -fx-max-height: 48px;
 }
 
-.text-btn:hover {
+.text-btn-contained:hover {
     -fx-background-color: -btn-hover-fill;
-    -fx-text-fill: -primary-color;
 }
 
-.text-btn-focused {
-    -fx-background-color: -btn-focused-fill;
-    -fx-text-fill: -primary-color;
+.text-btn-contained-focused {
+    -fx-background-color: -text-contained-focused-fill;
 }
 
-.text-btn-enabled-color {
+.text-btn-contained-enabled-color {
     -fx-text-fill: -primary-color;
-}
-
-.text-btn-disabled-color {
-    -fx-text-fill: -text-btn-disabled-fill;
 }
 
 .outlined-btn {
-    -fx-background-color: -btn-bkg-color;
+    -fx-background-color: -outl-btn-enabled-color;
     -fx-border-color: -outl-btn-border-color;
     -fx-border-width: 1px;
     -fx-background-radius: 6px;
@@ -134,7 +179,7 @@
 }
 
 .outlined-btn:hover {
-    -fx-background-color: -btn-hover-fill;
+    -fx-background-color: -btn-outlined-hover-fill;
     -fx-text-fill: -primary-color;
 }
 
@@ -151,7 +196,7 @@
     -fx-text-fill: -primary-color;
 }
 
-.tool-bar{
+.tool-bar {
     -fx-padding: 0;
     -fx-background-color: transparent;
 }

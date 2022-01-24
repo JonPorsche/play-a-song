@@ -86,25 +86,25 @@ public class SongCell extends ListCell<Song> {
     }
 
     private void setTitleStyle(){
-        title.getStyleClass().add("text-font");
+        title.getStyleClass().addAll("text-font", "text-fill");
         title.setId("song-title");
         VBox.setMargin(title, new Insets(0,0,0,0));
     }
 
     private void setArtistStyle(){
-        artist.getStyleClass().add("text-font");
+        artist.getStyleClass().addAll("text-font", "list-text-fill");
         artist.setId("artist");
         VBox.setMargin(artist, new Insets((margin / 2),0,0,0));
     }
 
     private void setAlbumStyle(){
-        album.getStyleClass().add("text-font");
+        album.getStyleClass().addAll("text-font", "list-text-fill");
         album.setId("album");
         VBox.setMargin(album, new Insets(margin,0,0,0));
     }
 
     private void setDurationStyle(){
-        duration.getStyleClass().add("text-font");
+        duration.getStyleClass().addAll("text-font", "list-text-fill");
         duration.setId("duration");
         duration.setAlignment(Pos.CENTER_RIGHT);
         duration.setMaxWidth(Main.WINDOW_WIDTH * 0.037);

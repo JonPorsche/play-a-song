@@ -34,8 +34,8 @@ public class ButtonBoxView extends VBox {
     }
 
     private void setBtnStyles(){
-        playlistBtn.getStyleClass().addAll("text-btn", "text-btn-focused", "titles");
-        optionsBtn.getStyleClass().addAll("text-btn", "text-btn-disabled-color", "titles");
+        playlistBtn.getStyleClass().addAll("text-btn-contained", "text-btn-contained-focused", "titles");
+        optionsBtn.getStyleClass().addAll("text-btn-contained", "text-btn-contained-disabled-color", "titles");
 
         VBox.setMargin(playlistBtn, new Insets(8));
         VBox.setMargin(optionsBtn, new Insets(8));

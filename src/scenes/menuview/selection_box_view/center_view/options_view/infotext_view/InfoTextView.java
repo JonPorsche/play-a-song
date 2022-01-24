@@ -35,7 +35,7 @@ public class InfoTextView extends HBox {
                 0,
                 OPTIONS_VIEW_WIDTH * 0.0377));
 
-        infoText.getStyleClass().add("text-font");
+        infoText.getStyleClass().addAll("text-font", "text-fill");
         infoText.setId("info-text");
         infoText.setMinSize(OPTIONS_VIEW_WIDTH * 0.9245, OPTIONS_VIEW_HEIGHT * 0.1033);
         infoText.setAlignment(Pos.BASELINE_CENTER);

@@ -2,14 +2,19 @@ package scenes.menuview.selection_box_view.bottom_view;
 
 import application.Main;
 import business.service.PlaylistManager;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import scenes.BasicView;
+import scenes.menuview.MenuViewController;
 
 public class BottomViewController extends BasicView {
     private static BottomViewController INSTANCE = new BottomViewController(application);
+    public static final String PLAY_BTN = "playBtn";
+    public static final String CLEAR_BTN = "clearPlaylistBtn";
     private Pane bottomRootView;
     private BottomView bottomView;
     private Button addSongsBtn;
@@ -18,7 +23,7 @@ public class BottomViewController extends BasicView {
     private Button playBtn;
     private ToolBar toolBar;
 
-    private BottomViewController(Main application){
+    private BottomViewController(Main application) {
         super(application);
 
         this.bottomView = new BottomView();
@@ -31,14 +36,14 @@ public class BottomViewController extends BasicView {
         initialize();
     }
 
-    public static BottomViewController getInstance(){
+    public static BottomViewController getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new BottomViewController(application);
         }
         return INSTANCE;
     }
 
-    public void initialize(){
+    public void initialize() {
         handlePlayBtnClick();
         handleAddSongsBtnClick();
         handleClearPlaylistBtnClick();
@@ -81,6 +86,33 @@ public class BottomViewController extends BasicView {
             PlaylistManager.songs.clear();
         });
     }
+
+    public void hideBtns() {
+        toolBar.getItems().clear();
+        leftBtns.getChildren().clear();
+        leftBtns.getChildren().add(addSongsBtn);
+        toolBar.getItems().add(leftBtns);
+        leftBtns.setAlignment(Pos.CENTER);
+        addSongsBtn.setText("ADD SONGS");
+        clearPlaylistBtn.setText("CLEAR");
+        MenuViewController.switchBtnStyle(addSongsBtn, "fab-btn", "fab-extended-btn");
+        MenuViewController.switchBtnStyle(clearPlaylistBtn, "fab-btn", "fab-extended-btn");
+
+    }
+
+    public void showBtns(){
+        if (!toolBar.getItems().contains(playBtn)) toolBar.getItems().add(playBtn);
+        if (!leftBtns.getChildren().contains(clearPlaylistBtn)) leftBtns.getChildren().add(clearPlaylistBtn);
+        leftBtns.setAlignment(Pos.CENTER_LEFT);
+        addSongsBtn.setText(null);
+        clearPlaylistBtn.setText(null);
+        MenuViewController.switchBtnStyle(addSongsBtn, "fab-extended-btn", "fab-btn");
+        MenuViewController.switchBtnStyle(clearPlaylistBtn, "fab-extended-btn", "fab-btn");
+    }
+
+    public void hideToolBar(){toolBar.setVisible(false);}
+
+    public void showToolBar(){toolBar.setVisible(true);}
 
     public Pane getBottomRootView() {
         return bottomRootView;

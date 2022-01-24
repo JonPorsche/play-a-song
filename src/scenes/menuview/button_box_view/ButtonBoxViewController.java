@@ -3,9 +3,11 @@ package scenes.menuview.button_box_view;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import scenes.menuview.MenuViewController;
+import scenes.menuview.selection_box_view.bottom_view.BottomViewController;
 
 import static scenes.menuview.MenuViewController.OPTIONS_VIEW;
 import static scenes.menuview.MenuViewController.PLAYLIST_VIEW;
+import static scenes.menuview.selection_box_view.bottom_view.BottomViewController.PLAY_BTN;
 
 public class ButtonBoxViewController {
     private static ButtonBoxViewController INSTANCE = new ButtonBoxViewController();
@@ -35,11 +37,17 @@ public class ButtonBoxViewController {
     }
 
     private void handlePlaylistBtnClick() {
-        playlistBtn.setOnAction(event -> MenuViewController.getInstance().switchSelectionBoxView(PLAYLIST_VIEW));
+        playlistBtn.setOnAction(event -> {
+            MenuViewController.getInstance().switchSelectionBoxView(PLAYLIST_VIEW);
+            BottomViewController.getInstance().showToolBar();
+        });
     }
 
     private void handleOptionsBtnClick() {
-        optionsBtn.setOnAction(event -> MenuViewController.getInstance().switchSelectionBoxView(OPTIONS_VIEW));
+        optionsBtn.setOnAction(event -> {
+            MenuViewController.getInstance().switchSelectionBoxView(OPTIONS_VIEW);
+            BottomViewController.getInstance().hideToolBar();
+        });
     }
 
     public Pane getButtonBoxRootView() {
