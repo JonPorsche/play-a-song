@@ -3,5 +3,5 @@
 <properties>
 <comment>Individual Game Key Controls</comment>
 <entry key="move-down">COMMAND</entry>
-<entry key="move-up">UP</entry>
+<entry key="move-up">W</entry>
 </properties>
