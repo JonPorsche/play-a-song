@@ -10,7 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class OverlayPane extends Pane {
+
+public class OverlayPane extends StackPane {
   //public PlayerCharacter player = new PlayerCharacter();
   public Label scoreLabel;
   public Label positionPercentLabel;
@@ -18,6 +19,7 @@ public class OverlayPane extends Pane {
 
   public OverlayPane( ) {
     super( );
+
     //this.setStyle( "-fx-background-color:rgb(0, 150, 0);" );
 
     // --- Player Display ---
@@ -54,9 +56,5 @@ public class OverlayPane extends Pane {
     this.getChildren( ).addAll( centerPlayerCursor, scorePane, positionPane );
   }
 
-  public void declarePlayerCharacter(PlayerCharacter playerCharacter) {
-    ObservableList<Node> childs = this.getChildren( );
-    childs.clear( );
-    childs.add( playerCharacter );
-  }
+
 }
