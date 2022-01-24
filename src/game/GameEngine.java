@@ -380,23 +380,23 @@ public class GameEngine {
       gL.setIteam(getRandomIteam(x, (int) y));
       x= x+ ran.nextInt(1000)+500;
     }
+  }
+
+  private void setGamecoins( int startX, int endX) {
+    int iteamCricle = 20;
+    GameLevel gL = gameLoadedLevelPropPointer.getValue();
+    Random ran = new Random();
+    Random random = new Random();
+    for (int z = startX; z <= endX; ) {
+      int v = (int) (gL.getDownBoarder(z) - iteamCricle - 20 - (gL.getUpperBoarder(z) + iteamCricle + 20));
+      int b = random.nextInt(v);
+      int d = (int) (gL.getUpperBoarder(z) + iteamCricle + 20);
+      double y = b + d;
+      gL.setCoin(z, (int) y);
+      z = z + random.nextInt(100) + 300;
 
     }
-    private void setGamecoins( int startX, int endX) {
-      int iteamCricle = 20;
-      GameLevel gL = gameLoadedLevelPropPointer.getValue();
-      Random ran = new Random();
-      Random random = new Random();
-      for (int z = startX; z <= endX; ) {
-        int v = (int) (gL.getDownBoarder(z) - iteamCricle - 20 - (gL.getUpperBoarder(z) + iteamCricle + 20));
-        int b = random.nextInt(v);
-        int d = (int) (gL.getUpperBoarder(z) + iteamCricle + 20);
-        double y = b + d;
-        gL.setCoin(z, (int) y);
-        z = z + random.nextInt(100) + 300;
-
-      }
-    }
+  }
   private Iteam getRandomIteam(int x, int y) {
     GameIteam random = GameIteam.getRandom();
     switch (random) {
