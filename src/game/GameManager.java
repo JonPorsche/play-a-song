@@ -1,8 +1,9 @@
 package game;
 
 import application.Main;
-import game.sprites.Iteam;
+
 import game.sprites.PlayerCharacter;
+import game.sprites.basic.Iteam;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import uicomponents.game.GameDisplay;

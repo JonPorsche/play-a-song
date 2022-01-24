@@ -18,5 +18,6 @@
     <orderEntry type="library" name="src" level="project" />
     <orderEntry type="library" name="mp3agic" level="project" />
     <orderEntry type="library" name="javafx-sdk-17.0" level="project" />
+    <orderEntry type="library" name="mp3playerUtil" level="project" />
   </component>
 </module>

@@ -4,6 +4,7 @@ import application.Main;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -22,9 +23,10 @@ public class WorldPane extends Canvas {
   public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
   public WorldPane( int canWidth, int canHeight ) {
     super(
-            canWidth, //Main.gameManager.getCanvasWidthPx( ),
+            canWidth , //Main.gameManager.getCanvasWidthPx( ),
             canHeight
     );
+
     System.out.println(this.isResizable());
     System.out.println(canHeight);
     this.setStyle("-fx-background-color:rgb(0, 100, 0);");
@@ -50,26 +52,30 @@ public class WorldPane extends Canvas {
       ( ) -> this.setTranslateX( 0 - playerPos )
     );
   }
-  private void drawWall(List<Number> wallSideSteps, int yStartPos, List <Point2D>CordinatesArray) {
+  private void drawWall(List<Number> wallSideSteps, int yStartPos, List <Point2D>CordinatesArray, Boolean isTop) {
     GraphicsContext gc = this.getGraphicsContext2D();
     gc.beginPath( );
     gc.setFill( Color.BLACK );
     gc.setStroke( Color.BLACK );
     gc.moveTo( 0, yStartPos );
+    double heigth = 640;
+    double topheight = heigth/2;
+
+    double modifer = 3;
     for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ); curDrawIndex++) {
-      int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
+      int curDisplayAmp = (wallSideSteps.get( curDrawIndex ).intValue( ));
       double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
-      if(curDisplayAmp >640){
+      if(curDisplayAmp >heigth){
         curDisplayPos = 640;
       }
       if (curDisplayAmp<0){
         curDisplayPos = 1;
       }
-
-      gc.lineTo( curDisplayPos, curDisplayAmp );
+      gc.lineTo( curDisplayPos, curDisplayAmp);
       CordinatesArray.add(new Point2D.Double(curDisplayPos,curDisplayAmp));
-      String text = String.valueOf(curDisplayPos);
-      gc.fillText(text,curDisplayPos,500);
+
+
+
 
     }
 
@@ -77,14 +83,15 @@ public class WorldPane extends Canvas {
     gc.fill( );
     gc.closePath( );
   }
-  private void drawWall(List<Number> wallSideSteps, List <Point2D>CordinatesArray ) {
-    this.drawWall( wallSideSteps, 0,CordinatesArray);
+  private void drawWall(List<Number> wallSideSteps, List <Point2D>CordinatesArray,boolean isTop ) {
+    this.drawWall( wallSideSteps, 0,CordinatesArray, isTop);
   }
 
-  public void setWorldSteps( List<Double> allWorldSteps, double maxAmplitude ) {
+  public void setWorldSteps( List<Double> allWorldSteps, double maxAmplitude) {
     List<Number> generatedWorldTopPath = new ArrayList<>( );
     List<Number> generatedWorldBottomPath = new ArrayList<>( );
     int sampleCount = allWorldSteps.size( );
+
     for (int curAmpPos = 0; curAmpPos < sampleCount; curAmpPos++) {
       double curAmpValue = allWorldSteps.get( curAmpPos );
       if (curAmpValue < 0) curAmpValue = 0 -curAmpValue;
@@ -100,8 +107,8 @@ public class WorldPane extends Canvas {
       generatedWorldTopPath.add( curDisplayAmp );
       generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
     }
-    this.drawWall( generatedWorldTopPath,UpperCordinatesArray);
-    this.drawWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT,BottomCordinatesArray);
+    this.drawWall( generatedWorldTopPath,UpperCordinatesArray,true);
+    this.drawWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT,BottomCordinatesArray,false);
     Thread t1 = new Thread(()->this.calculateallXpoints(UpperCordinatesArray, allXYUpperArray)); t1.start();
     Thread t2 = new Thread(()->this.calculateallXpoints(BottomCordinatesArray, allXYBottomArray)); t2.start();
   }
@@ -114,25 +121,30 @@ public class WorldPane extends Canvas {
     double point2Y= cordinatesArray.get(1).getY();
     double point3X= cordinatesArray.get(2).getX();
     int index = 2;
+    GraphicsContext gc = this.getGraphicsContext2D();
     double m;
     double c;
     double y;
     m = (point1Y-point2Y)/(point1X-point2X);
     c = point1Y-(point1X*m);
     for(int x = 0; x < this.getWidth();x++ ){
-      if(x > point3X && index<length-1){
+      if(x > point2X && index<length-1){
         point1X = point2X;
         point1Y = point2Y;
         point2X = point3X;
         point2Y = cordinatesArray.get(index).getY();
         index++;
         point3X =cordinatesArray.get(index).getX();
-        m = (point2Y-point1Y)/(point2X-point1X);
+
+        m = (point2Y-point1Y)/(100);
 
         c = point1Y-(point1X*m);
       }
+
       y =(m * x)+c;
-      if(y<0){ y = y*-1; }
+      String text = String.valueOf(x);
+
+
       allXYArray.add(y);
     }
     isLoaded.set(isLoaded.getValue()+1);
