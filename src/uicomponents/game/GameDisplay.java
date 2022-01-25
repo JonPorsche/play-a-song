@@ -13,7 +13,7 @@ import scenes.gameview.GameView;
 public class GameDisplay extends Pane {
   //double width = Main.WINDOW_WIDTH;
   //double height = Main.WINDOW_HEIGHT;
-  public WorldPane gameWorldPane = null;
+  public WorldPane gameWorldPane = new WorldPane( );
   public IteamPane gameWorldIteams = null;
   public OverlayPane gameOverlayPanePane = new OverlayPane();
   public loadingPane load = new loadingPane();
@@ -30,9 +30,9 @@ public class GameDisplay extends Pane {
     StackPane.setMargin( background, new Insets( 0, 0, 2, 5 ) );
 
      */}
-  public void initCanvas(int canWidth) {
-    this.gameWorldPane = new WorldPane(Main.WINDOW_WIDTH * 15 /*canWidth*/, Main.WINDOW_HEIGHT);
-    this.gameWorldIteams = new IteamPane(Main.WINDOW_WIDTH * 15 /*canWidth*/, Main.WINDOW_HEIGHT);
+  public void initCanvas( int canWidth ) {
+    //this.gameWorldPane = new WorldPane( /*Main.WINDOW_WIDTH2*/canWidth ); //, Main.WINDOW_HEIGHT);
+    this.gameWorldIteams = new IteamPane( Main.WINDOW_WIDTH /*canWidth*/, Main.WINDOW_HEIGHT);
 
 
     //StackPane.setAlignment( this.gameOverlayPanePane, Pos.CENTER );
@@ -41,7 +41,7 @@ public class GameDisplay extends Pane {
   }
 
   public void updateAbsoluteLayerPos(Double x) {
-    gameWorldIteams.setCenterViewFrame(x);
+    //gameWorldIteams.setCenterViewFrame(x);
     gameWorldPane.setCenterViewFrame(x);
   }
 

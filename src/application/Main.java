@@ -135,7 +135,6 @@ public class Main extends Application {
 
 
                 Main.gameManager.loadLevelFromSong(PlaylistManager.getInstance().getSelectedSongPath());
-                Main.gameManager.startPlaying();
                 newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
                     @Override

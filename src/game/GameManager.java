@@ -58,8 +58,6 @@ public class GameManager {
       this.gameEngine.setNewLevel( new GameLevel (
           playingTrackFile.getAbsolutePath( )
       ) );
-
-    gameLoadedLevel.getValue().setSong(playingTrackFile.getAbsolutePath());
   }
 
   public void loadLevelFromSong( String newLevelSongPath ) {
@@ -68,8 +66,8 @@ public class GameManager {
   }
 
   public void startPlaying( ) {
-    /*int canWidth = Main.WINDOW_WIDTH * 15; //Main.gameManager.getCanvasWidthPx( );
-    this.gameEngine.getGameDisplayPane().initCanvas( canWidth );*/
+    /*int canWidth = Main.WINDOW_WIDTH * 15; //Main.gameManager.getCanvasWidthPx( );*/
+    this.gameEngine.getGameDisplayPane().initCanvas( this.gameLoadedLevel.getValue( ).getMapPixelWidth( ) );
 
     this.gameEngine.startPlaying( );
 

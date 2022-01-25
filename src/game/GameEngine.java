@@ -83,6 +83,8 @@ public class GameEngine {
     player.setRadius(30);
     player.setCenterX(500);
     guiGameDisplaySelector.declarePlayerCharacter( this.player );
+
+    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( ).addListener( this::onLevelisLoaded );
   }
 
   public GameDisplay getGameDisplayPane( ) {
@@ -91,19 +93,20 @@ public class GameEngine {
 
   public void setNewLevel( GameLevel gL ) {
     // Update PropertyValues
-    this.gameDisplaySelector.initCanvas( gL.getMapPixelWidth( ) );
-    this.gameLoadedLevelPropPointer.setValue( gL );
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
+
+    this.gameDisplaySelector.initCanvas( gL.getMapPixelWidth( ) );
+    this.gameLoadedLevelPropPointer.setValue( gL );
     //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
-    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
   }
 
 
   private void onLevelisLoaded(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newBoolean) {
-      GameLevel gL = gameLoadedLevelPropPointer.getValue();
+    GameLevel gL = gameLoadedLevelPropPointer.getValue();
+
     if (newBoolean){
       gL.setUpperbound(gameDisplaySelector.gameWorldPane.getAllXYUpperArray());
       gL.setBottombound(gameDisplaySelector.gameWorldPane.getAllXYBottomArray());
@@ -111,34 +114,35 @@ public class GameEngine {
       int worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
       int lengent = worldPixelLength/ 10;
       List<Thread> threads = new ArrayList<>();
+
       for (int x= 0 ; x < worldPixelLength; x+= lengent ){
         int xStart =x;
         int xEnd = x+lengent;
 
-          Thread t1 = new Thread(()->{
-            setGamecoins(xStart,xEnd);
+        Thread t1 = new Thread(()->{
+          setGamecoins(xStart,xEnd);
+        });
 
-          });
         Thread t = new Thread(()->{
           setGameIteams(xStart,xEnd);
-
         });
+
         t1.start();
         t.start();
+
         threads.add(t1);
         threads.add(t);
       }
-      for (int i = 0; i < threads.size(); i++) {
-        try {
-          threads.get(i).join();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
 
+      for (int i = 0; i < threads.size(); i++) {
+        try { threads.get(i).join(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
       }
-      if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 )
+
+      if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size( ) > 100) {
         this.gamePlayingStatePropPointer.setValue( GamePlayingState.READY );
-      startPlaying();
+        this.startPlaying( );
+      } else System.err.println( "Map zu klein!" );
     }
   }
 
@@ -164,7 +168,7 @@ public class GameEngine {
       final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000;
       final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
       final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
-      double curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
+      double curPlayerPosX = gamePlayerPosPropPointer.getValue( ).intValue( );
       double gameSpeed;
       double pixelPerSceond;
       {
