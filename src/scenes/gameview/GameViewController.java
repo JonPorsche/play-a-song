@@ -86,8 +86,13 @@ public class GameViewController extends BasicView {
     // Dann Zeichne die Leinwand erneut...
     gM.getLoadedLevelProperty( ).addListener(
       (o, oV, newLoadedLevel) -> {
-        if (gameViewPane.gameDisplay.gameWorldPane != null)
-          gameViewPane.gameDisplay.gameWorldPane.setWorldSteps( newLoadedLevel.getMapChunks( ), newLoadedLevel.getMaxAmplitude( ) );
+        if (gameViewPane.gameDisplay.gameWorldPane != null) {
+          try {
+            gameViewPane.gameDisplay.gameWorldPane.setWorldSteps( newLoadedLevel.getMapChunks( ), newLoadedLevel.getMaxAmplitude( ) );
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
       }
     );
   }

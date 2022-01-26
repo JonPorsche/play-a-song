@@ -1,9 +1,10 @@
 package uicomponents.game;
 
 import application.Main;
+import game.GameEngine;
+import game.GameManager;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,7 +12,6 @@ import javafx.scene.paint.Color;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class WorldPane extends Canvas {
@@ -24,9 +24,9 @@ public class WorldPane extends Canvas {
   private List<Number> generatedWorldTopPath;
   private List<Number> generatedWorldBottomPath;
 
-  public WorldPane( ) {
+  public WorldPane() {
     super( Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
-    this.setTranslateX( -100 );
+
 
     System.out.println(this.isResizable());
 
@@ -54,71 +54,50 @@ public class WorldPane extends Canvas {
     this.updateCanvasWall( (int)playerPos );
   }
 
-  private void updateCanvasSingleWall( List<Number> wallSideSteps, int yStartPos, int playerPosX ) {
-    GraphicsContext gc = this.getGraphicsContext2D( );
-    gc.clearRect(0, 0, Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
-    gc.setFill( Color.DIMGREY );
-    gc.fillRect(0, 0, Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT);
+  private void updateCanvasSingleWall(List<Double> wallSideSteps,List<Point2D> wallpoints, int yStartPos, int playerPosX ) {
+    int drawStartPos = playerPosX;
+    int playerStartY = wallSideSteps.get(drawStartPos).intValue();
+    int index = drawStartPos / 100;
+    GraphicsContext gc = this.getGraphicsContext2D();
+    gc.setFill(Color.BLACK);
+    gc.setStroke(Color.BLACK);
+    gc.beginPath();
+    int i;
+    gc.moveTo(0, yStartPos);
+    for ( i = index; i < index + 15; i++) {
+      int x = (int) wallpoints.get(i).getX() - playerPosX;
+      int y = (int)wallpoints.get(i).getY();
+      gc.lineTo(x, y);
+    }
+    gc.lineTo(playerPosX+ wallpoints.get(i).getX(),yStartPos);
+    gc.stroke();
+    gc.closePath();
+      gc.fill();
 
-    // Wall Color
-    gc.setFill( Color.BLACK );
-    gc.setStroke( Color.BLACK );
 
-    double modifer = 3;
-    boolean firstPoint = false;
-    int canvasWidth = Main.WINDOW_WIDTH +200;
-    int stepsPerFrame = canvasWidth / Main.MAP_CHUNK_WIDTH_PX;
-    int drawStartPos = playerPosX - (canvasWidth /2);
-    int drawStartStepIndex = drawStartPos / Main.MAP_CHUNK_WIDTH_PX;
-
-    for (int curFrameStep = 0; curFrameStep < stepsPerFrame; curFrameStep++) {
-      int curDrawIndex = drawStartStepIndex + curFrameStep;  //drawStartIndex + ( curFrameStep * Main.MAP_CHUNK_WIDTH_PX );
-      if (curDrawIndex < 0
-      ||  curDrawIndex >= wallSideSteps.size()
-      ) {
-        continue;
-      }
-
-      int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
-      int curDisplayPos = 0 - (curDrawIndex * Main.MAP_CHUNK_WIDTH_PX) - (drawStartPos % Main.MAP_CHUNK_WIDTH_PX);
-
-      if (!firstPoint) {
-        gc.beginPath( );
-        gc.moveTo( curDisplayPos, yStartPos );
-
-        firstPoint = true;
-      }
-      gc.lineTo( curDisplayPos, curDisplayAmp);
     }
 
-    /*for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ) && Main.WINDOW_WIDTH > curDrawIndex * Main.MAP_CHUNK_WIDTH_PX; curDrawIndex++) {
-      int curDisplayAmp = (wallSideSteps.get( curDrawIndex ).intValue( ));
-      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
 
-      gc.lineTo( curDisplayPos, curDisplayAmp);
-    }*/
 
-    gc.lineTo( Main.WINDOW_WIDTH +200, yStartPos );
-    gc.closePath( );
-    gc.fill( );
-  }
 
   private void updateCanvasWall( int centerDrawIndex ) {
-    this.updateCanvasSingleWall( this.generatedWorldTopPath, 0, centerDrawIndex );
-    //this.updateCanvasSingleWall( this.generatedWorldBottomPath, Main.WINDOW_HEIGHT, centerDrawIndex );;
+    GraphicsContext gt = this.getGraphicsContext2D( );
+    gt.clearRect(0, 0,this.getWidth(), this.getHeight());
+    updateCanvasSingleWall( this.allXYUpperArray,UpperCordinatesArray, 0, centerDrawIndex );
+    updateCanvasSingleWall( this.allXYBottomArray,BottomCordinatesArray, Main.WINDOW_HEIGHT, centerDrawIndex );
+
   }
 
   private void drawWall(List<Number> wallSideSteps, List <Point2D>CordinatesArray) {
     double modifer = 3;
-    for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ) && Main.WINDOW_WIDTH > curDrawIndex * Main.MAP_CHUNK_WIDTH_PX; curDrawIndex++) {
+    for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ) ;curDrawIndex++) {
       int curDisplayAmp = (wallSideSteps.get( curDrawIndex ).intValue( ));
       double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
-
       CordinatesArray.add(new Point2D.Double(curDisplayPos,curDisplayAmp));
     }
   }
 
-  public void setWorldSteps( List<Double> allWorldSteps, double maxAmplitude) {
+  public void setWorldSteps( List<Double> allWorldSteps, double maxAmplitude) throws InterruptedException {
     this.generatedWorldTopPath = new ArrayList<>( );
     this.generatedWorldBottomPath = new ArrayList<>( );
     int sampleCount = allWorldSteps.size( );
@@ -142,7 +121,8 @@ public class WorldPane extends Canvas {
     this.drawWall( generatedWorldBottomPath, BottomCordinatesArray );
     Thread t1 = new Thread(()->this.calculateallXpoints(UpperCordinatesArray, allXYUpperArray)); t1.start();
     Thread t2 = new Thread(()->this.calculateallXpoints(BottomCordinatesArray, allXYBottomArray)); t2.start();
-
+    t1.join();
+    t2.join();
     this.isDoneLoadingLevel.setValue( true );
   }
   private void calculateallXpoints(List<Point2D> cordinatesArray, List<Double> allXYArray ) {
@@ -160,7 +140,7 @@ public class WorldPane extends Canvas {
     double y;
     m = (point1Y-point2Y)/(point1X-point2X);
     c = point1Y-(point1X*m);
-    for(int x = 0; x < this.getWidth();x++ ){
+    for(int x = 0; x < last;x++ ){
       if(x > point2X && index<length-1){
         point1X = point2X;
         point1Y = point2Y;
@@ -172,6 +152,9 @@ public class WorldPane extends Canvas {
         m = (point2Y-point1Y)/(100);
 
         c = point1Y-(point1X*m);
+      }if (x == last-3){
+        System.out.println("worked");
+
       }
 
       y =(m * x)+c;

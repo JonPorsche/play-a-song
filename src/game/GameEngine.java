@@ -105,8 +105,9 @@ public class GameEngine {
     //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
     gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
-    startPlaying();
     this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
+    startPlaying();
+
   }
 
 
@@ -157,9 +158,9 @@ public class GameEngine {
     Double test = getGameSpeedProperty().get();
 
     GameEngine gE = this;
-    if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )
+   /* if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )
     || this.gameAnimatedThread != null
-    ) return;
+    ) return;*/
 
     this.gameAnimatedThread = new AnimationTimer() {
 
@@ -212,17 +213,12 @@ public class GameEngine {
           gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 3 + plusscore);
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
-        }
-        
-        /*if (mapCollsion()){
-          System.out.println("Map Collison");
-        }*/
-        
         lastUpdated = now;
+      }
       }
     };
 
-    this.gameAnimatedThread.start();
+    gameAnimatedThread.start();
   }
 
   public void startPlaying( ) {
