@@ -2,6 +2,7 @@ package scenes.gameview;
 
 import application.Main;
 import game.GameManager;
+import game.GamePlayingState;
 import scenes.BasicView;
 import uicomponents.game.GameDisplay;
 import uicomponents.game.OverlayController;
@@ -47,13 +48,12 @@ public class GameViewController extends BasicView {
             gameViewPane.gameDisplay.setVisible(false);
             gameViewPane.overlayView.setVisible(false);
             pausPaneController.isLoading();
-        case NOTREADY:
-          // Display ErrorMsg
-          break;
+
         case READY:
           gameDisplayPane.showPlay();
           gameViewPane.gameDisplay.setVisible(true);
           pausPaneController.ready();
+
 
           // Display GoButton
           //

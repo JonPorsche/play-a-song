@@ -17,7 +17,7 @@ public class PausePane extends AnchorPane {
     public PausePane() {
         getStyleClass().addAll("pause-pane");
         this.setWidth(Main.WINDOW_WIDTH);
-        this.setHeight(Main.WINDOW_HEIGHT);
+        this.setHeight(Main.WINDOW_HEIGHT+200);
         setPlayB();
         setPausetext();
         setPauseBox();

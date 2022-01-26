@@ -1,16 +1,13 @@
-package game.sprites;
+package game.sprites.logic;
 
 import game.GameEngine;
 import game.GamePlayingState;
-import game.sprites.basic.SpriteCircle;
+import game.sprites.optic.SpriteCircle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.io.File;
-import java.util.List;
-
-import static javafx.scene.paint.Color.BLUE;
 
 public class PlayerCharacter extends SpriteCircle {
   private boolean hasIteam;
