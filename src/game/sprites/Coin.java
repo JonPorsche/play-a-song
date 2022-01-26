@@ -29,14 +29,15 @@ public class Coin extends IteamLogic implements Iteam {
         this.setCenterY(yPos);
         this.gamespeed = 1;
         this.sizeModifer = -1;
+        this.score =100;
 
     }
 
     @Override
     public void collision(GameEngine ge, PlayerCharacter pl) {
         if (!isUsed.getValue()) {
-
             isUsed.setValue(true);
+            ge.addScore(score);
             Mp3Player soundP = new Mp3Player();
             soundP.load(sound.getAbsolutePath());
             soundP.play();

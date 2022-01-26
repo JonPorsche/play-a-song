@@ -57,7 +57,7 @@ public class PlayerCharacter extends SpriteCircle {
       int seconds = 0;
       while (seconds <= 10) {
         if (gE.gamePlayingStatePropPointer.getValue() == GamePlayingState.PLAY){
-          seconds =+ 1;
+          seconds += 1;
         }
         try {
           Thread.sleep(1000);

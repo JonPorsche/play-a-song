@@ -1,26 +1,28 @@
 package scenes.gameview;
 
 import application.Main;
-import business.service.PlaylistManager;
 import game.GameManager;
-import game.GamePlayingState;
 import scenes.BasicView;
 import uicomponents.game.GameDisplay;
-import uicomponents.game.WorldPane;
+import uicomponents.game.OverlayController;
+import uicomponents.game.PausePaneController;
 
 public class GameViewController extends BasicView {
   protected GameManager gameManager;
   public GameDisplay gameDisplayPane;
+  public OverlayController overlayController;
+  public PausePaneController pausPaneController;
 
   public GameViewController( Main app ) {
     super( app );
-
-    GameView gameViewPane = new GameView( );
-    this.menuRootView = gameViewPane;
-
     GameManager gM = app.getGameManger( );
     this.gameManager = gM;
-
+    pausPaneController = new PausePaneController(gM);
+    overlayController = new OverlayController(gM);
+    GameView gameViewPane = new GameView( );
+    gameViewPane.pauseView.getChildren().add(pausPaneController.pausePane);
+    gameViewPane.overlayView.getChildren().add(overlayController.overlayPane);
+    this.menuRootView = gameViewPane;
     this.gameDisplayPane = gameViewPane.gameDisplay;
     app.defineGameDisplayPane( gameViewPane.gameDisplay);
 
@@ -35,32 +37,40 @@ public class GameViewController extends BasicView {
 
     // Wenn sich der SpielStatus ändert
     // Dann pass die GUI auf das neue Szenario an
+    gameViewPane.gameDisplay.setVisible(false);
+    gameViewPane.overlayView.setVisible(false);
+    pausPaneController.isLoading();
     gM.getPlayingStateProperty( ).addListener( (o, oV, newState) -> {
       switch (newState) { // @ToDo: GameViewPanel Switching
         case LOADING:
             //Display Loadingscreen
-            gameDisplayPane.showLoading();
+            gameViewPane.gameDisplay.setVisible(false);
+            gameViewPane.overlayView.setVisible(false);
+            pausPaneController.isLoading();
         case NOTREADY:
           // Display ErrorMsg
           break;
         case READY:
-          gameDisplayPane.removeLoading();
           gameDisplayPane.showPlay();
-          gameManager.play();
+          gameViewPane.gameDisplay.setVisible(true);
+          pausPaneController.ready();
+
           // Display GoButton
           //
           break;
         case PLAY:
-          gameViewPane.gameOverlayPanePane.pauseButton.setOnAction(event -> {
-            if (gM.getPlayingStateProperty().getValue() == GamePlayingState.PLAY) {
-              gameManager.pause();
-            }});
+
+          overlayController.play();
+          pausPaneController.play();
+          gameViewPane.pausePane.setVisible(false);
+          gameViewPane.overlayView.setVisible(true);
           break;
         case PAUSE:
-          gameViewPane.gameOverlayPanePane.pauseButton.setOnAction(event -> {
-            if (gM.getPlayingStateProperty().getValue() == GamePlayingState.PAUSE) {
-            gameManager.play();
-          }});
+          gameViewPane.pausePane.setVisible(true);
+          gameViewPane.overlayView.setVisible(false);
+          overlayController.pause();
+          pausPaneController.pause();
+
           //DisplayPauseScreen
           // Display PauseMenu
           break;

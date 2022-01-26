@@ -15,10 +15,9 @@ public class GameDisplay extends Pane {
   //double height = Main.WINDOW_HEIGHT;
   public WorldPane gameWorldPane = null;
   public IteamPane gameWorldIteams = null;
-  public OverlayPane gameOverlayPanePane = new OverlayPane();
   public loadingPane load = new loadingPane();
   public GameView gameView;
-  private PlayerCharacter playerCharter;
+
 
     public GameDisplay(GameView gameView) {
 
@@ -50,7 +49,7 @@ public class GameDisplay extends Pane {
   }
 
    public void declarePlayerCharacter(PlayerCharacter playerCharacter) {
-     this.getChildren().add(playerCharacter);
+     Platform.runLater(()->this.getChildren().add(playerCharacter));
     }
    public void showLoading() {
       Platform.runLater(()->this.getChildren().addAll(load));

@@ -200,3 +200,72 @@
     -fx-padding: 0;
     -fx-background-color: transparent;
 }
+.play-btn{
+    -fx-background-color: -secondary-color;
+    -fx-background-image: url("../assets/icons/img.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-radius: 30px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+
+}
+.play-btn:hover{
+    -fx-background-color: -play-btn-hover-color;
+
+
+}
+.pause-pane{
+    -fx-background-color: rgba(48, 48, 48, 0.70);
+    -fx-min-height: 640px;
+    -fx-min-width: 1200px;
+
+
+}
+.pause-btn{
+    -fx-background-color: -primary-color;
+    -fx-background-image: url("../assets/icons/pause.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-radius: 30px;
+
+    -fx-min-height: 35px;
+    -fx-max-height: 35px;
+    -fx-pref-width: 35px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 80%, 80%;
+    -fx-background-position:center;
+
+}
+.pause-btn:hover{
+    -fx-background-color: -fab-ext-btn-hover-color;
+
+
+}
+.pause-pane{
+    -fx-background-color: rgba(48, 48, 48, 0.70);
+    -fx-min-height: 640px;
+    -fx-min-width: 1000px;
+
+
+}
+
+
+.score-box{
+    -fx-background-color: -bbkg-color;
+    -fx-padding: 0,10,0,10;
+    -fx-background-radius: 0px 0px 20px 0px;
+    -fx-pref-height: 40px;
+
+
+}
+.pause-text{
+    -fx-font-family: "Roboto Mono";
+    -fx-font-weight: 500;
+    -fx-font-size: 30;
+    -fx-text-alignment: center;
+    -fx-text-fill: -text-fill;
+
+
+}
+
+
+

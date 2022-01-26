@@ -131,11 +131,9 @@ public class Main extends Application {
                 // TODO Take the Game view from the scenes hash map and set it to the primary stage
                 rootPane = scenes.get(scene);
                 Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+                newScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
                 primaryStage.setScene(newScene);
-
-
                 Main.gameManager.loadLevelFromSong(PlaylistManager.getInstance().getSelectedSongPath());
-                Main.gameManager.startPlaying();
                 newScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
                     @Override
@@ -199,8 +197,8 @@ public class Main extends Application {
     }
 
     public void defineGameDisplayPane(GameDisplay gameDisplay) {
-        if (this.gameManager != null)
-            this.gameManager.declareGameDisplayPane(gameDisplay);
+        if (this.gameManager != null);
+          //  this.gameManager.declareGameDisplayPane(gameDisplay);
     }
 
     @Override

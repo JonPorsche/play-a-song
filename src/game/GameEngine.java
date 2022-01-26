@@ -45,6 +45,7 @@ public class GameEngine {
   protected ObjectProperty<Number> gamePlayerScorePropPointer;
   protected  ObjectProperty<Number> gamePlayerLifePointer;
   protected FloatProperty pastgameSpeed = new SimpleFloatProperty(1);
+  private double plusscore;
 
 
   public GameEngine(
@@ -78,6 +79,7 @@ public class GameEngine {
 
   public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
     this.gameDisplaySelector = guiGameDisplaySelector;
+    System.out.println("hi dumbass");
     player = new PlayerCharacter();
     player.setCenterY(500);
     player.setRadius(30);
@@ -179,21 +181,34 @@ public class GameEngine {
       }
 
       @Override
-      public void handle(long now) {
+      public void  handle(long now) {
 
         if (lastRendered + FPNS_DELTA < now) {
+          synchronized (this) {
             gameDisplaySelector.updateAbsoluteLayerPos((double) curPlayerPosX);
             lastRendered = now;
+          }
         }
         if (lastUpdated + UPNS_DELTA < now) {
           if(!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )){
             mp3Player.pause();
             stop();
           }
+          synchronized(this) {
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( );
-          gamePlayerPosPropPointer.setValue(((curPlayerPosX ) +(2)));
+          if(gameSpeed>2){
+            gameSpeed = 2;
+          }
+          if (gameSpeed < 0.2){
+            gameSpeed = 0.2;
+          }
+          double value = curPlayerPosX +2 ;
+
+            gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 2 + plusscore);
+            plusscore= 0;
+            gamePlayerPosPropPointer.setValue(value);}
           if (mapCollsion()){
             System.out.println("Map Collison");
           }
@@ -287,15 +302,10 @@ public class GameEngine {
   }
 
   public void addScore(double score) {
-    int a = (int) (gamePlayerScorePropPointer.getValue().intValue()+ score);
-    gamePlayerScorePropPointer.setValue(a);
+    plusscore += score;
+
   }
 
-  public void setIteams() {
-    for (Number i :Iteams.keySet()){
-     // gameDisplaySelector.addIteam(Iteams.get(i));
-    }
-  }
 
   public boolean voidIteamCollsion(Iteam iteam, double newPos){
     double playerX = newPos +500;
@@ -433,8 +443,11 @@ public class GameEngine {
 
     this.gamePlayerScorePropPointer.addListener( (o, oS, newScore) ->  {
       if (isLoadedLevelReady( ))
-        pLevelProp.getValue( ).gamePlayerScore = newScore.intValue( );
-    });
+
+        synchronized(this) {
+          pLevelProp.getValue().gamePlayerScore = (int) (newScore.intValue());
+          plusscore = 0;
+        }});
     /*this.playerPosX.addListener( (o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
@@ -478,7 +491,7 @@ public class GameEngine {
       int seconds = 0;
       while (seconds <= 10) {
         if (gamePlayingStatePropPointer.getValue() == GamePlayingState.PLAY){
-          seconds =+ 1;
+          seconds += 1;
         }
         try {
           Thread.sleep(1000);
