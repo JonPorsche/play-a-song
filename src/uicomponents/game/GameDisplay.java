@@ -52,7 +52,7 @@ public class GameDisplay extends Pane {
   }
 
    public void declarePlayerCharacter(PlayerCharacter playerCharacter) {
-     Platform.runLater(()->this.getChildren().add(playerCharacter));
+     //Platform.runLater(()->this.getChildren().add(playerCharacter));
     }
    public void showLoading() {
       Platform.runLater(()->this.getChildren().addAll(load));

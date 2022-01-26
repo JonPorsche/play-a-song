@@ -59,7 +59,8 @@ public class GameViewController extends BasicView {
           //
           break;
         case PLAY:
-
+          gameDisplayPane.showPlay();
+          gameViewPane.gameDisplay.setVisible(true);
           overlayController.play();
           pausPaneController.play();
           gameViewPane.pausePane.setVisible(false);

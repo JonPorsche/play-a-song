@@ -105,7 +105,8 @@ public class GameEngine {
     //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
     gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
-    //this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
+    startPlaying();
+    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
   }
 
 
@@ -151,7 +152,7 @@ public class GameEngine {
   }
 
   private void startEngine( ) {
-    mp3Player.play();
+   // mp3Player.play();
     getGameSpeedProperty( ).setValue( (double) 1/ (double)60);
     Double test = getGameSpeedProperty().get();
 
@@ -188,7 +189,7 @@ public class GameEngine {
       public void handle(long now) {
 
         if (lastRendered + FPNS_DELTA < now) {
-            gameDisplaySelector.updateAbsoluteLayerPos((double) curPlayerPosX);
+            gameDisplaySelector.updateAbsoluteLayerPos((double) gamePlayerPosPropPointer.getValue());
             lastRendered = now;
         }
         if (lastUpdated + UPNS_DELTA < now) {
@@ -207,10 +208,8 @@ public class GameEngine {
           if (gameSpeed < MIN_SPEED){
             gameSpeed = 0.2;
           }
-          
           double value = curPlayerPosX +2 ;
-
-          gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 2 + plusscore);
+          gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 3 + plusscore);
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
         }
