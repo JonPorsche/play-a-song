@@ -65,35 +65,13 @@ public class SpriteLogic extends SpriteCircle {
         this.imagePatterns.add(imagePattern);
 
     }
-
-    public void setIsVisabile(Boolean isVisable){
-        isVisabile.set(isVisable);
-    }
-
-
     public void setImageContent() {
         this.setFill(imagePatterns.get(animationIndex.getValue()));
 
     }
-    public void setImageSerienContent(ImagePattern[] newStyles) { }
-    public void setImageSerienContent(List<ImagePattern> newStyles) { }
-
-
-
-
     public double getGamespeed() {
         return gamespeed;
     }
 
-    public double getSizeModifer() {
-        return sizeModifer;
-    }
 
-    public double getScore() {
-        return score;
-    }
-
-    public double getScoreModifer() {
-        return scoreModifer;
-    }
 }

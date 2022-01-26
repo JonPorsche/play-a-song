@@ -2,11 +2,12 @@ package game.sprites.optic;
 
 import game.sprites.basic.GameObject;
 import game.sprites.basic.Knockable;
+import game.sprites.basic.Sprite;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
 
-public class SpriteCircle extends Circle implements Knockable, GameObject {
-  protected double sizeModifer;
+public class SpriteCircle extends Circle implements Knockable, GameObject, Sprite {
+  public double sizeModifer;
   protected double speedModfer;
   protected double gamespeed = 1;
   protected double pixelpermiliscond;

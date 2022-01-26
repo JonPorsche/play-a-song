@@ -1,9 +1,6 @@
 package uicomponents.game;
 
 import application.Main;
-import game.GameEngine;
-import game.GameManager;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import javafx.scene.canvas.Canvas;
@@ -38,6 +35,7 @@ public class WorldPane extends Canvas {
       }
     });*/
   }
+
 
   public List<Double> getAllXYUpperArray() {
     return allXYUpperArray;
@@ -123,7 +121,8 @@ public class WorldPane extends Canvas {
     Thread t2 = new Thread(()->this.calculateallXpoints(BottomCordinatesArray, allXYBottomArray)); t2.start();
     t1.join();
     t2.join();
-    this.isDoneLoadingLevel.setValue( true );
+    this.isDoneLoadingLevel.setValue(true);
+
   }
   private void calculateallXpoints(List<Point2D> cordinatesArray, List<Double> allXYArray ) {
     int length = cordinatesArray.size();
@@ -171,7 +170,9 @@ public class WorldPane extends Canvas {
   }
 
   public double getLength() {
-   return this.getWidth();
+
+    int last = (int) UpperCordinatesArray .get(UpperCordinatesArray.size()-1).getX();
+   return last;
   }
 }
 

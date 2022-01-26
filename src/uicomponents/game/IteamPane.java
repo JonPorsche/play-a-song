@@ -1,6 +1,7 @@
 package uicomponents.game;
 
 import game.sprites.basic.Iteam;
+import game.sprites.basic.Sprite;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -27,14 +28,15 @@ public class IteamPane extends Pane {
 
   }
 
-  public void addIteam(Iteam iteam) {
+
+  public void removeIteam(Sprite sprite) {
     Platform.runLater(
-      () -> this.getChildren().add((Node) iteam)
+      () -> this.getChildren().remove(sprite)
     );
   }
-  public void removeIteam(Iteam iteam) {
+
+  public void addIteam(Sprite sprite) {
     Platform.runLater(
-      () -> this.getChildren().remove(iteam)
-    );
+            () -> this.getChildren().add((Node) sprite));
   }
 }

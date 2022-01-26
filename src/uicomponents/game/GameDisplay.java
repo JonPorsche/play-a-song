@@ -2,6 +2,7 @@ package uicomponents.game;
 
 import application.Main;
 
+import game.sprites.basic.Sprite;
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 import javafx.application.Platform;
@@ -43,16 +44,16 @@ public class GameDisplay extends Pane {
   }
 
   public void updateAbsoluteLayerPos(Double x) {
-    //gameWorldIteams.setCenterViewFrame(x);
+    gameWorldIteams.setCenterViewFrame(x);
     gameWorldPane.setCenterViewFrame(x);
   }
 
-  public void removeIteam(Iteam iteam) {
-    Platform.runLater(() -> gameWorldIteams.removeIteam(iteam));
+  public void removeIteam(Sprite sprite) {
+    Platform.runLater(() -> gameWorldIteams.removeIteam(sprite));
   }
 
    public void declarePlayerCharacter(PlayerCharacter playerCharacter) {
-     //Platform.runLater(()->this.getChildren().add(playerCharacter));
+        Platform.runLater(()->this.getChildren().add(playerCharacter.getSprite()));
     }
    public void showLoading() {
       Platform.runLater(()->this.getChildren().addAll(load));

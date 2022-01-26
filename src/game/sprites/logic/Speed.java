@@ -1,48 +1,60 @@
 package game.sprites.logic;
-
 import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
 import game.sprites.basic.Sprite;
 import game.sprites.optic.CoinSprite;
+import game.sprites.optic.SpeedSprite;
+import game.sprites.optic.SpriteLogic;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 import java.io.File;
 
-public class Coin implements Iteam {
-    CoinSprite coinSprite = null;
+import static javafx.scene.paint.Color.BLUE;
+
+public class Speed  implements Iteam {
+    SpeedSprite speedSprite = null;
     int x;
     int y;
-    int radius = 20;
+    double gamespeed =0.80;
+    double sizeModifer =5;
     double score = 1000;
+    double radius;
 
-    public Coin(int xPos, int yPos) {
+    public Speed(int xPos, int yPos ) {
         this.x = xPos;
         this.y = yPos;
+
     }
+
     @Override
     public void collision(GameEngine ge, PlayerCharacter pl) {
-        if (!coinSprite.isUsed.getValue()) {
-            coinSprite.isUsed.setValue(true);
-            ge.addScore(score);
+        if (!speedSprite.isUsed.getValue()) {
+            pl.addSizeModifer(speedSprite.sizeModifer,ge);
+            pl.setPlayerImgSpeed();
+            ge.addGamespeed((float) speedSprite.gamespeed);
+            ge.addScore(speedSprite.score);
+            speedSprite.isUsed.setValue(true);
             Mp3Player soundP = new Mp3Player();
-            soundP.load(coinSprite.sound.getAbsolutePath());
+            soundP.load(speedSprite.sound.getAbsolutePath());
             soundP.play();
         }
+
     }
+
     @Override
     public void setIsVisabile(boolean b) {
         if(b){
-            coinSprite = new CoinSprite(x, y, radius);
-
-        }else{
-            coinSprite = null;
+        speedSprite = new SpeedSprite(x,y);
+    }else{
+            speedSprite = null;
         }
     }
 
+    @Override
     public Sprite getSprite() {
-        return coinSprite;
+        return speedSprite;
     }
 
     @Override
@@ -52,12 +64,13 @@ public class Coin implements Iteam {
 
     @Override
     public int getRadius() {
-        return radius;
+        return (int) radius;
     }
 
     @Override
     public double getY() {
         return y;
     }
-}
 
+
+}
