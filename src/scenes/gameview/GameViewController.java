@@ -48,11 +48,7 @@ public class GameViewController extends BasicView {
             gameViewPane.gameDisplay.setVisible(false);
             gameViewPane.overlayView.setVisible(false);
             pausPaneController.isLoading();
-            gM.getPlayingStateProperty().setValue(GamePlayingState.PLAY);
 
-            case NOTREADY:
-          // Display ErrorMsg
-          break;
         case READY:
           gameDisplayPane.showPlay();
           gameViewPane.gameDisplay.setVisible(true);

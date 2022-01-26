@@ -87,6 +87,7 @@ public class GameEngine {
     player.setRadius(30);
     player.setCenterX(500);
     guiGameDisplaySelector.declarePlayerCharacter( this.player );
+
   }
 
   public GameDisplay getGameDisplayPane( ) {
@@ -103,6 +104,7 @@ public class GameEngine {
     this.gameLoadedLevelPropPointer.setValue( gL );
     //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
+    gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
     //this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
   }
 
@@ -213,9 +215,9 @@ public class GameEngine {
           gamePlayerPosPropPointer.setValue(value);
         }
         
-        if (mapCollsion()){
+        /*if (mapCollsion()){
           System.out.println("Map Collison");
-        }
+        }*/
         
         lastUpdated = now;
       }
@@ -423,7 +425,7 @@ public class GameEngine {
       public void changed( ObservableValue<? extends Double> o, Double oPos, Double newPos ) {
         if (isDisplayCanvasReady( )) {
           // @ToDo: Prüfe ob doppelt
-          updateIteams( oPos, newPos );
+          //updateIteams( oPos, newPos );
         }
       }
     } );
