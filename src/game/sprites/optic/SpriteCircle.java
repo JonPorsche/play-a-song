@@ -1,5 +1,7 @@
-package game.sprites.basic;
+package game.sprites.optic;
 
+import game.sprites.basic.GameObject;
+import game.sprites.basic.Knockable;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
 

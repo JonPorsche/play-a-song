@@ -2,7 +2,7 @@ package uicomponents.game;
 
 import application.Main;
 
-import game.sprites.PlayerCharacter;
+import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;

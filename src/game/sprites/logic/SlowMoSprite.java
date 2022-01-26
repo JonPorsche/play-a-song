@@ -1,20 +1,20 @@
-package game.sprites;
+package game.sprites.logic;
 
 import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
 import game.sprites.basic.Knockable;
+import game.sprites.optic.SlowMotionSprite;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 import java.io.File;
 
-import static javafx.scene.paint.Color.BLUE;
 import static javafx.scene.paint.Color.RED;
 
-public class SlowMoIteam extends IteamLogic implements Iteam {
+public class SlowMoSprite extends SlowMotionSprite implements Iteam {
 
-  public SlowMoIteam( int xPos, int yPos ) {
+  public SlowMoSprite(int xPos, int yPos )  {
     super( xPos,yPos);
     this.setCenterX(xPos);
     this.setCenterY(yPos);

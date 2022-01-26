@@ -6,9 +6,9 @@ package game;
 import business.service.Mp3Player;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import game.sprites.PlayerCharacter;
-import game.sprites.SlowMoIteam;
-import game.sprites.SpeedIteam;
+import game.sprites.logic.PlayerCharacter;
+import game.sprites.logic.SlowMoSprite;
+import game.sprites.logic.SpeedSprite;
 import game.sprites.basic.Iteam;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
@@ -24,6 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GameEngine {
 
+  private static final double MAX_SPEED =2 ;
+  private static final double MIN_SPEED =0.2 ;
   private GameDisplay gameDisplaySelector;
   private AnimationTimer gameAnimatedThread = null;
 
@@ -196,11 +198,11 @@ public class GameEngine {
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( );
           
-          if(gameSpeed>2){
+          if(gameSpeed>MAX_SPEED){
             gameSpeed = 2;
           }
           
-          if (gameSpeed < 0.2){
+          if (gameSpeed < MIN_SPEED){
             gameSpeed = 0.2;
           }
           
@@ -408,8 +410,8 @@ public class GameEngine {
   private Iteam getRandomIteam(int x, int y) {
     GameIteam random = GameIteam.getRandom();
     switch (random) {
-      case SLOW: return (Iteam) new SlowMoIteam(x,y);
-      case SPEED:return (Iteam) new SpeedIteam(x,y);
+      case SLOW: return (Iteam) new SlowMoSprite(x,y);
+      case SPEED:return (Iteam) new SpeedSprite(x,y);
     }
     return null;
   }
@@ -442,18 +444,18 @@ public class GameEngine {
         pLevelProp.getValue().gamePlayerScore = (int) (newScore.intValue());
         plusscore = 0;
       });
-    /*this.playerPosX.addListener( (o, oP, newPosition) ->  {
+    this.playerPosX.addListener( (o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
-    });*/
+    });
     this.playerPosY.addListener( (o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosY = newPosition.intValue( );
     });
-    /*this.playerRadius.addListener((o, oP, newPosition) ->  {
+    this.playerRadius.addListener((o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerRadius = newPosition.intValue( );
-    });*/
+    });
   }
 
   private boolean isDisplayCanvasReady( ) {

@@ -1,8 +1,7 @@
 package game.sprites.basic;
 
 import game.GameEngine;
-import game.sprites.PlayerCharacter;
-import javafx.scene.paint.ImagePattern;
+import game.sprites.logic.PlayerCharacter;
 
 public interface Iteam {
     

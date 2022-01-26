@@ -1,20 +1,13 @@
 package game;
 
-import application.Main;
-
-import game.sprites.PlayerCharacter;
+import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import uicomponents.game.GameDisplay;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import static application.Main.PLAYER_RADIUS;
-import static application.Main.gameManager;
 
 public class GameManager {
   //private List<GameLevel> loadedLevelList; // @ToDo: DoThis

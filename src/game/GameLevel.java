@@ -1,9 +1,9 @@
 package game;
 
 import application.Main;
-import game.sprites.Coin;
+import game.sprites.logic.Coin;
 
-import game.sprites.PlayerCharacter;
+import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 
 import java.util.ArrayList;

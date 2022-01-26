@@ -1,10 +1,8 @@
-package game.sprites;
+package game.sprites.optic;
 
 
 
-import business.service.Mp3Player;
-import game.GameEngine;
-import game.sprites.basic.SpriteCircle;
+import game.sprites.optic.SpriteCircle;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.ImagePattern;
@@ -13,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IteamLogic extends SpriteCircle {
+public class SpriteLogic extends SpriteCircle {
     public List<ImagePattern>imagePatterns = new ArrayList<>();
     public SimpleBooleanProperty  isUsed;
     public SimpleBooleanProperty isVisabile;
@@ -27,7 +25,7 @@ public class IteamLogic extends SpriteCircle {
     public int y;
     public File sound;
 
-    public IteamLogic(int xPos,int yPos) {
+    public SpriteLogic(int xPos, int yPos) {
         isVisabile = new SimpleBooleanProperty();
         isUsed = new SimpleBooleanProperty();
         animationIndex = new SimpleIntegerProperty(0);

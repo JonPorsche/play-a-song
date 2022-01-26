@@ -1,17 +1,15 @@
-package game.sprites;
+package game.sprites.logic;
 
 import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
+import game.sprites.optic.CoinSprite;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 import java.io.File;
 
-import static javafx.scene.paint.Color.BLUE;
-import static javafx.scene.paint.Color.YELLOW;
-
-public class Coin extends IteamLogic implements Iteam {
+public class Coin extends CoinSprite implements Iteam {
 
     public Coin(int xPos, int yPos) {
         super(xPos, yPos);
