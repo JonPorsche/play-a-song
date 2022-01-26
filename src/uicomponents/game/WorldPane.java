@@ -56,14 +56,16 @@ public class WorldPane extends Canvas {
 
   private void updateCanvasSingleWall( List<Number> wallSideSteps, int yStartPos, int playerPosX ) {
     GraphicsContext gc = this.getGraphicsContext2D( );
-    gc.tra
-    gc.setFill( Color.ALICEBLUE );
-    gc.beginPath( );
-    //gc.setFill( Color.BLACK );
+    gc.clearRect(0, 0, Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
+    gc.setFill( Color.DIMGREY );
+    gc.fillRect(0, 0, Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT);
+
+    // Wall Color
+    gc.setFill( Color.BLACK );
     gc.setStroke( Color.BLACK );
-    gc.moveTo( 0, yStartPos );
 
     double modifer = 3;
+    boolean firstPoint = false;
     int canvasWidth = Main.WINDOW_WIDTH +200;
     int stepsPerFrame = canvasWidth / Main.MAP_CHUNK_WIDTH_PX;
     int drawStartPos = playerPosX - (canvasWidth /2);
@@ -71,11 +73,21 @@ public class WorldPane extends Canvas {
 
     for (int curFrameStep = 0; curFrameStep < stepsPerFrame; curFrameStep++) {
       int curDrawIndex = drawStartStepIndex + curFrameStep;  //drawStartIndex + ( curFrameStep * Main.MAP_CHUNK_WIDTH_PX );
-      if (curDrawIndex < 0) continue;
+      if (curDrawIndex < 0
+      ||  curDrawIndex >= wallSideSteps.size()
+      ) {
+        continue;
+      }
 
       int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
-      int curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
+      int curDisplayPos = 0 - (curDrawIndex * Main.MAP_CHUNK_WIDTH_PX) - (drawStartPos % Main.MAP_CHUNK_WIDTH_PX);
 
+      if (!firstPoint) {
+        gc.beginPath( );
+        gc.moveTo( curDisplayPos, yStartPos );
+
+        firstPoint = true;
+      }
       gc.lineTo( curDisplayPos, curDisplayAmp);
     }
 
@@ -86,15 +98,14 @@ public class WorldPane extends Canvas {
       gc.lineTo( curDisplayPos, curDisplayAmp);
     }*/
 
-    gc.lineTo( wallSideSteps.size( )* Main.MAP_CHUNK_WIDTH_PX, yStartPos );
-    gc.stroke( );
-    gc.fill( );
+    gc.lineTo( Main.WINDOW_WIDTH +200, yStartPos );
     gc.closePath( );
+    gc.fill( );
   }
 
   private void updateCanvasWall( int centerDrawIndex ) {
     this.updateCanvasSingleWall( this.generatedWorldTopPath, 0, centerDrawIndex );
-    this.updateCanvasSingleWall( this.generatedWorldTopPath, Main.WINDOW_HEIGHT, centerDrawIndex );;
+    //this.updateCanvasSingleWall( this.generatedWorldBottomPath, Main.WINDOW_HEIGHT, centerDrawIndex );;
   }
 
   private void drawWall(List<Number> wallSideSteps, List <Point2D>CordinatesArray) {

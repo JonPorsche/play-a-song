@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GameEngine {
 
   private GameDisplay gameDisplaySelector;
+  private AnimationTimer gameAnimatedThread = null;
 
   // PROPERTYS
   protected IntegerProperty playerPosX = new SimpleIntegerProperty();
@@ -115,7 +116,7 @@ public class GameEngine {
       int lengent = worldPixelLength/ 10;
       List<Thread> threads = new ArrayList<>();
 
-      for (int x= 0 ; x < worldPixelLength; x+= lengent ){
+      /*for (int x= 0 ; x < worldPixelLength; x+= lengent ){
         int xStart =x;
         int xEnd = x+lengent;
 
@@ -137,7 +138,7 @@ public class GameEngine {
       for (int i = 0; i < threads.size(); i++) {
         try { threads.get(i).join(); }
         catch (InterruptedException e) { e.printStackTrace(); }
-      }
+      }*/
 
       if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size( ) > 100) {
         this.gamePlayingStatePropPointer.setValue( GamePlayingState.READY );
@@ -158,8 +159,11 @@ public class GameEngine {
 
 
     GameEngine gE = this;
-    if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )) return;
-    AnimationTimer gameThread = new AnimationTimer() {
+    if (!gE.gamePlayingStatePropPointer.getValue( ).equals( GamePlayingState.PLAY )
+    || this.gameAnimatedThread != null
+    ) return;
+
+    this.gameAnimatedThread = new AnimationTimer() {
 
       long lastUpdated = 0;
       long lastRendered = 0;
@@ -198,9 +202,9 @@ public class GameEngine {
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( );
           gamePlayerPosPropPointer.setValue(((curPlayerPosX ) +(2)));
-          if (mapCollsion()){
+          /*if (mapCollsion()){
             System.out.println("Map Collison");
-          }
+          }*/
           lastUpdated = now;
         }
       }
@@ -208,9 +212,7 @@ public class GameEngine {
 
     };
 
-    gameThread.start();
-
-
+    this.gameAnimatedThread.start();
   }
 
   public void startPlaying( ) {

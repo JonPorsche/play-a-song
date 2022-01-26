@@ -5,7 +5,9 @@ import application.Main;
 import game.sprites.PlayerCharacter;
 import game.sprites.basic.Iteam;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import scenes.gameview.GameView;
@@ -59,14 +61,15 @@ public class GameDisplay extends Pane {
       Platform.runLater(()->this.getChildren().addAll(load));
 
     }
-    public void showPlay(){
-
-    Platform.runLater(()-> {this.getChildren().addAll(this.gameWorldPane,this.gameWorldIteams);
-        /*gameView.overlayView.getChildren().add(gameOverlayPanePane);*/}
-
-    );
-
-
+    public void showPlay( ) {
+      GameDisplay scope = this;
+      Platform.runLater(
+        ( ) -> {
+          ObservableList<Node> nodes = scope.getChildren( );
+          nodes.clear( );
+          nodes.addAll( scope.gameWorldPane,scope.gameWorldIteams );
+        }
+      );
     }
 
     public void removeLoading(){
