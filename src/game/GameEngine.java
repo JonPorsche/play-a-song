@@ -106,7 +106,7 @@ public class GameEngine {
     this.playerPosY.setValue( gL.playerPosY );
     gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
     startPlaying();
-    //this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
+    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
   }
 
 
@@ -209,7 +209,7 @@ public class GameEngine {
             gameSpeed = 0.2;
           }
           double value = curPlayerPosX +2 ;
-          gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 2 + plusscore);
+          gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 3 + plusscore);
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
         }
