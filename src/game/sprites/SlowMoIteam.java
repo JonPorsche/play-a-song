@@ -24,6 +24,7 @@ public class SlowMoIteam extends IteamLogic implements Iteam {
     this.setCenterY(yPos);
     this.gamespeed =0.80;
     this.sizeModifer =5;
+    this.score = 1000;
     File imgFile = new File("src/resources/Slow.png");
     this.sound = new File("src/resources/sounds/slow.mp3");
     Image img = new Image(imgFile.toURI().toString());

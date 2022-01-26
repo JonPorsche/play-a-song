@@ -23,7 +23,6 @@ public class GameLevel {
   protected HashMap<Number, Iteam> sortedItemsByPosX = new HashMap<>(); // +-10
   protected PlayerCharacter playerSpritesObject = new PlayerCharacter();
   protected double maxAmplitude = 0;
-  private String track;
 
   // PROPERTYS
   /*protected IntegerProperty playerPosX = new SimpleIntegerProperty();
@@ -158,11 +157,9 @@ public class GameLevel {
   }
 
   public void setSong(String newLevelSongPath) {
-    track = newLevelSongPath;
-
+    this.levelSourceTrack = newLevelSongPath;
   }
   public String getSong(){
-    return track;
-
+    return this.levelSourceTrack;
   }
 }

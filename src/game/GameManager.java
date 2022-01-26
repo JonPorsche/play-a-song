@@ -58,8 +58,6 @@ public class GameManager {
       this.gameEngine.setNewLevel( new GameLevel (
           playingTrackFile.getAbsolutePath( )
       ) );
-
-    gameLoadedLevel.getValue().setSong(playingTrackFile.getAbsolutePath());
   }
 
   public void loadLevelFromSong( String newLevelSongPath ) {
@@ -68,8 +66,8 @@ public class GameManager {
   }
 
   public void startPlaying( ) {
-    /*int canWidth = Main.WINDOW_WIDTH * 15; //Main.gameManager.getCanvasWidthPx( );
-    this.gameEngine.getGameDisplayPane().initCanvas( canWidth );*/
+    /*int canWidth = Main.WINDOW_WIDTH * 15; //Main.gameManager.getCanvasWidthPx( );*/
+    this.gameEngine.getGameDisplayPane().initCanvas( this.gameLoadedLevel.getValue( ).getMapPixelWidth( ) );
 
     this.gameEngine.startPlaying( );
 
@@ -86,25 +84,14 @@ public class GameManager {
 
 
   }
-  public void play( ) {
-    GamePlayingState curState = this.gamePlayingState.getValue( );
 
-    switch (curState) {
-      case FINISHED:
-        // @ToDo: Reset to Start ( auch erneut Items spawnen? )
-      case READY:
-      case PAUSE:
-        this.gamePlayingState.setValue( GamePlayingState.PLAY );
-        break;
-      case NOTREADY: System.out.println( "TODO MSG: Bitte wählen Sie einen Track aus!"); break;
-      default:
-    }
+
+  public void play( ) {
+   gameEngine.startPlaying();
   }
   public void pause( ) {
     GamePlayingState curState = this.gamePlayingState.getValue( );
-
-    if (curState.equals( GamePlayingState.PLAY ))
-      this.gamePlayingState.setValue( GamePlayingState.PAUSE );
+    gameEngine.pausePlaying();
   }
 
   /* Propertys */

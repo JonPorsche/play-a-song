@@ -17,25 +17,26 @@ import java.util.List;
 public class WorldPane extends Canvas {
   public List<Point2D> UpperCordinatesArray = new ArrayList<>();
   public List<Point2D> BottomCordinatesArray = new ArrayList<>();
-  List<Double> allXYUpperArray = new ArrayList<>();
-  List<Double> allXYBottomArray = new ArrayList<>();
+  public List<Double> allXYUpperArray = new ArrayList<>();
+  public List<Double> allXYBottomArray = new ArrayList<>();
   public SimpleBooleanProperty isDoneLoadingLevel = new SimpleBooleanProperty(false);
-  public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
-  public WorldPane( int canWidth, int canHeight ) {
-    super(
-            canWidth , //Main.gameManager.getCanvasWidthPx( ),
-            canHeight
-    );
+  //public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
+  private List<Number> generatedWorldTopPath;
+  private List<Number> generatedWorldBottomPath;
+
+  public WorldPane( ) {
+    super( Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
+    this.setTranslateX( -100 );
 
     System.out.println(this.isResizable());
-    System.out.println(canHeight);
-    this.setStyle("-fx-background-color:rgb(0, 100, 0);");
-    isLoaded.addListener((o, oldP, newP) -> {
-      if (newP == (Number) 2) {
-        isDoneLoadingLevel.set(true);
-        System.out.println("done");
 
-      }});
+    //this.setStyle("-fx-background-color:rgb(0, 100, 0);");
+    /*isLoaded.addListener((o, oldP, newP) -> {
+      if (newP == (Number) 2) {
+        isDoneLoadingLevel.setValue(true);
+        System.out.println("done");
+      }
+    });*/
   }
 
   public List<Double> getAllXYUpperArray() {
@@ -47,49 +48,79 @@ public class WorldPane extends Canvas {
   }
 
   public void setCenterViewFrame(double playerPos ) {
-
-    Platform.runLater(
-      ( ) -> this.setTranslateX( 0 - playerPos )
-    );
+    /*Platform.runLater(
+      ( ) -> this.setTranslateX( 0 )
+    );*/
+    this.updateCanvasWall( (int)playerPos );
   }
-  private void drawWall(List<Number> wallSideSteps, int yStartPos, List <Point2D>CordinatesArray, Boolean isTop) {
-    GraphicsContext gc = this.getGraphicsContext2D();
-    gc.beginPath( );
+
+  private void updateCanvasSingleWall( List<Number> wallSideSteps, int yStartPos, int playerPosX ) {
+    GraphicsContext gc = this.getGraphicsContext2D( );
+    gc.clearRect(0, 0, Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
+    gc.setFill( Color.DIMGREY );
+    gc.fillRect(0, 0, Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT);
+
+    // Wall Color
     gc.setFill( Color.BLACK );
     gc.setStroke( Color.BLACK );
-    gc.moveTo( 0, yStartPos );
-    double heigth = 640;
-    double topheight = heigth/2;
 
     double modifer = 3;
-    for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ); curDrawIndex++) {
-      int curDisplayAmp = (wallSideSteps.get( curDrawIndex ).intValue( ));
-      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
-      if(curDisplayAmp >heigth){
-        curDisplayPos = 640;
+    boolean firstPoint = false;
+    int canvasWidth = Main.WINDOW_WIDTH +200;
+    int stepsPerFrame = canvasWidth / Main.MAP_CHUNK_WIDTH_PX;
+    int drawStartPos = playerPosX - (canvasWidth /2);
+    int drawStartStepIndex = drawStartPos / Main.MAP_CHUNK_WIDTH_PX;
+
+    for (int curFrameStep = 0; curFrameStep < stepsPerFrame; curFrameStep++) {
+      int curDrawIndex = drawStartStepIndex + curFrameStep;  //drawStartIndex + ( curFrameStep * Main.MAP_CHUNK_WIDTH_PX );
+      if (curDrawIndex < 0
+      ||  curDrawIndex >= wallSideSteps.size()
+      ) {
+        continue;
       }
-      if (curDisplayAmp<0){
-        curDisplayPos = 1;
+
+      int curDisplayAmp = wallSideSteps.get( curDrawIndex ).intValue( );
+      int curDisplayPos = 0 - (curDrawIndex * Main.MAP_CHUNK_WIDTH_PX) - (drawStartPos % Main.MAP_CHUNK_WIDTH_PX);
+
+      if (!firstPoint) {
+        gc.beginPath( );
+        gc.moveTo( curDisplayPos, yStartPos );
+
+        firstPoint = true;
       }
       gc.lineTo( curDisplayPos, curDisplayAmp);
-      CordinatesArray.add(new Point2D.Double(curDisplayPos,curDisplayAmp));
-
-
-
-
     }
 
-    gc.stroke( );
-    gc.fill( );
+    /*for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ) && Main.WINDOW_WIDTH > curDrawIndex * Main.MAP_CHUNK_WIDTH_PX; curDrawIndex++) {
+      int curDisplayAmp = (wallSideSteps.get( curDrawIndex ).intValue( ));
+      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
+
+      gc.lineTo( curDisplayPos, curDisplayAmp);
+    }*/
+
+    gc.lineTo( Main.WINDOW_WIDTH +200, yStartPos );
     gc.closePath( );
+    gc.fill( );
   }
-  private void drawWall(List<Number> wallSideSteps, List <Point2D>CordinatesArray,boolean isTop ) {
-    this.drawWall( wallSideSteps, 0,CordinatesArray, isTop);
+
+  private void updateCanvasWall( int centerDrawIndex ) {
+    this.updateCanvasSingleWall( this.generatedWorldTopPath, 0, centerDrawIndex );
+    //this.updateCanvasSingleWall( this.generatedWorldBottomPath, Main.WINDOW_HEIGHT, centerDrawIndex );;
+  }
+
+  private void drawWall(List<Number> wallSideSteps, List <Point2D>CordinatesArray) {
+    double modifer = 3;
+    for (int curDrawIndex = 0; curDrawIndex < wallSideSteps.size( ) && Main.WINDOW_WIDTH > curDrawIndex * Main.MAP_CHUNK_WIDTH_PX; curDrawIndex++) {
+      int curDisplayAmp = (wallSideSteps.get( curDrawIndex ).intValue( ));
+      double curDisplayPos = curDrawIndex * Main.MAP_CHUNK_WIDTH_PX;
+
+      CordinatesArray.add(new Point2D.Double(curDisplayPos,curDisplayAmp));
+    }
   }
 
   public void setWorldSteps( List<Double> allWorldSteps, double maxAmplitude) {
-    List<Number> generatedWorldTopPath = new ArrayList<>( );
-    List<Number> generatedWorldBottomPath = new ArrayList<>( );
+    this.generatedWorldTopPath = new ArrayList<>( );
+    this.generatedWorldBottomPath = new ArrayList<>( );
     int sampleCount = allWorldSteps.size( );
 
     for (int curAmpPos = 0; curAmpPos < sampleCount; curAmpPos++) {
@@ -104,13 +135,15 @@ public class WorldPane extends Canvas {
 
       double curDisplayAmp = Main.MAP_CHUNK_BASE_HEIGHT_PX + curDisplayAmpPercent * 2.5;
 
-      generatedWorldTopPath.add( curDisplayAmp );
-      generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
+      this.generatedWorldTopPath.add( curDisplayAmp );
+      this.generatedWorldBottomPath.add( Main.WINDOW_HEIGHT -curDisplayAmp );
     }
-    this.drawWall( generatedWorldTopPath,UpperCordinatesArray,true);
-    this.drawWall( generatedWorldBottomPath, Main.WINDOW_HEIGHT,BottomCordinatesArray,false);
+    this.drawWall( generatedWorldTopPath, UpperCordinatesArray );
+    this.drawWall( generatedWorldBottomPath, BottomCordinatesArray );
     Thread t1 = new Thread(()->this.calculateallXpoints(UpperCordinatesArray, allXYUpperArray)); t1.start();
     Thread t2 = new Thread(()->this.calculateallXpoints(BottomCordinatesArray, allXYBottomArray)); t2.start();
+
+    this.isDoneLoadingLevel.setValue( true );
   }
   private void calculateallXpoints(List<Point2D> cordinatesArray, List<Double> allXYArray ) {
     int length = cordinatesArray.size();
@@ -147,11 +180,7 @@ public class WorldPane extends Canvas {
 
       allXYArray.add(y);
     }
-    isLoaded.set(isLoaded.getValue()+1);
-
-
-
-
+    //isLoaded.set(isLoaded.getValue()+1);
   }
 
   public SimpleBooleanProperty isDoneLoadingLevelProperty() {
