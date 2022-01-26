@@ -193,7 +193,7 @@ public class GameEngine {
           double delta = lastUpdated == 0 ? 0 : (now - lastUpdated) / (double)SECONDS2NANO_SECONDS;
           curPlayerPosX = getGamePlayerPosProperty( ).getValue( ).intValue( );
           gameSpeed = getGameSpeedProperty( ).getValue( );
-          gamePlayerPosPropPointer.setValue(((curPlayerPosX ) +(pixelPerSceond* gameSpeed)));
+          gamePlayerPosPropPointer.setValue(((curPlayerPosX ) +(2)));
           if (mapCollsion()){
             System.out.println("Map Collison");
           }
@@ -470,7 +470,8 @@ public class GameEngine {
   public ObjectProperty<Number> getGamePlayerScoreProperty( ) { return this.gamePlayerScorePropPointer; }
 
   public void addGamespeed(float gamespeedMod) {
-    this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
+
+    this.gameSpeed.setValue(gameSpeed.getValue() + gamespeedMod);
     new Thread(()->{
       int seconds = 0;
       while (seconds <= 10) {
@@ -483,7 +484,7 @@ public class GameEngine {
           e.printStackTrace();
         }
       }
-      this.gameSpeed.setValue(gameSpeed.getValue() *gamespeedMod);
+      this.gameSpeed.setValue(gameSpeed.getValue() +gamespeedMod);
     }).start();//
 
   }
