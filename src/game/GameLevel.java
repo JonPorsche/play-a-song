@@ -1,14 +1,12 @@
 package game;
 
 import application.Main;
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.UnsupportedTagException;
+import game.sprites.basic.Sprite;
 import game.sprites.logic.Coin;
 
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

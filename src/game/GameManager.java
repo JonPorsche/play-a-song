@@ -2,7 +2,8 @@ package game;
 
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
-import game.sprites.optic.SpriteLogic;
+
+import game.sprites.logic.SpriteLogic;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import uicomponents.game.GameDisplay;

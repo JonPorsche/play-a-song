@@ -3,6 +3,7 @@ package game.sprites.logic;
 import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
+import game.sprites.basic.Sprite;
 import game.sprites.optic.CoinSprite;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -43,10 +44,10 @@ public class Coin extends SpriteLogic implements Iteam {
         }
     }
 
+    @Override
     public Sprite getSprite() {
         return sprite;
     }
-
     @Override
     public int getX() {
         return x;

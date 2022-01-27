@@ -8,6 +8,7 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
+import game.sprites.optic.PlayerSprite;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -24,8 +25,8 @@ import java.util.function.BinaryOperator;
 
 public class GameEngine {
 
-  private static final double MAX_SPEED =2 ;
-  private static final double MIN_SPEED =0.2 ;
+  private static final double MAX_SPEED =4 ;
+  private static final double MIN_SPEED =-4 ;
   private GameDisplay gameDisplaySelector;
   private AnimationTimer gameAnimatedThread = null;
 
@@ -34,7 +35,7 @@ public class GameEngine {
   protected IntegerProperty playerPosY = new SimpleIntegerProperty();
   protected DoubleProperty playerRadius= new SimpleDoubleProperty();
   protected PlayerCharacter player = new PlayerCharacter( );
-  protected DoubleProperty gameSpeed = new SimpleDoubleProperty(1/144);
+  protected DoubleProperty gameSpeed = new SimpleDoubleProperty(0);
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
   protected ConcurrentHashMap<Number, Iteam> KnockableIteams= new ConcurrentHashMap<>();
   protected HashMap<Number, Iteam> Iteams= new HashMap<>();
@@ -49,6 +50,7 @@ public class GameEngine {
   protected  ObjectProperty<Number> gamePlayerLifePointer;
   protected FloatProperty pastgameSpeed = new SimpleFloatProperty(1);
   private double plusscore;
+  private int worldPixelLength;
 
 
   public GameEngine(
@@ -83,9 +85,6 @@ public class GameEngine {
   public void declareGameDisplayPane( GameDisplay guiGameDisplaySelector) {
     this.gameDisplaySelector = guiGameDisplaySelector;
     player = new PlayerCharacter();
-    player.setCenterY(500);
-    player.setRadius(30);
-    player.setCenterX(500);
     guiGameDisplaySelector.declarePlayerCharacter( this.player );
   }
 
@@ -102,9 +101,6 @@ public class GameEngine {
 
     this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( ).addListener( (o, old, newState) -> {
       if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
-
-      startPlaying( );
-      gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
     });
 
     // Update PropertyValues
@@ -119,7 +115,7 @@ public class GameEngine {
   }
 
   public void spawnGameIteam( Iteam newGameIteam ) {
-    this.gameLoadedLevelPropPointer.getValue( ).setIteam( newGameIteam );
+    this.gameLoadedLevelPropPointer.getValue( ).setIteam( newGameIteam);
   }
   public void spawnGameIteam( int x, int y, List<BinaryOperator> iteamFactorysOperators ) {
     int randomIndex = ThreadLocalRandom.current().nextInt( 0, iteamFactorysOperators.size( ) );
@@ -136,38 +132,37 @@ public class GameEngine {
     gL.setUpperbound(gameDisplaySelector.gameWorldPane.getAllXYUpperArray());
     gL.setBottombound(gameDisplaySelector.gameWorldPane.getAllXYBottomArray());
     this.Iteams = gameLoadedLevelPropPointer.getValue().getSortedItems();
+    worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getLength();
 
-    if (iteamFactorysOperators.size( ) > 0) new Thread( () -> {
-      int worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
-      int lengent = worldPixelLength / 10;
+    if (iteamFactorysOperators.size( ) > 0) {
+      Thread t1 = new Thread(() -> {
+        worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
+        int lengent = worldPixelLength / 10;
 
-      for (int drawChunkPosX = 0; drawChunkPosX < worldPixelLength; drawChunkPosX += lengent) {
-        int xStart = drawChunkPosX;
-        int xEnd = drawChunkPosX + lengent;
+        for (int drawChunkPosX = 0; drawChunkPosX < worldPixelLength; drawChunkPosX += lengent) {
+          int xStart = drawChunkPosX;
+          int xEnd = drawChunkPosX + lengent;
 
-        int curIteamPosX;
-        Random ran = new Random();
-        for (curIteamPosX = xStart + 100; curIteamPosX < xEnd; ) {
-          int freeSpace = gE.getChunkSpace(curIteamPosX);
-          int randomSpaceOffset = ran.nextInt(freeSpace);
-          int spaceBounce = gE.getChunkBounce(randomSpaceOffset);
-          int curIteamPosY = spaceBounce + randomSpaceOffset;
-
-          //gL.setIteam(getRandomIteam(curIteamPosX, (int) y));
-          gE.spawnGameIteam(curIteamPosX, curIteamPosY, iteamFactorysOperators);
-          curIteamPosX = curIteamPosX + ran.nextInt(1000) + 500;
+          int curIteamPosX;
+          Random ran = new Random();
+          for (curIteamPosX = xStart + 100; curIteamPosX < xEnd; ) {
+            int freeSpace = gE.getChunkSpace(curIteamPosX);
+            int randomSpaceOffset = ran.nextInt(freeSpace);
+            int spaceBounce = gE.getChunkBounce(randomSpaceOffset);
+            int curIteamPosY = spaceBounce + randomSpaceOffset;
+            gE.spawnGameIteam(curIteamPosX, curIteamPosY, iteamFactorysOperators);
+            curIteamPosX = curIteamPosX + ran.nextInt(1000) + 500;
+          }
         }
-
-        /*Thread t1 = new Thread(() -> {
-          setGamecoins(xStart, xEnd);
-
-        });
-        Thread t = new Thread(() -> {
-          setGameIteams(xStart, xEnd);
-
-        });*/
+      });
+      t1.start();
+      try {
+        t1.join();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
-    }).start( ); // Start Threading IF-Statement
+    }
+    // Start Threading IF-Statement
   }
 
   private void afterWorldDrawFinished( List<BinaryOperator> iteamFactorysOperators ) {
@@ -193,8 +188,8 @@ public class GameEngine {
 
       long lastUpdated = 0;
       long lastRendered = 0;
-      final int UPS = 60;
-      final int FPS = 60;
+      final int UPS = 144;
+      final int FPS = 144;
       final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000;
       final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
       final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
@@ -230,16 +225,17 @@ public class GameEngine {
           gameSpeed = getGameSpeedProperty( ).getValue( );
           
           if(gameSpeed>MAX_SPEED){
-            gameSpeed = 2;
+            gameSpeed = 4;
           }
           
           if (gameSpeed < MIN_SPEED){
-            gameSpeed = 0.2;
+            gameSpeed = -4;
           }
-          double value = curPlayerPosX +12.5 ;
-          //gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 3 + plusscore);
+          double value = curPlayerPosX +12.90 +gameSpeed ;
+          gamePlayerScorePropPointer.setValue(curPlayerPosX+ 13.99+ plusscore+gameSpeed);
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
+          mapCollsion();
         lastUpdated = now;
       }
       }
@@ -287,19 +283,19 @@ public class GameEngine {
 
   }
   private void checkCollsion(Double oPos, Double newPos) {
-    double differncePos = newPos-oPos;
+
     for ( Number i :vissableIteams.keySet()) {
       if(KnockableIteams.containsKey(i)){
         Iteam iteam = KnockableIteams.get(i);
-        Double radius = iteam.getRadius();
-        if( iteam.getCenterX() +radius < getPlayerPosYProperty().get()+500 - player.getRadius()){
+        Double radius = Double.valueOf(iteam.getRadius());
+        if( iteam.getX() +radius < getPlayerPosYProperty().get()+500 - player.getRadius()){
          KnockableIteams.remove(iteam);
         }
       }
     }
     for (Number i :vissableIteams.keySet()){
       if(!KnockableIteams.containsValue(vissableIteams.get(i))) {
-        double x = vissableIteams.get(i).getCenterX();
+        double x = vissableIteams.get(i).getX();
         double rd = vissableIteams.get(i).getRadius();
         if (x - rd > gamePlayerPosPropPointer.get() + 500 + player.getRadius()) {
         } else if (x + rd < gamePlayerPosPropPointer.get() - player.getRadius()) {
@@ -315,9 +311,9 @@ public class GameEngine {
        System.out.println("collsion");
        //@TODO Make collsion
        iteam.collision(this, player);
-
+       gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i).getSprite());
        KnockableIteams.remove(KnockableIteams.get(i));
-       gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i));
+
      };
     }
 
@@ -333,7 +329,7 @@ public class GameEngine {
     double playerX = newPos +500;
     double playerY = player.getY();
     double playerRadiu = player.getRadius();
-    double distance = Math.sqrt(Math.pow(iteam.getCenterX() -playerX , 2) + (Math.pow(iteam.getCenterY() - playerY, 2)));
+    double distance = Math.sqrt(Math.pow(iteam.getX() -playerX , 2) + (Math.pow(iteam.getY() - playerY, 2)));
     if(distance <= (playerRadiu+ iteam.getRadius()) && distance >= Math.abs(playerRadiu -iteam.getRadius())){
       return true;
     };
@@ -348,19 +344,19 @@ public class GameEngine {
       return false;
 
     }else{
-      PlayerCharacter tempPlayer =new PlayerCharacter();
+      PlayerSprite tempPlayer;
+      tempPlayer = new PlayerSprite(playerX, (int) playerY);
       tempPlayer.setRadius(player.getRadius());
-      tempPlayer.setCenterX(playerX);
-      tempPlayer.setCenterY(playerY);
       for (int width = (int) (playerX - player.getRadius()); width < playerX + player.getRadius(); width++) {
         if(tempPlayer.getLayoutBounds().contains(new Point2D(width, gl.getUpperBoarder(width)))){
-          player.setCenterY(gl.getUpperBoarder(width)+player.getRadius());
-
+          System.out.println("Collision");
+          player.setY(gl.getUpperBoarder(width)+player.getRadius());
           return true;}
         Bounds test = tempPlayer.getLayoutBounds();
        Point2D boarder = new Point2D(width, gl.getDownBoarder(width));
         if(tempPlayer.getLayoutBounds().contains(boarder)){
-          player.setCenterY(gl.getDownBoarder(width)-player.getRadius());
+          System.out.println("Collision");
+          player.setY(gl.getDownBoarder(width)-player.getRadius());
           return true;
         }
       }
@@ -376,10 +372,12 @@ public class GameEngine {
       Number i = iterator.next();
       Iteam iteam = vissableIteams.get(i);
       if (iteam != null) {
-        Double radius = iteam.getRadius();
+        Double radius = Double.valueOf(iteam.getRadius());
         if (i.doubleValue() + radius <= newPos - 500) {
+
+          gameDisplaySelector.removeIteam(iteam.getSprite());
           iteam.setIsVisabile(false);
-          gameDisplaySelector.removeIteam(iteam);
+
         }
       }
     }
@@ -390,9 +388,11 @@ public class GameEngine {
       if(!vissableIteams.contains(Iteams.get(old))){
 
         int index = old;
-        gameDisplaySelector.gameWorldIteams.addIteam(Iteams.get(old));
-        vissableIteams.put(index,iteam);
+
         iteam.setIsVisabile(true);
+        gameDisplaySelector.gameWorldIteams.addIteam(iteam.getSprite());
+        vissableIteams.put(index,iteam);
+
         }
       }
     }
@@ -419,7 +419,7 @@ public class GameEngine {
       public void changed( ObservableValue<? extends Double> o, Double oPos, Double newPos ) {
         if (isDisplayCanvasReady( )) {
           // @ToDo: Prüfe ob doppelt
-          //updateIteams( oPos, newPos );
+          updateIteams( oPos, newPos );
         }
       }
     } );

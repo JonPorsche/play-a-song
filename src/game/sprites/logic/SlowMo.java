@@ -21,6 +21,9 @@ public class SlowMo extends SpriteLogic implements Iteam {
   double sizeModifer =1;
   double score = 1000;
   double radius = 20;
+  public static SlowMo getFromFactory(int xPos, int yPos ) {
+    return new SlowMo( xPos, yPos );
+  }
 
 
   public SlowMo(int xPos, int yPos )  {

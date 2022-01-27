@@ -13,6 +13,9 @@ public class Speed extends SpriteLogic  implements Iteam {
     double sizeModifer =-1;
     double score = 1000;
     double radius = 20;
+    public static Speed getFromFactory(int xPos, int yPos ) {
+        return new Speed( xPos, yPos );
+    }
 
 
     public Speed(int xPos, int yPos ) {

@@ -6,8 +6,10 @@ import game.GameManager;
 import game.GamePlayingState;
 import game.sprites.basic.Iteam;
 import game.sprites.logic.Coin;
-import game.sprites.logic.SlowMoSprite;
-import game.sprites.logic.SpeedSprite;
+
+import game.sprites.logic.SlowMo;
+import game.sprites.logic.Speed;
+import game.sprites.optic.SpeedSprite;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -64,11 +66,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Coin SlowMoSprite;
         Main.gameManager = new GameManager( )
         .addIteamPattern(
             (x, y) -> Coin.getFromFactory( (int)x, (int)y ),
-            (x, y) -> SlowMoSprite.getFromFactory( (int)x, (int)y ),
-            (x, y) -> SpeedSprite.getFromFactory( (int)x, (int)y )
+            (x, y) -> SlowMo.getFromFactory( (int)x, (int)y ),
+            (x, y) -> Speed.getFromFactory( (int)x, (int)y )
         );
 
         //this.menuViewController = new MenuViewController(this);
