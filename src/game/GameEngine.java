@@ -133,7 +133,7 @@ public class GameEngine {
     this.Iteams = gameLoadedLevelPropPointer.getValue().getSortedItems();
 
     if (iteamFactorysOperators.size( ) > 0) {
-      Thread t1 = new Thread(() -> {
+      new Thread(() -> {
         int worldPixelLength = gL.getMapPixelWidth();
         int lengent = worldPixelLength / 10;
 
@@ -152,24 +152,21 @@ public class GameEngine {
             curIteamPosX = curIteamPosX + ran.nextInt(1000) + 500;
           }
         }
-      });
-      t1.start();
-      try {
-        t1.join();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+
+        gE.gamePlayingStatePropPointer.setValue(GamePlayingState.READY);
+      }).start( );
     }
-    // Start Threading IF-Statement
   }
 
   private void afterWorldDrawFinished( List<BinaryOperator> iteamFactorysOperators ) {
-    this.spawnRandomIteams( iteamFactorysOperators );
-
     if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 ) {
       mp3Player.load(getPlayingLevel().getSong());
-      this.gamePlayingStatePropPointer.setValue(GamePlayingState.READY);
-    }
+
+      if (iteamFactorysOperators.size() >= 1)
+        this.spawnRandomIteams( iteamFactorysOperators );
+      else
+        this.gamePlayingStatePropPointer.setValue( GamePlayingState.READY );
+    } else System.out.println( "Map ist leider zu klein zum Spielen! Waehle ein laengeres Lied aus..." );
   }
 
   private void startEngine( ) {
