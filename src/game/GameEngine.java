@@ -425,7 +425,8 @@ public class GameEngine {
       if (isLoadedLevelReady( )) {
         pLevelProp.getValue().gamePlayerPos = newPosition;
       }
-      if (newPosition > gameDisplaySelector.gameWorldPane.getLength()-1000){
+      if
+      (newPosition > gameDisplaySelector.gameWorldPane.getLength()-2000){
         gamePlayingStatePropPointer.setValue(GamePlayingState.FINISHED);
       }
     });

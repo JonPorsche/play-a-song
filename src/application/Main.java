@@ -172,6 +172,7 @@ public class Main extends Application {
                 break;
 
             case MENU_VIEW:
+                this.scene = null;
                 primaryStage.setScene(scenes.get(scene).getScene());
 
 

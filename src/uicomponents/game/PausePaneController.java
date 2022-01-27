@@ -27,6 +27,7 @@ public class PausePaneController {
         listnenFinished = (ActionEvent event) -> {
             gV.gameisFinishedProperty().set(true);
         };
+        pausePane.menuB.setOnAction(listnenFinished);
 
     }
     public void isLoading(){

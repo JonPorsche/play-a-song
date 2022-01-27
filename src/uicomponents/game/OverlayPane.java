@@ -32,8 +32,9 @@ public class OverlayPane extends AnchorPane {
     setScoreLabel();
     setpositonPercantage();
     setScoreBox();
+    setHealthBox();
     OverlayPane pane = this;
-    getStyleClass().addAll("score-box");
+
 
 
 
@@ -43,9 +44,16 @@ public class OverlayPane extends AnchorPane {
     scorePane.setLayoutX(0);
     scorePane.setLayoutY(0);
     this.getChildren( ).addAll(scorePane);
-    this.getStyleClass().addAll("score-box");
-    this.setStyle("-fx-background-color:  rgba(39, 50, 49, 1)");
+    scorePane.getStyleClass().addAll("score-box");
 
+
+
+  }
+  private void setHealthBox(){
+    healthBox = new HBox();
+    healthBox.setLayoutX(800);
+    healthBox.setLayoutY(0);
+    healthBox.getStyleClass().addAll("score-box");
 
   }
   private void setPauseButton() {

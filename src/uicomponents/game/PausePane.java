@@ -10,8 +10,11 @@ import javafx.scene.layout.*;
 public class PausePane extends AnchorPane {
 
     Button playB;
+    Button menuB;
     Label pausetext;
+    Label menutext;
     VBox pauseBox;
+    VBox gobackBox;
     AnchorPane menuBox;
 
     public PausePane() {
@@ -20,17 +23,44 @@ public class PausePane extends AnchorPane {
         this.setHeight(Main.WINDOW_HEIGHT+200);
         setPlayB();
         setPausetext();
+        setMenuText();
+        setMenuB();
         setPauseBox();
+        setgobackBox();
         setMenuBox();
 
+
     }
+
+    private void setMenuText() {
+        menutext = new Label("Menu");
+        menutext.getStyleClass().addAll("pause-text");
+
+    }
+
+    private void setMenuB() {
+        menuB = new Button();
+        menuB.getStyleClass().addAll("menu-btn");
+    }
+
+    private void setgobackBox() {
+        gobackBox = new VBox();
+        gobackBox.setLayoutX(210);
+        gobackBox.setLayoutY(37);
+        gobackBox.setPrefWidth(150);
+        VBox.setVgrow(menutext, Priority.ALWAYS);
+        VBox.setVgrow(menuB, Priority.ALWAYS);
+        gobackBox.getStyleClass().addAll("menu-vbox");
+        gobackBox.getChildren().addAll(menutext,menuB);
+    }
+
     private void setMenuBox(){
         menuBox = new AnchorPane();
         menuBox.setLayoutX(300);
         menuBox.setLayoutY(250);
         menuBox.setPrefHeight(200);
         menuBox.setPrefWidth(400);
-        menuBox.getChildren().add(pauseBox);
+        menuBox.getChildren().addAll(pauseBox,gobackBox);
         getChildren().add(menuBox);
         menuBox.getStyleClass().addAll("menu-pane");
 
@@ -38,8 +68,8 @@ public class PausePane extends AnchorPane {
 
     private void setPauseBox() {
         pauseBox = new VBox();
-        pauseBox.setLayoutX(50);
-        pauseBox.setLayoutY(30);
+        pauseBox.setLayoutX(40);
+        pauseBox.setLayoutY(37);
         pauseBox.setPrefWidth(150);
         VBox.setVgrow(pausetext, Priority.ALWAYS);
         VBox.setVgrow(playB, Priority.ALWAYS);
@@ -58,7 +88,6 @@ public class PausePane extends AnchorPane {
     private void setPlayB() {
         playB = new Button();
         playB.getStyleClass().addAll("play-btn");
-
-
     }
+
 }

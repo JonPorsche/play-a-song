@@ -6,8 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.*;
 
 
 import java.awt.geom.Point2D;
@@ -26,6 +25,10 @@ public class WorldPane extends Canvas {
   //public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
   private List<Number> generatedWorldTopPath;
   private List<Number> generatedWorldBottomPath;
+  File imgFile = new File("src/resources/wave.png");
+  Image img = new Image(imgFile.toURI().toString());
+  ImagePattern ImgPatern = new ImagePattern(img);
+
 
   public WorldPane() {
     super( Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
@@ -62,11 +65,8 @@ public class WorldPane extends Canvas {
     int drawStartPos = playerPosX;
     int playerStartY = wallSideSteps.get(drawStartPos).intValue();
     int index = drawStartPos / 100;
-    File imgFile = new File("src/resources/wave.png");
-    Image img = new Image(imgFile.toURI().toString());
     GraphicsContext gc = this.getGraphicsContext2D();
-    gc.setFill(rgb(187, 134, 252));
-    gc.setFill(new ImagePattern(img));
+    gc.setFill(ImgPatern);
     gc.setStroke(rgb(187, 134, 252));
     gc.beginPath();
     int i;
@@ -91,7 +91,8 @@ public class WorldPane extends Canvas {
     GraphicsContext gt = this.getGraphicsContext2D( );
     gt.clearRect(0, 0,this.getWidth(), this.getHeight());
     updateCanvasSingleWall( this.allXYUpperArray,UpperCordinatesArray, 0, centerDrawIndex );
-    updateCanvasSingleWall( this.allXYBottomArray,BottomCordinatesArray, Main.WINDOW_HEIGHT, centerDrawIndex );
+    updateCanvasSingleWall( this.allXYBottomArray,BottomCordinatesArray, Main.WINDOW_HEIGHT, centerDrawIndex);
+
 
   }
 
