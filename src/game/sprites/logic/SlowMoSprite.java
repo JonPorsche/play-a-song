@@ -13,6 +13,9 @@ import java.io.File;
 import static javafx.scene.paint.Color.RED;
 
 public class SlowMoSprite extends SlowMotionSprite implements Iteam {
+  public static SlowMoSprite getFromFactory(int xPos, int yPos ) {
+    return new SlowMoSprite( xPos, yPos );
+  }
 
   public SlowMoSprite(int xPos, int yPos )  {
     super( xPos,yPos);

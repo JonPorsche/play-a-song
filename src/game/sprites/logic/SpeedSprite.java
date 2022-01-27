@@ -11,6 +11,9 @@ import java.io.File;
 import static javafx.scene.paint.Color.BLUE;
 
 public class SpeedSprite extends SpriteLogic implements Iteam {
+    public static SpeedSprite getFromFactory(int xPos, int yPos ) {
+        return new SpeedSprite( xPos, yPos );
+    }
 
     public SpeedSprite(int xPos, int yPos ) {
         super(xPos,yPos);

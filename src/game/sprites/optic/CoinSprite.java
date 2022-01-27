@@ -1,5 +1,6 @@
 package game.sprites.optic;
 
+import game.sprites.logic.Coin;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import static javafx.scene.paint.Color.RED;
 
 public class CoinSprite extends SpriteLogic {
+
     public CoinSprite(int xPos, int yPos) {
         super(xPos, yPos);
         this.setCenterX(xPos);

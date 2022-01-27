@@ -7,8 +7,6 @@ import business.service.Mp3Player;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import game.sprites.logic.PlayerCharacter;
-import game.sprites.logic.SlowMoSprite;
-import game.sprites.logic.SpeedSprite;
 import game.sprites.basic.Iteam;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
@@ -21,6 +19,8 @@ import uicomponents.game.GameDisplay;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BinaryOperator;
 
 public class GameEngine {
 
@@ -87,6 +87,9 @@ public class GameEngine {
     player.setRadius(30);
     player.setCenterX(500);
     guiGameDisplaySelector.declarePlayerCharacter( this.player );
+  }
+
+  public void addIteamPattern( ) {
 
   }
 
@@ -94,7 +97,16 @@ public class GameEngine {
     return this.gameDisplaySelector;
   }
 
-  public void setNewLevel( GameLevel gL ) {
+  public void setNewLevel( GameLevel gL, List<BinaryOperator> iteamFactorysOperators ) {
+    GameEngine gE = this;
+
+    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( ).addListener( (o, old, newState) -> {
+      if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
+
+      startPlaying( );
+      gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
+    });
+
     // Update PropertyValues
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
@@ -104,51 +116,66 @@ public class GameEngine {
     this.gameLoadedLevelPropPointer.setValue( gL );
     //this.playerPosX.setValue( gL.playerPosX );
     this.playerPosY.setValue( gL.playerPosY );
-    gamePlayingStatePropPointer.setValue(GamePlayingState.PLAY);
-    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty().addListener( this::onLevelisLoaded);
-    startPlaying();
-
   }
 
+  public void spawnGameIteam( Iteam newGameIteam ) {
+    this.gameLoadedLevelPropPointer.getValue( ).setIteam( newGameIteam );
+  }
+  public void spawnGameIteam( int x, int y, List<BinaryOperator> iteamFactorysOperators ) {
+    int randomIndex = ThreadLocalRandom.current().nextInt( 0, iteamFactorysOperators.size( ) );
 
-  private void onLevelisLoaded(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newBoolean) {
+    this.spawnGameIteam(
+      (Iteam)iteamFactorysOperators.get( randomIndex ).apply( x, y ) // cast Object -> IteamObj
+    );
+  }
+
+  private void spawnRandomIteams( List<BinaryOperator> iteamFactorysOperators ) {
+    GameEngine gE = this;
     GameLevel gL = gameLoadedLevelPropPointer.getValue();
-    if (newBoolean) {
-      gL.setUpperbound(gameDisplaySelector.gameWorldPane.getAllXYUpperArray());
-      gL.setBottombound(gameDisplaySelector.gameWorldPane.getAllXYBottomArray());
-      this.Iteams = gameLoadedLevelPropPointer.getValue().getSortedItems();
+
+    gL.setUpperbound(gameDisplaySelector.gameWorldPane.getAllXYUpperArray());
+    gL.setBottombound(gameDisplaySelector.gameWorldPane.getAllXYBottomArray());
+    this.Iteams = gameLoadedLevelPropPointer.getValue().getSortedItems();
+
+    if (iteamFactorysOperators.size( ) > 0) new Thread( () -> {
       int worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
       int lengent = worldPixelLength / 10;
-      List<Thread> threads = new ArrayList<>();
-      for (int x = 0; x < worldPixelLength; x += lengent) {
-        int xStart = x;
-        int xEnd = x + lengent;
 
-        Thread t1 = new Thread(() -> {
+      for (int drawChunkPosX = 0; drawChunkPosX < worldPixelLength; drawChunkPosX += lengent) {
+        int xStart = drawChunkPosX;
+        int xEnd = drawChunkPosX + lengent;
+
+        int curIteamPosX;
+        Random ran = new Random();
+        for (curIteamPosX = xStart + 100; curIteamPosX < xEnd; ) {
+          int freeSpace = gE.getChunkSpace(curIteamPosX);
+          int randomSpaceOffset = ran.nextInt(freeSpace);
+          int spaceBounce = gE.getChunkBounce(randomSpaceOffset);
+          int curIteamPosY = spaceBounce + randomSpaceOffset;
+
+          //gL.setIteam(getRandomIteam(curIteamPosX, (int) y));
+          gE.spawnGameIteam(curIteamPosX, curIteamPosY, iteamFactorysOperators);
+          curIteamPosX = curIteamPosX + ran.nextInt(1000) + 500;
+        }
+
+        /*Thread t1 = new Thread(() -> {
           setGamecoins(xStart, xEnd);
 
         });
         Thread t = new Thread(() -> {
           setGameIteams(xStart, xEnd);
 
-        });
-        t1.start();
-        t.start();
-        threads.add(t1);
-        threads.add(t);
+        });*/
       }
-      for (int i = 0; i < threads.size(); i++) {
-        try {
-          threads.get(i).join();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
+    }).start( ); // Start Threading IF-Statement
+  }
 
-      if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 ) {
-        mp3Player.load(getPlayingLevel().getSong());
-        this.gamePlayingStatePropPointer.setValue(GamePlayingState.READY);
-      }
+  private void afterWorldDrawFinished( List<BinaryOperator> iteamFactorysOperators ) {
+    this.spawnRandomIteams( iteamFactorysOperators );
+
+    if (this.gameLoadedLevelPropPointer.getValue( ).mapChunks.size() > 100 ) {
+      mp3Player.load(getPlayingLevel().getSong());
+      this.gamePlayingStatePropPointer.setValue(GamePlayingState.READY);
     }
   }
 
@@ -209,8 +236,8 @@ public class GameEngine {
           if (gameSpeed < MIN_SPEED){
             gameSpeed = 0.2;
           }
-          double value = curPlayerPosX +2 ;
-          gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 3 + plusscore);
+          double value = curPlayerPosX +12.5 ;
+          //gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 3 + plusscore);
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
         lastUpdated = now;
@@ -371,47 +398,19 @@ public class GameEngine {
     }
   }
 
-  public void setGameIteams( int startX, int endX){
-    int x;
+  public int getChunkSpace( int xPos ) {
     int iteamCricle = 20;
-    GameLevel gL= gameLoadedLevelPropPointer.getValue();
-    Random ran = new Random( );
-    for ( x = startX +100; x < endX; ){
-      double y;
-      int v = (int) (gL.getDownBoarder(x) -iteamCricle-40
-              - (gL.getUpperBoarder(x) +iteamCricle+40));
-      int b = ran.nextInt(v);
-      int d  = (int) (gL.getUpperBoarder(x)+iteamCricle+40);
-      y = b+d;
+    GameLevel gL = gameLoadedLevelPropPointer.getValue();
 
-      gL.setIteam(getRandomIteam(x, (int) y));
-      x= x+ ran.nextInt(1000)+500;
-    }
-
-    }
-    private void setGamecoins( int startX, int endX) {
-      int iteamCricle = 20;
-      GameLevel gL = gameLoadedLevelPropPointer.getValue();
-      Random ran = new Random();
-      Random random = new Random();
-      for (int z = startX; z <= endX; ) {
-        int v = (int) (gL.getDownBoarder(z) - iteamCricle - 20 - (gL.getUpperBoarder(z) + iteamCricle + 20));
-        int b = random.nextInt(v);
-        int d = (int) (gL.getUpperBoarder(z) + iteamCricle + 20);
-        double y = b + d;
-        gL.setCoin(z, (int) y);
-        z = z + random.nextInt(100) + 300;
-
-      }
-    }
-  private Iteam getRandomIteam(int x, int y) {
-    GameIteam random = GameIteam.getRandom();
-    switch (random) {
-      case SLOW: return (Iteam) new SlowMoSprite(x,y);
-      case SPEED:return (Iteam) new SpeedSprite(x,y);
-    }
-    return null;
+    return (int) (gL.getDownBoarder( xPos ) -iteamCricle-40
+        - (gL.getUpperBoarder( xPos) + (iteamCricle*2)));
   }
+
+  public int getChunkBounce( int xPos) {
+    GameLevel gL = gameLoadedLevelPropPointer.getValue();
+    return (int)gL.getUpperBoarder( xPos ) + 60;
+  }
+
   private void bindInternPropertyComputing( ) {
     // Verknüpfte X-Position mit GUI-Leinwand
 

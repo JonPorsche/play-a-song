@@ -10,6 +10,12 @@ import javafx.scene.paint.ImagePattern;
 import java.io.File;
 
 public class Coin extends CoinSprite implements Iteam {
+    /*public static CoinSprite getFromFactory( int xPos, int yPos ) {
+        return new CoinSprite( xPos, yPos );
+    }*/
+    public static Coin getFromFactory(int xPos, int yPos ) {
+        return new Coin( xPos, yPos );
+    }
 
     public Coin(int xPos, int yPos) {
         super(xPos, yPos);
