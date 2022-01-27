@@ -1,48 +1,54 @@
 package game.sprites.logic;
-
 import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
-import game.sprites.optic.CoinSprite;
-import javafx.scene.image.Image;
+import game.sprites.basic.Sprite;
+import game.sprites.optic.SpeedSprite;
 import javafx.scene.paint.ImagePattern;
 
-public class Coin extends SpriteLogic implements Iteam {
-    public static Coin getFromFactory(int xPos, int yPos ) {
-        return new Coin( xPos, yPos );
-    }
+public class Speed extends SpriteLogic  implements Iteam {
     int x;
     int y;
-    int radius = 20;
+    double gamespeed =4;
+    double sizeModifer =-1;
     double score = 1000;
+    double radius = 20;
 
-    public Coin(int xPos, int yPos) {
+
+    public Speed(int xPos, int yPos ) {
         this.x = xPos;
         this.y = yPos;
+
     }
 
     @Override
     public void collision(GameEngine ge, PlayerCharacter pl) {
         if (!isUsed.getValue()) {
-            isUsed.setValue(true);
+            pl.addSizeModifer(sizeModifer,ge);
+            ge.addGamespeed((float) gamespeed);
             ge.addScore(score);
+            isUsed.setValue(false);
             Mp3Player soundP = new Mp3Player();
             soundP.load(sprite.soundFile.getAbsolutePath());
             soundP.play();
         }
+
     }
 
     @Override
     public void setIsVisabile(boolean b) {
         if(b){
-            sprite = new CoinSprite(x, y, radius);
-            setImagePatterns(new ImagePattern(sprite.img));
-            isVisabile.set(true);
-        }else{
+        sprite = new SpeedSprite(x,y);
+        setImagePatterns(new ImagePattern(sprite.img));
+        isVisabile.set(true);
+
+
+    }else{
             sprite = null;
         }
     }
 
+    @Override
     public Sprite getSprite() {
         return sprite;
     }
@@ -54,12 +60,13 @@ public class Coin extends SpriteLogic implements Iteam {
 
     @Override
     public int getRadius() {
-        return radius;
+        return (int) radius;
     }
 
     @Override
     public double getY() {
         return y;
     }
-}
 
+
+}

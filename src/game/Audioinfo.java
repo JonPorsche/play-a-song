@@ -29,7 +29,7 @@ public class Audioinfo {
 
   public double[] getLeft() {
     this.player = minim.loadFile(fileLoaction);
-    this.lengthSong = player.length()/20;
+    this.lengthSong = player.length()/100;
 
     float[] leftChannel = this.minim.loadSample(
         this.fileLoaction, 204

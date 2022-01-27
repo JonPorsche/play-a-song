@@ -1,11 +1,14 @@
 package game;
 
 import application.Main;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import game.sprites.logic.Coin;
 
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +47,7 @@ public class GameLevel {
   private List<Double> upperBound;
   private List<Double> bottomBound;
 
-  public GameLevel( String newLevelSongPath ) {
+  public GameLevel( String newLevelSongPath ){
     this.levelSourceTrack = newLevelSongPath;
 
     this.generateMapChunks( );
@@ -115,7 +118,7 @@ public class GameLevel {
 
 
   public void setIteam(Iteam iteam) {
-   putiteam((int) iteam.getCenterX(),iteam);
+   putiteam(iteam.getX(),iteam);
   }
 
   public void setCoin(int x, int y) {
