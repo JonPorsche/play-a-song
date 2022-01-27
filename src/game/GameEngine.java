@@ -50,7 +50,7 @@ public class GameEngine {
   protected  ObjectProperty<Number> gamePlayerLifePointer;
   protected FloatProperty pastgameSpeed = new SimpleFloatProperty(1);
   private double plusscore;
-
+  private boolean cooldown;
 
   public GameEngine(
           ObjectProperty<GamePlayingState> playingStatePrPo, // <- GameManager.gamePlayingState
@@ -106,6 +106,7 @@ public class GameEngine {
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
+    this.gamePlayerLifePointer.setValue(gL.playerLife);
 
     this.gameDisplaySelector.initCanvas( gL.getMapPixelWidth( ) );
     this.gameLoadedLevelPropPointer.setValue( gL );
@@ -143,7 +144,7 @@ public class GameEngine {
 
           int curIteamPosX;
           Random ran = new Random();
-          for (curIteamPosX = xStart + 100; curIteamPosX < xEnd; ) {
+          for (curIteamPosX = xStart + 100; curIteamPosX < xEnd-1000; ) {
             int freeSpace = gE.getChunkSpace(curIteamPosX);
             int randomSpaceOffset = ran.nextInt(freeSpace);
             int spaceBounce = gE.getChunkBounce(randomSpaceOffset);
@@ -230,7 +231,10 @@ public class GameEngine {
           gamePlayerScorePropPointer.setValue((int)(curPlayerPosX+ 13.99+ plusscore+gameSpeed));
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
-          mapCollsion();
+         if( mapCollsion() && !cooldown){
+           gamePlayerLifePointer.setValue( gamePlayerLifePointer.getValue().intValue() -1);
+           setCooldown();
+         };
         lastUpdated = now;
       }
       }
@@ -422,6 +426,7 @@ public class GameEngine {
     // Verknüpfte die EngineAttribute mit den GameLevelAttributen
     ObjectProperty<GameLevel> pLevelProp = this.gameLoadedLevelPropPointer;
     this.gamePlayerPosPropPointer.addListener( (o, oP, newPosition) -> {
+      if(newPosition > 0){
       if (isLoadedLevelReady( )) {
         pLevelProp.getValue().gamePlayerPos = newPosition;
       }
@@ -429,7 +434,7 @@ public class GameEngine {
       (newPosition > gameDisplaySelector.gameWorldPane.getLength()-2000){
         gamePlayingStatePropPointer.setValue(GamePlayingState.FINISHED);
       }
-    });
+    }});
 
     this.gamePlayerScorePropPointer.addListener( (o, oS, newScore) ->  {
       if (isLoadedLevelReady( ))
@@ -440,6 +445,14 @@ public class GameEngine {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
     });
+    this.gamePlayerLifePointer.addListener((o,oP,newPostion)->
+            pLevelProp.getValue().playerLife = newPostion.intValue());
+    this.gamePlayerLifePointer.addListener((o,oP,newPostion)->{
+      if(newPostion.intValue()<=0){
+        gamePlayingStatePropPointer.setValue(GamePlayingState.GAMEOVER);
+      }
+    });
+
     this.playerPosY.addListener( (o, oP, newPosition) ->  {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosY = newPosition.intValue( );
@@ -448,7 +461,10 @@ public class GameEngine {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerRadius = newPosition.intValue( );
     });
+
+
   }
+
 
   private boolean isDisplayCanvasReady( ) {
     return this.gameDisplaySelector.gameWorldPane != null
@@ -468,6 +484,7 @@ public class GameEngine {
 
   // PROPERTYS - POINTER
   public ObjectProperty<Double> getGamePlayerPosProperty( ) { return this.gamePlayerPosPropPointer; }
+  public ObjectProperty<Number> getGamePlayerLifePointer() {return  gamePlayerLifePointer;}
   public ObjectProperty<Number> getGamePlayerScoreProperty( ) { return this.gamePlayerScorePropPointer; }
 
   public void addGamespeed(float gamespeedMod) {
@@ -489,5 +506,23 @@ public class GameEngine {
     }).start();//
 
   }
-
+  public void setCooldown(){
+    this.cooldown = true;
+    new Thread(()-> {
+      int seconds = 0;
+      while (seconds <= 1) {
+        if (gamePlayingStatePropPointer.getValue() == GamePlayingState.PLAY) {
+          seconds += 1;
+        }
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+      this.cooldown = false;
+    }).start();//
+  }
 }
+
+

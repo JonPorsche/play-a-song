@@ -126,6 +126,9 @@ public class GameManager {
   public ObjectProperty<Number> getPlayerScoreProperty() {
     return this.gamePlayerScore;
   }
+  public ObjectProperty<Number> getGamePlayerLife() {
+    return this.gamePlayerLife;
+  }
 
   public int getPlayerScore( ) {
     return this.getPlayerScoreProperty().getValue().intValue();

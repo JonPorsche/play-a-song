@@ -42,6 +42,7 @@ public class GameLevel {
   public float gameSpeed = 1;
   public double gamePlayerPos = 0.0;
   public int gamePlayerScore = 0;
+  public int playerLife =3;
   private List<Double> upperBound;
   private List<Double> bottomBound;
 

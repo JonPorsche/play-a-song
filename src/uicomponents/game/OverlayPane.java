@@ -53,6 +53,7 @@ public class OverlayPane extends AnchorPane {
     healthBox = new HBox();
     healthBox.setLayoutX(800);
     healthBox.setLayoutY(0);
+    healthBox.setPrefWidth(300);
     healthBox.getStyleClass().addAll("score-box");
 
   }
@@ -60,13 +61,15 @@ public class OverlayPane extends AnchorPane {
     pauseButton = new Button();
     pauseButton.getStyleClass().addAll("pause-btn");
     pauseBox = new HBox(pauseButton);
-    HBox.setMargin(pauseButton,new Insets(0,10,0,10));
+    pauseBox.setPrefWidth(100);
+    HBox.setMargin(pauseButton,new Insets(0,10,0,20));
   }
   private  void setpositonPercantage(){
     this.positionPercentLabel = new Label( "000%" );
     positionPercentLabel.getStyleClass().addAll("titles");
     positionTitleLabel.getStyleClass().addAll("titles");
     posstionBox = new HBox(positionTitleLabel,positionPercentLabel);
+    posstionBox.setPrefWidth(150);
     HBox.setMargin(positionPercentLabel,new Insets(0,10,0,2));
     HBox.setMargin(positionTitleLabel,new Insets(0,10,0,0));
   }
@@ -76,6 +79,7 @@ public class OverlayPane extends AnchorPane {
     scoreLabel.getStyleClass().addAll("titles");
     scoreTitleLabel.getStyleClass().addAll("titles");
     scoreBox = new HBox(scoreTitleLabel,scoreLabel);
+    scoreBox.setPrefWidth(150);
     HBox.setMargin(scoreLabel,new Insets(0,10,0,2));
     HBox.setMargin(scoreTitleLabel,new Insets(0,10,0,0));
 
