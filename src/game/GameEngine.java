@@ -50,7 +50,6 @@ public class GameEngine {
   protected  ObjectProperty<Number> gamePlayerLifePointer;
   protected FloatProperty pastgameSpeed = new SimpleFloatProperty(1);
   private double plusscore;
-  private int worldPixelLength;
 
 
   public GameEngine(
@@ -132,11 +131,10 @@ public class GameEngine {
     gL.setUpperbound(gameDisplaySelector.gameWorldPane.getAllXYUpperArray());
     gL.setBottombound(gameDisplaySelector.gameWorldPane.getAllXYBottomArray());
     this.Iteams = gameLoadedLevelPropPointer.getValue().getSortedItems();
-    worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getLength();
 
     if (iteamFactorysOperators.size( ) > 0) {
       Thread t1 = new Thread(() -> {
-        worldPixelLength = (int) gameDisplaySelector.gameWorldPane.getWidth();
+        int worldPixelLength = gL.getMapPixelWidth();
         int lengent = worldPixelLength / 10;
 
         for (int drawChunkPosX = 0; drawChunkPosX < worldPixelLength; drawChunkPosX += lengent) {
