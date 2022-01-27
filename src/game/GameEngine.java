@@ -230,7 +230,7 @@ public class GameEngine {
             gameSpeed = -4;
           }
           double value = curPlayerPosX +12.90 +gameSpeed ;
-          gamePlayerScorePropPointer.setValue(curPlayerPosX+ 13.99+ plusscore+gameSpeed);
+          gamePlayerScorePropPointer.setValue((int)(curPlayerPosX+ 13.99+ plusscore+gameSpeed));
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
           mapCollsion();
@@ -428,7 +428,7 @@ public class GameEngine {
       if (isLoadedLevelReady( )) {
         pLevelProp.getValue().gamePlayerPos = newPosition;
       }
-      if (newPosition > 16000){
+      if (newPosition > gameDisplaySelector.gameWorldPane.getLength()-1000){
         gamePlayingStatePropPointer.setValue(GamePlayingState.FINISHED);
       }
     });

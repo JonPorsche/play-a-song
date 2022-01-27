@@ -5,11 +5,17 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+
 
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javafx.scene.paint.Color.rgb;
 
 public class WorldPane extends Canvas {
   public List<Point2D> UpperCordinatesArray = new ArrayList<>();
@@ -56,9 +62,12 @@ public class WorldPane extends Canvas {
     int drawStartPos = playerPosX;
     int playerStartY = wallSideSteps.get(drawStartPos).intValue();
     int index = drawStartPos / 100;
+    File imgFile = new File("src/resources/wave.png");
+    Image img = new Image(imgFile.toURI().toString());
     GraphicsContext gc = this.getGraphicsContext2D();
-    gc.setFill(Color.BLACK);
-    gc.setStroke(Color.BLACK);
+    gc.setFill(rgb(187, 134, 252));
+    gc.setFill(new ImagePattern(img));
+    gc.setStroke(rgb(187, 134, 252));
     gc.beginPath();
     int i;
     gc.moveTo(0, yStartPos);
@@ -68,7 +77,7 @@ public class WorldPane extends Canvas {
       gc.lineTo(x, y);
     }
     gc.lineTo(playerPosX+ wallpoints.get(i).getX(),yStartPos);
-    gc.stroke();
+
     gc.closePath();
       gc.fill();
 

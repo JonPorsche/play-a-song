@@ -1,18 +1,18 @@
 package uicomponents.game;
 
 import application.Main;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 
 public class PausePane extends AnchorPane {
 
     Button playB;
     Label pausetext;
-    HBox pauseBox;
+    VBox pauseBox;
+    AnchorPane menuBox;
 
     public PausePane() {
         getStyleClass().addAll("pause-pane");
@@ -21,23 +21,35 @@ public class PausePane extends AnchorPane {
         setPlayB();
         setPausetext();
         setPauseBox();
+        setMenuBox();
+
+    }
+    private void setMenuBox(){
+        menuBox = new AnchorPane();
+        menuBox.setLayoutX(300);
+        menuBox.setLayoutY(250);
+        menuBox.setPrefHeight(200);
+        menuBox.setPrefWidth(400);
+        menuBox.getChildren().add(pauseBox);
+        getChildren().add(menuBox);
+        menuBox.getStyleClass().addAll("menu-pane");
 
     }
 
     private void setPauseBox() {
-        pauseBox = new HBox();
-        pauseBox.setLayoutX(400);
-        pauseBox.setLayoutY(300);
-        HBox.setHgrow(pausetext, Priority.ALWAYS);
-        HBox.setHgrow(playB, Priority.ALWAYS);
+        pauseBox = new VBox();
+        pauseBox.setLayoutX(50);
+        pauseBox.setLayoutY(30);
+        pauseBox.setPrefWidth(150);
+        VBox.setVgrow(pausetext, Priority.ALWAYS);
+        VBox.setVgrow(playB, Priority.ALWAYS);
+        pauseBox.getStyleClass().addAll("menu-vbox");
         pauseBox.getChildren().addAll(pausetext,playB);
-        getChildren().add(pauseBox);
+
     }
 
     public void setPausetext() {
         pausetext = new Label("Loading !");
-        pausetext.setLayoutX(430);
-        pausetext.setLayoutY(250);
         pausetext.getStyleClass().addAll("pause-text");
 
 
