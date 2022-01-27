@@ -3,24 +3,17 @@ import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
 import game.sprites.basic.Sprite;
-import game.sprites.optic.CoinSprite;
 import game.sprites.optic.SpeedSprite;
-import game.sprites.optic.SpriteLogic;
-import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
-import java.io.File;
-
-import static javafx.scene.paint.Color.BLUE;
-
-public class Speed  implements Iteam {
-    SpeedSprite speedSprite = null;
+public class Speed extends SpriteLogic  implements Iteam {
     int x;
     int y;
-    double gamespeed =0.80;
-    double sizeModifer =5;
+    double gamespeed =4;
+    double sizeModifer =-1;
     double score = 1000;
-    double radius;
+    double radius = 20;
+
 
     public Speed(int xPos, int yPos ) {
         this.x = xPos;
@@ -30,14 +23,13 @@ public class Speed  implements Iteam {
 
     @Override
     public void collision(GameEngine ge, PlayerCharacter pl) {
-        if (!speedSprite.isUsed.getValue()) {
-            pl.addSizeModifer(speedSprite.sizeModifer,ge);
-            pl.setPlayerImgSpeed();
-            ge.addGamespeed((float) speedSprite.gamespeed);
-            ge.addScore(speedSprite.score);
-            speedSprite.isUsed.setValue(true);
+        if (!isUsed.getValue()) {
+            pl.addSizeModifer(sizeModifer,ge);
+            ge.addGamespeed((float) gamespeed);
+            ge.addScore(score);
+            isUsed.setValue(false);
             Mp3Player soundP = new Mp3Player();
-            soundP.load(speedSprite.sound.getAbsolutePath());
+            soundP.load(sprite.soundFile.getAbsolutePath());
             soundP.play();
         }
 
@@ -46,15 +38,19 @@ public class Speed  implements Iteam {
     @Override
     public void setIsVisabile(boolean b) {
         if(b){
-        speedSprite = new SpeedSprite(x,y);
+        sprite = new SpeedSprite(x,y);
+        setImagePatterns(new ImagePattern(sprite.img));
+        isVisabile.set(true);
+
+
     }else{
-            speedSprite = null;
+            sprite = null;
         }
     }
 
     @Override
     public Sprite getSprite() {
-        return speedSprite;
+        return sprite;
     }
 
     @Override

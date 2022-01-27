@@ -5,13 +5,10 @@ import game.GameEngine;
 import game.sprites.basic.Iteam;
 import game.sprites.basic.Sprite;
 import game.sprites.optic.CoinSprite;
-import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
-import java.io.File;
+public class Coin extends SpriteLogic implements Iteam {
 
-public class Coin implements Iteam {
-    CoinSprite coinSprite = null;
     int x;
     int y;
     int radius = 20;
@@ -23,26 +20,27 @@ public class Coin implements Iteam {
     }
     @Override
     public void collision(GameEngine ge, PlayerCharacter pl) {
-        if (!coinSprite.isUsed.getValue()) {
-            coinSprite.isUsed.setValue(true);
+        if (!isUsed.getValue()) {
+            isUsed.setValue(true);
             ge.addScore(score);
             Mp3Player soundP = new Mp3Player();
-            soundP.load(coinSprite.sound.getAbsolutePath());
+            soundP.load(sprite.soundFile.getAbsolutePath());
             soundP.play();
         }
     }
     @Override
     public void setIsVisabile(boolean b) {
         if(b){
-            coinSprite = new CoinSprite(x, y, radius);
-
+            sprite = new CoinSprite(x, y, radius);
+            setImagePatterns(new ImagePattern(sprite.img));
+            isVisabile.set(true);
         }else{
-            coinSprite = null;
+            sprite = null;
         }
     }
 
     public Sprite getSprite() {
-        return coinSprite;
+        return sprite;
     }
 
     @Override

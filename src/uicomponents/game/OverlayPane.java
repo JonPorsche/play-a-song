@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
+import javax.swing.text.html.ImageView;
+
 
 public class OverlayPane extends AnchorPane {
   //public PlayerCharacter player = new PlayerCharacter();
@@ -14,12 +16,16 @@ public class OverlayPane extends AnchorPane {
   Label scoreTitleLabel = new Label( "Score:" );
   Label positionTitleLabel = new Label( "Score:" );
   HBox pauseBox;
+  HBox healthBox;
   HBox scoreBox;
   HBox posstionBox;
+  ImageView health = new ImageView(null);
+  ImageView health1 = new ImageView(null);
+  ImageView health2 = new ImageView(null);
   public OverlayPane( ) {
     super( );
     this.setHeight(200);
-    this.setWidth(200);
+    this.setWidth(1000);
     setLayoutX(0);
     setLayoutY(0);
     setPauseButton();
@@ -28,6 +34,7 @@ public class OverlayPane extends AnchorPane {
     setScoreBox();
     OverlayPane pane = this;
     getStyleClass().addAll("score-box");
+
 
 
   }

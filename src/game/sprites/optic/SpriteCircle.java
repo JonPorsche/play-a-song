@@ -4,27 +4,15 @@ import game.sprites.basic.GameObject;
 import game.sprites.basic.Knockable;
 import game.sprites.basic.Sprite;
 import javafx.geometry.Bounds;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
 
+import java.io.File;
+
 public class SpriteCircle extends Circle implements Knockable, GameObject, Sprite {
-  public double sizeModifer;
-  protected double speedModfer;
-  protected double gamespeed = 1;
-  protected double pixelpermiliscond;
-
-  public void update( double gamespeed ) {
-    this.updateHeight( speedModfer * gamespeed );
-  }
-
-  public void updateHeight( double value ){
-    this.setCenterY(
-        this.getCenterY( ) + value
-    );
-  }
-  public void setgamespeed(double pixelpermiliscond){
-    this.pixelpermiliscond= pixelpermiliscond;
-
-  }
+  public File soundFile;
+  public Image img;
+  public Image img2;
 
   public double getAngle() {
     return 0;
@@ -48,6 +36,11 @@ public class SpriteCircle extends Circle implements Knockable, GameObject, Sprit
   @Override
   public double getHeight() {
     return this.getWidth();
+  }
+
+  @Override
+  public void update(double delta) {
+
   }
 
   @Override

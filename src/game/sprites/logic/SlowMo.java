@@ -14,14 +14,14 @@ import java.io.File;
 
 import static javafx.scene.paint.Color.RED;
 
-public class SlowMo implements Iteam {
-  SlowMotionSprite slowMotionSprite = null;
+public class SlowMo extends SpriteLogic implements Iteam {
   int x;
   int y;
-  double gamespeed =0.80;
-  double sizeModifer =5;
+  double gamespeed =-4;
+  double sizeModifer =1;
   double score = 1000;
-  double radius;
+  double radius = 20;
+
 
   public SlowMo(int xPos, int yPos )  {
     this.x = xPos;
@@ -30,13 +30,13 @@ public class SlowMo implements Iteam {
   }
   @Override
   public void collision(GameEngine ge, PlayerCharacter pl) {
-    if (!slowMotionSprite.isUsed.getValue()) {
-      pl.addSizeModifer(slowMotionSprite.sizeModifer,ge);
-      pl.setPlayerimgSlow();
-      ge.addScore(slowMotionSprite.score);
-      slowMotionSprite.isUsed.setValue(true);
+    if (!isUsed.getValue()) {
+      pl.addSizeModifer(sizeModifer,ge);
+      ge.addScore(score);
+      ge.addGamespeed((float) gamespeed);
+      isUsed.setValue(true);
       Mp3Player soundP = new Mp3Player();
-      soundP.load(slowMotionSprite.sound.getAbsolutePath());
+      soundP.load(this.sprite.soundFile.getAbsolutePath());
       soundP.play();
     }
   }
@@ -44,16 +44,19 @@ public class SlowMo implements Iteam {
   @Override
   public void setIsVisabile(boolean b) {
     if(b){
-      slowMotionSprite= new SlowMotionSprite(x, y);
+    this.sprite= new SlowMotionSprite(x, y);
+    setImagePatterns(new ImagePattern(sprite.img));
+    isVisabile.set(true);
+
 
     }else{
-      slowMotionSprite = null;
+     sprite = null;
     }
   }
 
   @Override
   public Sprite getSprite() {
-    return slowMotionSprite;
+    return sprite;
   }
 
   @Override

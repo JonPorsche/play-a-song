@@ -8,19 +8,15 @@ import java.io.File;
 
 import static javafx.scene.paint.Color.RED;
 
-public class SlowMotionSprite extends SpriteLogic  implements Sprite {
+public class SlowMotionSprite extends SpriteCircle  implements Sprite {
+    File imgFile = new File("src/resources/Slow.png");
+
     public SlowMotionSprite(int xPos, int yPos) {
-        super(xPos, yPos);
-        this.setCenterX(xPos);
-        this.setCenterY(yPos);
-        this.setFill(RED);
         this.setRadius(20);
         this.setCenterX(xPos);
         this.setCenterY(yPos);
-        File imgFile = new File("src/resources/Slow.png");
-        this.sound = new File("src/resources/sounds/slow.mp3");
-        Image img = new Image(imgFile.toURI().toString());
-        this.setImagePatterns( new ImagePattern(img) );
-        this.setImageContent();
+        this.img = new Image(imgFile.toURI().toString());
+        this.soundFile = new File("src/resources/sounds/slow.mp3");
+        this.setFill(new ImagePattern(img));
     }
 }

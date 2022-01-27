@@ -39,6 +39,7 @@ public class Main extends Application {
 
     public Properties defaultProp = null;
     public Properties appProp = null;
+    private static Main INSTANCE = new Main();
 
     // TODO Declare Game here
     public static GameManager gameManager;
@@ -65,6 +66,7 @@ public class Main extends Application {
         //this.menuViewController = new MenuViewController(this);
         MenuViewController.getInstance();
         this.gameViewController = new GameViewController(this);
+
 
         // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
         PlaylistManager.getInstance().checkM3UFileStatus();
@@ -156,6 +158,11 @@ public class Main extends Application {
                         }
                     }
                 });
+                break;
+
+            case MENU_VIEW:
+                primaryStage.setScene(scenes.get(scene).getScene());
+
 
         }
 

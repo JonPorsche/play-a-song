@@ -25,8 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GameEngine {
 
-  private static final double MAX_SPEED =2 ;
-  private static final double MIN_SPEED =0.2 ;
+  private static final double MAX_SPEED =4 ;
+  private static final double MIN_SPEED =-4 ;
   private GameDisplay gameDisplaySelector;
   private AnimationTimer gameAnimatedThread = null;
 
@@ -35,7 +35,7 @@ public class GameEngine {
   protected IntegerProperty playerPosY = new SimpleIntegerProperty();
   protected DoubleProperty playerRadius= new SimpleDoubleProperty();
   protected PlayerCharacter player = new PlayerCharacter( );
-  protected DoubleProperty gameSpeed = new SimpleDoubleProperty(1/144);
+  protected DoubleProperty gameSpeed = new SimpleDoubleProperty(0);
   protected ConcurrentHashMap<Number, Iteam> vissableIteams= new ConcurrentHashMap<>();
   protected ConcurrentHashMap<Number, Iteam> KnockableIteams= new ConcurrentHashMap<>();
   protected HashMap<Number, Iteam> Iteams= new HashMap<>();
@@ -203,16 +203,17 @@ public class GameEngine {
           gameSpeed = getGameSpeedProperty( ).getValue( );
           
           if(gameSpeed>MAX_SPEED){
-            gameSpeed = 2;
+            gameSpeed = 4;
           }
           
           if (gameSpeed < MIN_SPEED){
-            gameSpeed = 0.2;
+            gameSpeed = -4;
           }
-          double value = curPlayerPosX +12.90 ;
-          gamePlayerScorePropPointer.setValue(gamePlayerScorePropPointer.getValue().intValue() + 13.99+ plusscore);
+          double value = curPlayerPosX +12.90 +gameSpeed ;
+          gamePlayerScorePropPointer.setValue(curPlayerPosX+ 13.99+ plusscore+gameSpeed);
           plusscore = 0;
           gamePlayerPosPropPointer.setValue(value);
+          mapCollsion();
         lastUpdated = now;
       }
       }
@@ -244,14 +245,6 @@ public class GameEngine {
   }
 
   public GameLevel getPlayingLevel( ) { return this.gameLoadedLevelPropPointer.getValue( ); }
-  /*private void worldSlideNext( ) {
-    int curPlayerPosX = this.getGamePlayerPosProperty( ).getValue( ).intValue( );
-    int gameSpeed = this.getGameSpeedProperty( ).getValue( ).intValue( );
-    int defaultPosDistance = ( Main.WINDOW_WIDTH / 180); // 360Frames pro Sichtfeldbreite
-    this.gamePlayerPosPropPointer.setValue( (double)(
-      curPlayerPosX + ( defaultPosDistance * gameSpeed )
-    ) ); // aktuelle Positon X + neue Position (inkl. SpeedMultiplikator)
-  }*/
   public void updateIteams(Double oPos, Double newPos){
     if(oPos != null) {
       updateVissableIteams(oPos, newPos);
@@ -260,7 +253,7 @@ public class GameEngine {
 
   }
   private void checkCollsion(Double oPos, Double newPos) {
-    double differncePos = newPos-oPos;
+
     for ( Number i :vissableIteams.keySet()) {
       if(KnockableIteams.containsKey(i)){
         Iteam iteam = KnockableIteams.get(i);
@@ -322,16 +315,17 @@ public class GameEngine {
 
     }else{
       PlayerSprite tempPlayer;
-      tempPlayer = new PlayerSprite((int) player.getX(), (int) player.getY());
+      tempPlayer = new PlayerSprite(playerX, (int) playerY);
       tempPlayer.setRadius(player.getRadius());
       for (int width = (int) (playerX - player.getRadius()); width < playerX + player.getRadius(); width++) {
         if(tempPlayer.getLayoutBounds().contains(new Point2D(width, gl.getUpperBoarder(width)))){
+          System.out.println("Collision");
           player.setY(gl.getUpperBoarder(width)+player.getRadius());
-
           return true;}
         Bounds test = tempPlayer.getLayoutBounds();
        Point2D boarder = new Point2D(width, gl.getDownBoarder(width));
         if(tempPlayer.getLayoutBounds().contains(boarder)){
+          System.out.println("Collision");
           player.setY(gl.getDownBoarder(width)-player.getRadius());
           return true;
         }
@@ -386,7 +380,7 @@ public class GameEngine {
       y = b+d;
 
       gL.setIteam(getRandomIteam(x, (int) y));
-      x= x+ ran.nextInt(1000)+5000;
+      x= x+ ran.nextInt(1000)+3000;
     }
 
     }
@@ -401,7 +395,7 @@ public class GameEngine {
         int d = (int) (gL.getUpperBoarder(z) + iteamCricle + 20);
         double y = b + d;
         gL.setCoin(z, (int) y);
-        z = z + random.nextInt(100) + 3000;
+        z = z + random.nextInt(100) + 500;
 
       }
     }
@@ -432,7 +426,7 @@ public class GameEngine {
       if (isLoadedLevelReady( )) {
         pLevelProp.getValue().gamePlayerPos = newPosition;
       }
-      if (newPosition > worldPixelLength ){
+      if (newPosition > worldPixelLength-2000 ){
         gamePlayingStatePropPointer.setValue(GamePlayingState.FINISHED);
       }
     });
