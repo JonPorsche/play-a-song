@@ -25,7 +25,7 @@ public class WorldPane extends Canvas {
   //public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
   private List<Number> generatedWorldTopPath;
   private List<Number> generatedWorldBottomPath;
-  File imgFile = new File("src/resources/wave.png");
+  File imgFile = new File("src/resources/wave.jpg");
   Image img = new Image(imgFile.toURI().toString());
   ImagePattern ImgPatern = new ImagePattern(img);
 
