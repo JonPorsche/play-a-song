@@ -27,9 +27,11 @@ public class Coin extends SpriteLogic implements Iteam {
         if (!isUsed.getValue()) {
             isUsed.setValue(true);
             ge.addScore(score);
-            Mp3Player soundP = new Mp3Player();
-            soundP.load(sprite.soundFile.getAbsolutePath());
-            soundP.play();
+            if (sprite.soundFile != null) {
+                Mp3Player soundP = new Mp3Player();
+                soundP.load(sprite.soundFile.getAbsolutePath());
+                soundP.play();
+            } else System.err.println( "Err: Coin SoundClip nicht verfügbar!" );
         }
     }
 
@@ -37,7 +39,8 @@ public class Coin extends SpriteLogic implements Iteam {
     public void setIsVisabile(boolean b) {
         if(b){
             sprite = new CoinSprite(x, y, radius);
-            setImagePatterns(new ImagePattern(sprite.img));
+            if (sprite.img != null) setImagePatterns(new ImagePattern(sprite.img));
+            else System.err.println( "Err: Coin Image nicht verfügbar!" );
             isVisabile.set(true);
         }else{
             sprite = null;

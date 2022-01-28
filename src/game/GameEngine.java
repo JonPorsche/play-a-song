@@ -97,10 +97,13 @@ public class GameEngine {
 
   public void setNewLevel( GameLevel gL, List<BinaryOperator> iteamFactorysOperators ) {
     GameEngine gE = this;
+    SimpleBooleanProperty levelIsLoadedProp = this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( );
 
-    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( ).addListener( (o, old, newState) -> {
-      if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
-    });
+    if (!levelIsLoadedProp.getValue( ))
+      levelIsLoadedProp.addListener( (o, old, newState) -> {
+        if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
+      });
+    else levelIsLoadedProp.setValue( false );
 
     // Update PropertyValues
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
