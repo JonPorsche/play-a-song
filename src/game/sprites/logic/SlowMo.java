@@ -48,8 +48,6 @@ public class SlowMo extends SpriteLogic implements Iteam {
   public void setIsVisabile(boolean b) {
     if(b){
     this.sprite= new SlowMotionSprite(x, y);
-    setImagePatterns(new ImagePattern(sprite.img));
-    isVisabile.set(true);
 
 
     }else{

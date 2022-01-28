@@ -48,7 +48,7 @@ public class Main extends Application {
 
     // TODO Declare Game here
     public static GameManager gameManager;
-    Map<String, Pane> scenes;
+    Map<String, Scene> scenes;
     Pane rootPane;
     Stage primaryStage;
     Scene scene;
@@ -66,7 +66,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Coin SlowMoSprite;
         Main.gameManager = new GameManager( )
         .addIteamPattern(
             (x, y) -> Coin.getFromFactory( (int)x, (int)y ),
@@ -83,9 +82,9 @@ public class Main extends Application {
         PlaylistManager.getInstance().checkM3UFileStatus();
 
         loadScenes();
-        setStartView();
+        //setStartView();
 
-        scene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        scene = this.scenes.get(MENU_VIEW);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
         this.primaryStage = primaryStage;
@@ -100,9 +99,9 @@ public class Main extends Application {
      * @author Jones Porsche
      */
     private void loadScenes() {
-        scenes = new HashMap<String, Pane>();
-        scenes.put(MENU_VIEW, MenuViewController.getInstance().getMenuRootView());
-        scenes.put(GAME_VIEW, this.gameViewController.getMenuRootView());
+        scenes = new HashMap<String, Scene>();
+        scenes.put(MENU_VIEW, new Scene(MenuViewController.getInstance().getMenuRootView(), WINDOW_WIDTH, WINDOW_HEIGHT));
+        scenes.put(GAME_VIEW, new Scene(this.gameViewController.getMenuRootView(), WINDOW_WIDTH, WINDOW_HEIGHT));
     }
 
     /**
@@ -111,7 +110,7 @@ public class Main extends Application {
      * @author Jones Porsche
      */
     private void setStartView() {
-        rootPane = scenes.get(MENU_VIEW);
+        //rootPane = scenes.get(MENU_VIEW).getRoot( );
     }
 
     /**
@@ -138,12 +137,7 @@ public class Main extends Application {
     public void switchScene(String scene) {
         switch (scene) {
             case GAME_VIEW:
-
-                System.out.println("Main.switchScene: switch to game view.");
-
-                // TODO Take the Game view from the scenes hash map and set it to the primary stage
-                rootPane = scenes.get(scene);
-                Scene newScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+                Scene newScene = scenes.get(scene); //new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
                 newScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
                 primaryStage.setScene(newScene);
                 Main.gameManager.loadLevelFromSong(PlaylistManager.getInstance().getSelectedSongPath());
@@ -151,21 +145,13 @@ public class Main extends Application {
 
                     @Override
                     public void handle(KeyEvent t) {
-                        System.out.println("key pressed");
-
                         if (gameManager.getPlayingStateProperty().getValue() == GamePlayingState.PLAY){
-
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveDown()) {
                                 gameManager.playerGoDown();
-                                System.out.println("DOWN");
                             }
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveUp()) {
                                 gameManager.playerGoUp();
-                                System.out.println("UP");
-
                             }
-
-
                         }
                     }
                 });
@@ -173,11 +159,8 @@ public class Main extends Application {
 
             case MENU_VIEW:
                 this.scene = null;
-                primaryStage.setScene(scenes.get(scene).getScene());
-
-
-        }
-
+                primaryStage.setScene(scenes.get(scene)/*.getScene()*/);
+            }
         }
 
 

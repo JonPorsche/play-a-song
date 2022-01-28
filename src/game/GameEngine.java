@@ -97,17 +97,19 @@ public class GameEngine {
 
   public void setNewLevel( GameLevel gL, List<BinaryOperator> iteamFactorysOperators ) {
     GameEngine gE = this;
+    SimpleBooleanProperty levelIsLoadedProp = this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( );
 
-    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( ).addListener( (o, old, newState) -> {
-      if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
-    });
+    if (!levelIsLoadedProp.getValue( ))
+      levelIsLoadedProp.addListener( (o, old, newState) -> {
+        if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
+      });
+    else levelIsLoadedProp.setValue( false );
 
     // Update PropertyValues
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
     this.gamePlayerLifePointer.setValue(gL.playerLife);
-
     this.gameDisplaySelector.initCanvas( gL.getMapPixelWidth( ) );
     this.gameLoadedLevelPropPointer.setValue( gL );
     //this.playerPosX.setValue( gL.playerPosX );
@@ -308,7 +310,7 @@ public class GameEngine {
       Iteam iteam = KnockableIteams.get(i);
      if( voidIteamCollsion(KnockableIteams.get(i), newPos)){
        System.out.println("collsion");
-       //@TODO Make collsion
+
        iteam.collision(this, player);
        gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i).getSprite());
        KnockableIteams.remove(KnockableIteams.get(i));
@@ -445,8 +447,11 @@ public class GameEngine {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
     });
-    this.gamePlayerLifePointer.addListener((o,oP,newPostion)->
-            pLevelProp.getValue().playerLife = newPostion.intValue());
+    this.gamePlayerLifePointer.addListener( (o,oP,newPostion) -> {
+      if(pLevelProp.getValue( ) != null) {
+        pLevelProp.getValue( ).playerLife = newPostion.intValue( );
+      }
+    } );
     this.gamePlayerLifePointer.addListener((o,oP,newPostion)->{
       if(newPostion.intValue()<=0){
         gamePlayingStatePropPointer.setValue(GamePlayingState.GAMEOVER);

@@ -11,6 +11,7 @@ import static javafx.scene.paint.Color.RED;
 public class CoinSprite extends SpriteCircle implements Sprite {
     File imgFile = new File("src/resources/Coin.png");
 
+
     public CoinSprite(int xPos, int yPos, int radius) {
         this.setCenterX(xPos);
         this.setCenterY(yPos);

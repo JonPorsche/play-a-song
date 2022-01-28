@@ -154,34 +154,35 @@ public class PlaylistManager {
         }
     }
 
-    /**
-     * Reads the playlist m3u file line by line and loads the songs array with the song instances.
-     * @author Jones Porsche
-     */
-    public static void loadPlaylistFromM3UFile() {
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(m3uFile.getAbsolutePath()));
-            String line = reader.readLine();
-            while (line != null) {
-                if (line.charAt(0) == '#' || line.charAt(line.length()-1) != '3') {
-                    line = reader.readLine();
-                    continue;
-                } else {
-                    if(new File(line).exists()) {
-                        songs.add(createSong(line));
-                        line = reader.readLine();
-                    }
-                    else {
-                        line = reader.readLine();
-                        continue;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  private static boolean stringPathIsMp3File( String path ) {
+    return path.substring( path.length( ) -4 -1 ).equalsIgnoreCase( ".mp3" );
+  }
+
+  /**
+   * Reads the playlist m3u file line by line and loads the songs array with the song instances.
+   * @author Jones Porsche
+   */
+  public static void loadPlaylistFromM3UFile( ) {
+    try {
+      BufferedReader reader = new BufferedReader(
+        new FileReader( m3uFile.getAbsolutePath( ) )
+      );
+      String line = reader.readLine( );
+
+      while (line != null) {
+
+        if (line.charAt( 0 ) != '#' || PlaylistManager.stringPathIsMp3File( line ) ) // Wenn kein Kommentar dann...
+          if (new File( line ).exists( ))
+            songs.add( // Wenn Song gefunden wurde, dann zur Liste hinzufügen
+              createSong( line )
+            );
+
+        line = reader.readLine( ); // Springe zur nächsten Zeile
+      }
+    } catch (IOException e) {
+      e.printStackTrace( );
     }
+  }
 
     /**
      * Simply deletes everything in the playlist.m3u file
