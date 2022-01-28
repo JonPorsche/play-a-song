@@ -1,8 +1,7 @@
 package uicomponents.game;
 
 import application.Main;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -13,14 +12,19 @@ public class PausePane extends AnchorPane {
     Button menuB;
     Label pausetext;
     Label menutext;
+    Label gameOverText;
+    Label scoreText;
     VBox pauseBox;
     VBox gobackBox;
     AnchorPane menuBox;
+    HBox pauseStateBox;
+    Label gameState;
+    VBox gameOver;
 
     public PausePane() {
         getStyleClass().addAll("pause-pane");
         this.setWidth(Main.WINDOW_WIDTH);
-        this.setHeight(Main.WINDOW_HEIGHT+200);
+        this.setHeight(Main.WINDOW_HEIGHT);
         setPlayB();
         setPausetext();
         setMenuText();
@@ -28,6 +32,21 @@ public class PausePane extends AnchorPane {
         setPauseBox();
         setgobackBox();
         setMenuBox();
+        setgameOverBox();
+        setGameState();
+
+
+    }
+
+    private void setGameState() {
+        gameState = new Label(" Game Start");
+        gameState.getStyleClass().addAll("pause-state");
+        pauseStateBox = new HBox(gameState);
+        pauseStateBox.setLayoutX(360);
+        pauseStateBox.setLayoutY(100);
+        pauseStateBox.setPrefHeight(100);
+        pauseStateBox.setPrefWidth(400);
+        getChildren().addAll(pauseStateBox);
 
 
     }
@@ -90,4 +109,35 @@ public class PausePane extends AnchorPane {
         playB.getStyleClass().addAll("play-btn");
     }
 
+
+    public void removePlay() {
+        Platform.runLater(()->{
+            menuBox.getChildren().clear();
+            this.getChildren().remove(menuBox);
+
+        });
+
+    }
+    public void setgameOverBox(){
+        gameOverText = new Label("Score:");
+        scoreText = new Label("Score");
+
+        gameOverText.getStyleClass().addAll("pause-text");
+        scoreText.getStyleClass().addAll("pause-text");
+        gameOver = new VBox();
+        gameOver.setLayoutX(40);
+        gameOver.setLayoutY(37);
+        gameOver.setPrefWidth(150);
+        VBox.setVgrow(gameOverText, Priority.ALWAYS);
+        VBox.setVgrow(scoreText, Priority.ALWAYS);
+        gameOver.getStyleClass().addAll("menu-vbox");
+        gameOver.getChildren().addAll(gameOverText,scoreText);
+    }
+
+    public void setGameOver() {
+        Platform.runLater(()->{
+            menuBox.getChildren().addAll(gameOver,gobackBox);
+        getChildren().add(menuBox);
+    });
+    }
 }

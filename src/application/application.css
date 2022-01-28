@@ -245,7 +245,7 @@
 .pause-pane{
     -fx-background-color: rgba(48, 48, 48, 0.70);
     -fx-min-height: 640px;
-    -fx-min-width: 1000px;
+    -fx-min-width: 1200px;
 
 
 }
@@ -270,6 +270,17 @@
 
 
 }
+.pause-state{
+    -fx-font-family: "Roboto Mono";
+    -fx-font-weight: 500;
+    -fx-font-size: 50;
+    -fx-text-alignment: center;
+    -fx-text-fill: -text-fill;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+
+
+}
 .menu-pane{
     -fx-background-color: rgba(39, 50, 49, 1);
     -fx-background-radius: 20;
@@ -277,6 +288,14 @@
     -fx-padding: 10 ;
 
 }
+.menu-vbox{
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 20;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+
+}
+
 .menu-vbox{
     -fx-background-color: rgba(255, 255, 255, 0.04);
     -fx-background-radius: 20;

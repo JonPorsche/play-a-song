@@ -107,7 +107,6 @@ public class GameEngine {
     this.gamePlayerPosPropPointer.setValue( gL.gamePlayerPos );
     this.gamePlayerScorePropPointer.setValue( gL.gamePlayerScore );
     this.gamePlayerLifePointer.setValue(gL.playerLife);
-
     this.gameDisplaySelector.initCanvas( gL.getMapPixelWidth( ) );
     this.gameLoadedLevelPropPointer.setValue( gL );
     //this.playerPosX.setValue( gL.playerPosX );

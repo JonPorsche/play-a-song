@@ -75,6 +75,16 @@ public class GameViewController extends BasicView {
           //DisplayPauseScreen
           // Display PauseMenu
           break;
+        case GAMEOVER:
+          gameViewPane.overlayView.setVisible(false);
+          gameViewPane.pausePane.setVisible(true);
+          pausPaneController.finished();
+          pausPaneController.gameOver();
+
+
+
+
+          break;
         case FINISHED:
           pausPaneController.finished();
           gameViewPane.pausePane.setVisible(true);

@@ -49,6 +49,8 @@ public class BottomViewController extends BasicView {
         handleClearPlaylistBtnClick();
     }
 
+
+
     private void handlePlayBtnClick() {
         playBtn.setOnAction(event -> {
             if (PlaylistManager.songs.isEmpty()) {
@@ -74,6 +76,7 @@ public class BottomViewController extends BasicView {
     private void handleAddSongsBtnClick() {
         addSongsBtn.setOnAction(event -> PlaylistManager.selectDirectory());
     }
+
 
     /**
      * When the button "Clear Playlist" is clicked the m3u playlist file and the playlist songs array are cleared.

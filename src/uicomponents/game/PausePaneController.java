@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import scenes.gameview.GameViewController;
 
 
@@ -48,15 +49,18 @@ public class PausePaneController {
             Platform.runLater(() ->{
                 pausePane.setVisible(true);
                 pausePane.playB.setVisible(true);
-                pausePane.playB.setOnAction(listner);});
+                pausePane.playB.setOnAction(listner);
+                pausePane.gameState.setText("     Pause");
+            });
     }
 
     public void finished(){
         Platform.runLater(() -> {
             pausePane.setVisible(true);
-            pausePane.pausetext.setText("Finished");
-            pausePane.playB.getStyleClass().remove("play-btn");
-            pausePane.playB.getStyleClass().add("MenuButton");
+            pausePane.gameState.setText("Level Clear");
+            pausePane.removePlay();
+            pausePane.setGameOver();
+            pausePane.scoreText.setText(gM.getPlayerScoreProperty().getValue().toString());
             pausePane.playB.removeEventHandler(ActionEvent.ACTION,listner);
             pausePane.playB.setOnAction(listnenFinished);
         });
@@ -74,4 +78,8 @@ public class PausePaneController {
     }
 
 
+    public void gameOver() {
+       Platform.runLater(()->pausePane.gameState.setText(" Gameover"));
+
+    }
 }
