@@ -138,11 +138,6 @@ public class Main extends Application {
     public void switchScene(String scene) {
         switch (scene) {
             case GAME_VIEW:
-
-                System.out.println("Main.switchScene: switch to game view.");
-
-                // TODO Take the Game view from the scenes hash map and set it to the primary stage
-                //rootPane = scenes.get(scene);
                 Scene newScene = scenes.get(scene); //new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
                 newScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
                 primaryStage.setScene(newScene);
@@ -151,32 +146,22 @@ public class Main extends Application {
 
                     @Override
                     public void handle(KeyEvent t) {
-                        System.out.println("key pressed");
-
                         if (gameManager.getPlayingStateProperty().getValue() == GamePlayingState.PLAY){
-
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveDown()) {
                                 gameManager.playerGoDown();
-                                System.out.println("DOWN");
                             }
                             if (t.getCode() == KeyChoiceManager.getInstance().getMoveUp()) {
                                 gameManager.playerGoUp();
-                                System.out.println("UP");
-
                             }
-
-
                         }
                     }
                 });
                 break;
 
             case MENU_VIEW:
+                this.scene = null;
                 primaryStage.setScene(scenes.get(scene)/*.getScene()*/);
-
-
-        }
-
+            }
         }
 
 

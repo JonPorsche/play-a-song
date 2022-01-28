@@ -79,6 +79,7 @@
     -outl-btn-border-color: rgba(255, 255, 255, 0.12);
     -outl-btn-enabled-color: transparent;
     -bkg-color: rgba(39, 50, 49, 1);
+    -bkg-color2: rgb(39, 46, 50);
     -text-fill: rgba(255, 255, 255, 0.87);
     -list-cell: rgba(255, 255, 255, 0.04);
     -list-cell-selected: rgba(187, 134, 252, 0.12);
@@ -207,6 +208,8 @@
     -fx-background-radius: 30px;
     -fx-pref-height: 50px;
     -fx-pref-width: 50px;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
 
 }
 .play-btn:hover{
@@ -226,7 +229,6 @@
     -fx-background-image: url("../assets/icons/pause.png");
     -fx-background-repeat: no-repeat;
     -fx-background-radius: 30px;
-
     -fx-min-height: 35px;
     -fx-max-height: 35px;
     -fx-pref-width: 35px;
@@ -250,7 +252,7 @@
 
 
 .score-box{
-    -fx-background-color: -bbkg-color;
+    -fx-background-color: rgba(39, 50, 49, 1);
     -fx-padding: 0,10,0,10;
     -fx-background-radius: 0px 0px 20px 0px;
     -fx-pref-height: 40px;
@@ -260,10 +262,45 @@
 .pause-text{
     -fx-font-family: "Roboto Mono";
     -fx-font-weight: 500;
-    -fx-font-size: 30;
+    -fx-font-size: 23;
     -fx-text-alignment: center;
     -fx-text-fill: -text-fill;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
 
+
+}
+.menu-pane{
+    -fx-background-color: rgba(39, 50, 49, 1);
+    -fx-background-radius: 20;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+
+}
+.menu-vbox{
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 20;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+
+}
+.menu-vbox:hover{
+    -fx-background-color:rgba(255, 255, 255, 0.03);
+
+}
+.menu-btn{
+    -fx-background-color: -primary-color;
+    -fx-background-image: url("../assets/icons/outline_home_black_24dp.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-radius: 30px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+
+}
+.menu-btn:hover{
+    -fx-background-color: -fab-ext-btn-hover-color;
 
 }
 

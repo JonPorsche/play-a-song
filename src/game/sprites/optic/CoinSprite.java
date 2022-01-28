@@ -18,8 +18,8 @@ public class CoinSprite extends SpriteCircle implements Sprite {
         this.setRadius(20);
         this.setCenterX(xPos);
         this.setCenterY(yPos);
-        File imgFile = new File("src/resources/Slow.png");
-        Image img = new Image(imgFile.toURI().toString());
+        soundFile = new File("src/resources/sounds/Coin.mp3");
+        img = new Image(imgFile.toURI().toString());
         setFill(new ImagePattern(img));
 
     }

@@ -5,11 +5,16 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.paint.*;
+
 
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javafx.scene.paint.Color.rgb;
 
 public class WorldPane extends Canvas {
   public List<Point2D> UpperCordinatesArray = new ArrayList<>();
@@ -20,6 +25,10 @@ public class WorldPane extends Canvas {
   //public SimpleIntegerProperty isLoaded = new SimpleIntegerProperty(0);
   private List<Number> generatedWorldTopPath;
   private List<Number> generatedWorldBottomPath;
+  File imgFile = new File("src/resources/wave.png");
+  Image img = new Image(imgFile.toURI().toString());
+  ImagePattern ImgPatern = new ImagePattern(img);
+
 
   public WorldPane() {
     super( Main.WINDOW_WIDTH +200, Main.WINDOW_HEIGHT );
@@ -57,8 +66,8 @@ public class WorldPane extends Canvas {
     int playerStartY = wallSideSteps.get(drawStartPos).intValue();
     int index = drawStartPos / 100;
     GraphicsContext gc = this.getGraphicsContext2D();
-    gc.setFill(Color.BLACK);
-    gc.setStroke(Color.BLACK);
+    gc.setFill(ImgPatern);
+    gc.setStroke(rgb(187, 134, 252));
     gc.beginPath();
     int i;
     gc.moveTo(0, yStartPos);
@@ -68,7 +77,7 @@ public class WorldPane extends Canvas {
       gc.lineTo(x, y);
     }
     gc.lineTo(playerPosX+ wallpoints.get(i).getX(),yStartPos);
-    gc.stroke();
+
     gc.closePath();
       gc.fill();
 
@@ -82,7 +91,8 @@ public class WorldPane extends Canvas {
     GraphicsContext gt = this.getGraphicsContext2D( );
     gt.clearRect(0, 0,this.getWidth(), this.getHeight());
     updateCanvasSingleWall( this.allXYUpperArray,UpperCordinatesArray, 0, centerDrawIndex );
-    updateCanvasSingleWall( this.allXYBottomArray,BottomCordinatesArray, Main.WINDOW_HEIGHT, centerDrawIndex );
+    updateCanvasSingleWall( this.allXYBottomArray,BottomCordinatesArray, Main.WINDOW_HEIGHT, centerDrawIndex);
+
 
   }
 
