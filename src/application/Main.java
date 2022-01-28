@@ -66,7 +66,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Coin SlowMoSprite;
         Main.gameManager = new GameManager( )
         .addIteamPattern(
             (x, y) -> Coin.getFromFactory( (int)x, (int)y ),

@@ -448,8 +448,11 @@ public class GameEngine {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
     });
-    this.gamePlayerLifePointer.addListener((o,oP,newPostion)->
-            pLevelProp.getValue().playerLife = newPostion.intValue());
+    this.gamePlayerLifePointer.addListener( (o,oP,newPostion) -> {
+      if(pLevelProp.getValue( ) != null) {
+        pLevelProp.getValue( ).playerLife = newPostion.intValue( );
+      }
+    } );
     this.gamePlayerLifePointer.addListener((o,oP,newPostion)->{
       if(newPostion.intValue()<=0){
         gamePlayingStatePropPointer.setValue(GamePlayingState.GAMEOVER);
