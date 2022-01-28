@@ -97,10 +97,13 @@ public class GameEngine {
 
   public void setNewLevel( GameLevel gL, List<BinaryOperator> iteamFactorysOperators ) {
     GameEngine gE = this;
+    SimpleBooleanProperty levelIsLoadedProp = this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( );
 
-    this.gameDisplaySelector.gameWorldPane.isDoneLoadingLevelProperty( ).addListener( (o, old, newState) -> {
-      if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
-    });
+    if (!levelIsLoadedProp.getValue( ))
+      levelIsLoadedProp.addListener( (o, old, newState) -> {
+        if (newState) this.afterWorldDrawFinished( iteamFactorysOperators );
+      });
+    else levelIsLoadedProp.setValue( false );
 
     // Update PropertyValues
     this.gamePlayingStatePropPointer.setValue( GamePlayingState.NOTREADY );
@@ -444,8 +447,11 @@ public class GameEngine {
       if (isLoadedLevelReady( ))
         pLevelProp.getValue( ).playerPosX = newPosition.intValue( );
     });
-    this.gamePlayerLifePointer.addListener((o,oP,newPostion)->
-            pLevelProp.getValue().playerLife = newPostion.intValue());
+    this.gamePlayerLifePointer.addListener( (o,oP,newPostion) -> {
+      if(pLevelProp.getValue( ) != null) {
+        pLevelProp.getValue( ).playerLife = newPostion.intValue( );
+      }
+    } );
     this.gamePlayerLifePointer.addListener((o,oP,newPostion)->{
       if(newPostion.intValue()<=0){
         gamePlayingStatePropPointer.setValue(GamePlayingState.GAMEOVER);
