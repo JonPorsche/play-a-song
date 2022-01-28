@@ -14,7 +14,7 @@ public class OverlayPane extends AnchorPane {
   public Label positionPercentLabel;
   public Button pauseButton;
   Label scoreTitleLabel = new Label( "Score:" );
-  Label positionTitleLabel = new Label( "Score:" );
+  Label positionTitleLabel = new Label( "Life:" );
   HBox pauseBox;
   HBox healthBox;
   HBox scoreBox;

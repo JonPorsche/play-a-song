@@ -173,7 +173,7 @@ public class GameEngine {
   }
 
   private void startEngine( ) {
-   // mp3Player.play();
+    mp3Player.play();
     getGameSpeedProperty( ).setValue( (double) 1/ (double)60);
     Double test = getGameSpeedProperty().get();
 
