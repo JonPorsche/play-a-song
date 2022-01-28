@@ -37,7 +37,6 @@ public class Speed extends SpriteLogic  implements Iteam {
             Mp3Player soundP = new Mp3Player();
             soundP.load(sprite.soundFile.getAbsolutePath());
             soundP.play();
-
         }
 
     }
