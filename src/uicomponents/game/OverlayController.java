@@ -19,6 +19,9 @@ public class OverlayController {
         gM.getPlayerScoreProperty().addListener((o,ol,on)->{
             overlayPane.scoreLabel.setText(on.toString());
         });
+        gM.getGamePlayerLife().addListener((o,oP,nP)->{
+            overlayPane.positionPercentLabel.setText(nP.toString());
+        });
     }
 
     public void play() {

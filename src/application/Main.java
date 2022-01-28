@@ -4,6 +4,12 @@ import business.service.KeyChoiceManager;
 import business.service.PlaylistManager;
 import game.GameManager;
 import game.GamePlayingState;
+import game.sprites.basic.Iteam;
+import game.sprites.logic.Coin;
+
+import game.sprites.logic.SlowMo;
+import game.sprites.logic.Speed;
+import game.sprites.optic.SpeedSprite;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,10 +25,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.IntBinaryOperator;
 
 public class Main extends Application {
 
@@ -39,6 +44,7 @@ public class Main extends Application {
 
     public Properties defaultProp = null;
     public Properties appProp = null;
+    private static Main INSTANCE = new Main();
 
     // TODO Declare Game here
     public static GameManager gameManager;
@@ -60,11 +66,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Main.gameManager = new GameManager();
+        Coin SlowMoSprite;
+        Main.gameManager = new GameManager( )
+        .addIteamPattern(
+            (x, y) -> Coin.getFromFactory( (int)x, (int)y ),
+            (x, y) -> SlowMo.getFromFactory( (int)x, (int)y ),
+            (x, y) -> Speed.getFromFactory( (int)x, (int)y )
+        );
 
         //this.menuViewController = new MenuViewController(this);
         MenuViewController.getInstance();
         this.gameViewController = new GameViewController(this);
+
 
         // Not only checks if m3u playlist file is filled. Also loads playlist (songs array) if is true.
         PlaylistManager.getInstance().checkM3UFileStatus();
@@ -156,6 +169,12 @@ public class Main extends Application {
                         }
                     }
                 });
+                break;
+
+            case MENU_VIEW:
+                this.scene = null;
+                primaryStage.setScene(scenes.get(scene).getScene());
+
 
         }
 

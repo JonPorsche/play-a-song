@@ -2,6 +2,7 @@ package uicomponents.game;
 
 import application.Main;
 
+import game.sprites.basic.Sprite;
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ public class GameDisplay extends Pane {
   public OverlayPane gameOverlayPanePane = new OverlayPane();
   public loadingPane load = new loadingPane();
   public GameView gameView;
+    private PlayerCharacter playerCharter;
 
 
     public GameDisplay(GameView gameView) {
@@ -43,16 +45,16 @@ public class GameDisplay extends Pane {
   }
 
   public void updateAbsoluteLayerPos(Double x) {
-    //gameWorldIteams.setCenterViewFrame(x);
+    gameWorldIteams.setCenterViewFrame(x);
     gameWorldPane.setCenterViewFrame(x);
   }
 
-  public void removeIteam(Iteam iteam) {
-    Platform.runLater(() -> gameWorldIteams.removeIteam(iteam));
+  public void removeIteam(Sprite sprite) {
+    Platform.runLater(() -> gameWorldIteams.removeIteam(sprite));
   }
 
    public void declarePlayerCharacter(PlayerCharacter playerCharacter) {
-     //Platform.runLater(()->this.getChildren().add(playerCharacter));
+        this.playerCharter = playerCharacter;
     }
    public void showLoading() {
       Platform.runLater(()->this.getChildren().addAll(load));
@@ -64,7 +66,7 @@ public class GameDisplay extends Pane {
         ( ) -> {
           ObservableList<Node> nodes = scope.getChildren( );
           nodes.clear( );
-          nodes.addAll( scope.gameWorldPane,scope.gameWorldIteams );
+          nodes.addAll( scope.gameWorldPane,scope.gameWorldIteams, scope.playerCharter.getSprite());
         }
       );
     }

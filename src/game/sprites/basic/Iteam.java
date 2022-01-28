@@ -6,13 +6,10 @@ import game.sprites.logic.PlayerCharacter;
 public interface Iteam {
     
     void collision(GameEngine ge, PlayerCharacter pl);
-
-    double getRadius();
-
-    double getCenterX();
-
-    double getCenterY();
-
-
     void setIsVisabile(boolean b);
+    Sprite getSprite();
+    int getX();
+    int getRadius();
+
+    double getY();
 }

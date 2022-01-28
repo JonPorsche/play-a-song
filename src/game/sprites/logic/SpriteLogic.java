@@ -1,7 +1,8 @@
-package game.sprites.optic;
+package game.sprites.logic;
 
 
 
+import game.sprites.basic.Sprite;
 import game.sprites.optic.SpriteCircle;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,7 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpriteLogic extends SpriteCircle {
+public class SpriteLogic {
     public List<ImagePattern>imagePatterns = new ArrayList<>();
     public SimpleBooleanProperty  isUsed;
     public SimpleBooleanProperty isVisabile;
@@ -23,9 +24,10 @@ public class SpriteLogic extends SpriteCircle {
     public double scoreModifer;
     public int x;
     public int y;
-    public File sound;
+    public SpriteCircle sprite;
 
-    public SpriteLogic(int xPos, int yPos) {
+
+    public SpriteLogic() {
         isVisabile = new SimpleBooleanProperty();
         isUsed = new SimpleBooleanProperty();
         animationIndex = new SimpleIntegerProperty(0);
@@ -40,7 +42,7 @@ public class SpriteLogic extends SpriteCircle {
             Thread t1 = new Thread(new Runnable() {
                 public void run() {
                     while (isVisabile.getValue() == true) {
-                        if (animationIndex.getValue() < imagePatterns.size() - 1) {
+                        if (animationIndex.getValue() < imagePatterns.size()-1) {
                             animationIndex.setValue(animationIndex.getValue() + 1);
                         } else {
                             animationIndex.set(0);
@@ -65,35 +67,13 @@ public class SpriteLogic extends SpriteCircle {
         this.imagePatterns.add(imagePattern);
 
     }
-
-    public void setIsVisabile(Boolean isVisable){
-        isVisabile.set(isVisable);
-    }
-
-
     public void setImageContent() {
-        this.setFill(imagePatterns.get(animationIndex.getValue()));
+        //sprite.setFill(imagePatterns.get(animationIndex.getValue()));
 
     }
-    public void setImageSerienContent(ImagePattern[] newStyles) { }
-    public void setImageSerienContent(List<ImagePattern> newStyles) { }
-
-
-
-
     public double getGamespeed() {
         return gamespeed;
     }
 
-    public double getSizeModifer() {
-        return sizeModifer;
-    }
 
-    public double getScore() {
-        return score;
-    }
-
-    public double getScoreModifer() {
-        return scoreModifer;
-    }
 }

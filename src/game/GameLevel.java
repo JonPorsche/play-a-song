@@ -1,6 +1,7 @@
 package game;
 
 import application.Main;
+import game.sprites.basic.Sprite;
 import game.sprites.logic.Coin;
 
 import game.sprites.logic.PlayerCharacter;
@@ -41,10 +42,11 @@ public class GameLevel {
   public float gameSpeed = 1;
   public double gamePlayerPos = 0.0;
   public int gamePlayerScore = 0;
+  public int playerLife =3;
   private List<Double> upperBound;
   private List<Double> bottomBound;
 
-  public GameLevel( String newLevelSongPath ) {
+  public GameLevel( String newLevelSongPath ){
     this.levelSourceTrack = newLevelSongPath;
 
     this.generateMapChunks( );
@@ -115,7 +117,7 @@ public class GameLevel {
 
 
   public void setIteam(Iteam iteam) {
-   putiteam((int) iteam.getCenterX(),iteam);
+   putiteam(iteam.getX(),iteam);
   }
 
   public void setCoin(int x, int y) {

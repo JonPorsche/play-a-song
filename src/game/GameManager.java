@@ -2,16 +2,22 @@ package game;
 
 import game.sprites.logic.PlayerCharacter;
 import game.sprites.basic.Iteam;
+
+import game.sprites.logic.SpriteLogic;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import uicomponents.game.GameDisplay;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.BinaryOperator;
 
 public class GameManager {
   //private List<GameLevel> loadedLevelList; // @ToDo: DoThis
   private GameEngine gameEngine;
+  private List<BinaryOperator> iteamFactoryCollection = new ArrayList<>();
 
   // Global Property Handle
   protected ObjectProperty<GamePlayingState> gamePlayingState = new SimpleObjectProperty<>(GamePlayingState.NOTREADY);
@@ -23,7 +29,7 @@ public class GameManager {
   // Level Property Handle
   protected ObjectProperty<Double> gamePlayerPos = new SimpleObjectProperty<>();
   protected ObjectProperty<Number> gamePlayerScore = new SimpleObjectProperty<>();
-  protected  ObjectProperty<Number> gamePlayerLife = new SimpleObjectProperty<>();
+  protected ObjectProperty<Number> gamePlayerLife = new SimpleObjectProperty<>();
 
   public GameManager( ) {
     this.gameEngine = new GameEngine(
@@ -32,7 +38,7 @@ public class GameManager {
       this.gameLoadedLevel,
       this.gamePlayerPos,
       this.gamePlayerScore,
-            this.gamePlayerLife
+      this.gamePlayerLife
     );
     gamePlayingState.setValue(GamePlayingState.LOADING);
   }
@@ -50,7 +56,7 @@ public class GameManager {
     if (playingTrackFile.exists( ))
       this.gameEngine.setNewLevel( new GameLevel (
           playingTrackFile.getAbsolutePath( )
-      ) );
+      ), this.iteamFactoryCollection );
   }
 
   public void loadLevelFromSong( String newLevelSongPath ) {
@@ -69,11 +75,11 @@ public class GameManager {
   /* Actions */
   public void playerGoUp( ) {
     double modValueUp = 20;
-    gameEngine.player.setCenterY(gameEngine.player.getCenterY()-20);
+    gameEngine.player.setY(gameEngine.player.getY()-20);
   }
   public void playerGoDown( ) {
     double modValueDown = 20;
-    gameEngine.player.setCenterY(gameEngine.player.getCenterY()+20);
+    gameEngine.player.setY(gameEngine.player.getY()+20);
 
 
   }
@@ -120,6 +126,9 @@ public class GameManager {
   public ObjectProperty<Number> getPlayerScoreProperty() {
     return this.gamePlayerScore;
   }
+  public ObjectProperty<Number> getGamePlayerLife() {
+    return this.gamePlayerLife;
+  }
 
   public int getPlayerScore( ) {
     return this.getPlayerScoreProperty().getValue().intValue();
@@ -131,5 +140,30 @@ public class GameManager {
     else System.out.println( "Noch kein Canvas vorhanden! =null" );
 
     return 0;
+  }
+
+  public GameManager addIteamPattern( BinaryOperator factoryOperator ) {
+    Object factoryResult = factoryOperator.apply( 0, 0 );
+
+    try {
+      SpriteLogic testResultCasting = (SpriteLogic)factoryResult;
+
+      if (testResultCasting.x == 0
+      &&  testResultCasting.y == 0
+      ) {
+        this.iteamFactoryCollection.add( factoryOperator );
+      }
+    } catch (Exception ex) {
+      System.err.println( ex.getMessage( ) );
+    }
+
+    return this;
+  }
+
+  public GameManager addIteamPattern( BinaryOperator... factoryOperator ) {
+    for (BinaryOperator curOp : factoryOperator)
+      this.addIteamPattern( curOp );
+
+    return this;
   }
 }

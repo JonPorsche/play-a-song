@@ -3,22 +3,30 @@ package scenes.gameview;
 import application.Main;
 import game.GameManager;
 import game.GamePlayingState;
+import javafx.beans.property.SimpleBooleanProperty;
 import scenes.BasicView;
 import uicomponents.game.GameDisplay;
 import uicomponents.game.OverlayController;
 import uicomponents.game.PausePaneController;
+
+import static application.Main.MENU_VIEW;
 
 public class GameViewController extends BasicView {
   protected GameManager gameManager;
   public GameDisplay gameDisplayPane;
   public OverlayController overlayController;
   public PausePaneController pausPaneController;
+  private SimpleBooleanProperty gameisFinished = new SimpleBooleanProperty(false);
 
   public GameViewController( Main app ) {
     super( app );
+    gameisFinished.set(false);
+    gameisFinished.addListener((o,oP,nP)->{
+     app.switchScene(Main.MENU_VIEW);
+    });
     GameManager gM = app.getGameManger( );
     this.gameManager = gM;
-    pausPaneController = new PausePaneController(gM);
+    pausPaneController = new PausePaneController(gM, this);
     overlayController = new OverlayController(gM);
     GameView gameViewPane = new GameView( );
     gameViewPane.pauseView.getChildren().add(pausPaneController.pausePane);
@@ -26,16 +34,8 @@ public class GameViewController extends BasicView {
     this.menuRootView = gameViewPane;
     this.gameDisplayPane = gameViewPane.gameDisplay;
     app.defineGameDisplayPane( gameViewPane.gameDisplay);
-
     // Gib der Engine den AusgabePunkt mit
     gM.declareGameDisplayPane( this.gameDisplayPane );
-
-    /*/ Wenn sich die PlayerPosition (only X-Pos) verändert
-    // Dann verschiebe die Leinwand auf die neue Position
-    gM.getPlayerPosProperty( ).addListener(
-      (o, oV, newDouble) -> worldPane.setCenterViewFrame( newDouble )
-    );*/
-
     // Wenn sich der SpielStatus ändert
     // Dann pass die GUI auf das neue Szenario an
     gameViewPane.gameDisplay.setVisible(false);
@@ -76,6 +76,10 @@ public class GameViewController extends BasicView {
           // Display PauseMenu
           break;
         case FINISHED:
+          pausPaneController.finished();
+          gameViewPane.pausePane.setVisible(true);
+          gameViewPane.overlayView.setVisible(false);
+
           // Display ScorePanel
           break;
         default:
@@ -95,5 +99,9 @@ public class GameViewController extends BasicView {
         }
       }
     );
+  }
+
+  public SimpleBooleanProperty gameisFinishedProperty() {
+    return gameisFinished;
   }
 }
