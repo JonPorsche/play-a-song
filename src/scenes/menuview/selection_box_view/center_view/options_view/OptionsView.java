@@ -11,46 +11,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OptionsView extends VBox {
-    public static final double OPTIONS_VIEW_WIDTH = Main.WINDOW_WIDTH * 0.3925;
-    public static final double OPTIONS_VIEW_HEIGHT = Main.WINDOW_HEIGHT * 0.65;
-    Map<String, Pane> views;
-    Pane infoTextView;
-    InfoTextViewController infoTextViewController;
-    Pane moveUpView;
-    KeyOptionCellViewController moveUpViewController;
-    Pane moveDownView;
-    KeyOptionCellViewController moveDownViewController;
+  protected Map<String, Pane> views;
+  protected Pane infoTextView;
+  protected InfoTextViewController infoTextViewController;
+  protected Pane moveUpView;
+  protected KeyOptionCellViewController moveUpViewController;
+  protected Pane moveDownView;
+  protected KeyOptionCellViewController moveDownViewController;
 
-    public OptionsView(){
-        startControllers();
-        loadViews();
+  public static final double OPTIONS_VIEW_WIDTH = Main.WINDOW_WIDTH * 0.3925;
+  public static final double OPTIONS_VIEW_HEIGHT = Main.WINDOW_HEIGHT * 0.65;
 
-        this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        setOptionsViewStyle();
+  public OptionsView() {
+    startControllers();
+    loadViews();
 
-        infoTextView = views.get("info text");
-        moveUpView = views.get("move up");
-        moveDownView = views.get("move down");
-        this.getChildren().addAll(infoTextView, moveUpView, moveDownView);
-    }
+    this.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    setOptionsViewStyle();
 
-    private void setOptionsViewStyle(){
-        this.setMaxSize(OPTIONS_VIEW_WIDTH, OPTIONS_VIEW_HEIGHT);
-        this.setMinSize(OPTIONS_VIEW_WIDTH, OPTIONS_VIEW_HEIGHT);
-    }
+    infoTextView = views.get("info text");
+    moveUpView = views.get("move up");
+    moveDownView = views.get("move down");
 
-    private void startControllers(){
-        infoTextViewController = new InfoTextViewController();
-        String moveUpBtnLabel = KeyChoiceManager.getInstance().getMoveUp().getName().toUpperCase();
-        String moveDownBtnLabel = KeyChoiceManager.getInstance().getMoveDown().getName().toUpperCase();
-        moveUpViewController = new KeyOptionCellViewController("Move Up", moveUpBtnLabel, infoTextViewController);
-        moveDownViewController = new KeyOptionCellViewController("Move Down", moveDownBtnLabel, infoTextViewController);
-    }
+    this.getChildren().addAll(infoTextView, moveUpView, moveDownView);
+  }
 
-    private void loadViews(){
-        views = new HashMap<String, Pane>();
-        views.put("info text", infoTextViewController.getInfoTextRootView());
-        views.put("move up", moveUpViewController.getKeyOptionRootView());
-        views.put("move down", moveDownViewController.getKeyOptionRootView());
-    }
+  private void setOptionsViewStyle() {
+    this.setMaxSize(OPTIONS_VIEW_WIDTH, OPTIONS_VIEW_HEIGHT);
+    this.setMinSize(OPTIONS_VIEW_WIDTH, OPTIONS_VIEW_HEIGHT);
+  }
+
+  private void startControllers() {
+    infoTextViewController = new InfoTextViewController();
+    String moveUpBtnLabel = KeyChoiceManager.getInstance().getMoveUp().getName().toUpperCase();
+    String moveDownBtnLabel = KeyChoiceManager.getInstance().getMoveDown().getName().toUpperCase();
+    moveUpViewController = new KeyOptionCellViewController("Move Up", moveUpBtnLabel, infoTextViewController);
+    moveDownViewController = new KeyOptionCellViewController("Move Down", moveDownBtnLabel, infoTextViewController);
+  }
+
+  private void loadViews() {
+    views = new HashMap<String, Pane>();
+    views.put("info text", infoTextViewController.getInfoTextRootView());
+    views.put("move up", moveUpViewController.getKeyOptionRootView());
+    views.put("move down", moveDownViewController.getKeyOptionRootView());
+  }
 }

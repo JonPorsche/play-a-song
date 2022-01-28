@@ -1,17 +1,10 @@
 package game;
 
-
-import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.UnsupportedTagException;
 import ddf.minim.AudioPlayer;
 import ddf.minim.AudioSample;
 import ddf.minim.Minim;
 import de.hsrm.mi.eibo.simpleplayer.MinimHelper;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Audioinfo {
   private String fileLoaction;
@@ -24,8 +17,6 @@ public class Audioinfo {
   public Audioinfo(String fileLoaction) {
     this.fileLoaction = fileLoaction;
   }
-
-
 
   public double[] getLeft() {
     this.player = minim.loadFile(fileLoaction);
@@ -49,12 +40,10 @@ public class Audioinfo {
     }
 
     return songData;
-
   }
 
   public void play() {
     this.player.play();
-
   }
 
   public void start(Stage primaryStage) throws Exception {

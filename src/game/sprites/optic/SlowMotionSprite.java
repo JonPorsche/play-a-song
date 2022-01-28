@@ -6,17 +6,16 @@ import javafx.scene.paint.ImagePattern;
 
 import java.io.File;
 
-import static javafx.scene.paint.Color.RED;
-
 public class SlowMotionSprite extends SpriteCircle  implements Sprite {
-    File imgFile = new File("src/resources/Slow.png");
+  File imgFile = new File("src/resources/Slow.png");
 
-    public SlowMotionSprite(int xPos, int yPos) {
-        this.setRadius(20);
-        this.setCenterX(xPos);
-        this.setCenterY(yPos);
-        this.img = new Image(imgFile.toURI().toString());
-        this.soundFile = new File("src/resources/sounds/slow.mp3");
-        this.setFill(new ImagePattern(img));
-    }
+  public SlowMotionSprite(int xPos, int yPos) {
+    this.setRadius(20);
+    this.setCenterX(xPos);
+    this.setCenterY(yPos);
+
+    this.img = new Image(imgFile.toURI().toString());
+    this.soundFile = new File("src/resources/sounds/slow.mp3");
+    this.setFill(new ImagePattern(img));
+  }
 }

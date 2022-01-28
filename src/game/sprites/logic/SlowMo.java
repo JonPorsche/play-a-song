@@ -3,34 +3,27 @@ package game.sprites.logic;
 import business.service.Mp3Player;
 import game.GameEngine;
 import game.sprites.basic.Iteam;
-import game.sprites.basic.Knockable;
 import game.sprites.basic.Sprite;
-import game.sprites.optic.CoinSprite;
 import game.sprites.optic.SlowMotionSprite;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-
-import java.io.File;
-
-import static javafx.scene.paint.Color.RED;
 
 public class SlowMo extends SpriteLogic implements Iteam {
-  int x;
-  int y;
-  double gamespeed =-4;
-  double sizeModifer =1;
-  double score = 1000;
-  double radius = 20;
+  protected int x;
+  protected int y;
+  protected double gamespeed =-4;
+  protected double sizeModifer =1;
+  protected double score = 1000;
+  protected double radius = 20;
+
   public static SlowMo getFromFactory(int xPos, int yPos ) {
     return new SlowMo( xPos, yPos );
   }
-
 
   public SlowMo(int xPos, int yPos )  {
     this.x = xPos;
     this.y = yPos;
 
   }
+
   @Override
   public void collision(GameEngine ge, PlayerCharacter pl) {
     if (!isUsed.getValue()) {
@@ -46,13 +39,8 @@ public class SlowMo extends SpriteLogic implements Iteam {
 
   @Override
   public void setIsVisabile(boolean b) {
-    if(b){
-    this.sprite= new SlowMotionSprite(x, y);
-
-
-    }else{
-     sprite = null;
-    }
+    if (b) this.sprite= new SlowMotionSprite(x, y);
+    else sprite = null;
   }
 
   @Override
@@ -67,7 +55,6 @@ public class SlowMo extends SpriteLogic implements Iteam {
 
   @Override
   public int getRadius() {
-
     return (int) radius;
   }
 

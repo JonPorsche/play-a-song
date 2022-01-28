@@ -4,28 +4,28 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 public class MessageViewController {
-    private static MessageViewController INSTANCE = new MessageViewController();
-    private Pane messageRootView;
-    private MessageView messageView;
-    private Label message;
+  private static MessageViewController INSTANCE = new MessageViewController();
+  private Pane messageRootView;
+  private MessageView messageView;
+  private Label message;
 
-    private MessageViewController(){
-        messageView = new MessageView();
-        this.message = messageView.message;
-        messageRootView = messageView;
-        initialize();
-    }
+  private MessageViewController(){
+    this.messageView = new MessageView();
+    this.message = messageView.message;
+    this.messageRootView = messageView;
 
-    public static MessageViewController getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MessageViewController();
-        }
-        return INSTANCE;
-    }
+    this.initialize();
+  }
 
-    public void initialize(){}
+  public static MessageViewController getInstance() {
+    if (INSTANCE == null) INSTANCE = new MessageViewController();
 
-    public Pane getMessageRootView() {
-        return messageRootView;
-    }
+    return INSTANCE;
+  }
+
+  public void initialize() { }
+
+  public Pane getMessageRootView() {
+    return messageRootView;
+  }
 }

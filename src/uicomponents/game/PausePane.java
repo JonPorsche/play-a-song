@@ -8,136 +8,134 @@ import javafx.scene.layout.*;
 
 public class PausePane extends AnchorPane {
 
-    Button playB;
-    Button menuB;
-    Label pausetext;
-    Label menutext;
-    Label gameOverText;
-    Label scoreText;
-    VBox pauseBox;
-    VBox gobackBox;
-    AnchorPane menuBox;
-    HBox pauseStateBox;
-    Label gameState;
-    VBox gameOver;
+  protected Button playB;
+  protected Button menuB;
+  protected Label pausetext;
+  protected Label menutext;
+  protected Label gameOverText;
+  protected Label scoreText;
+  protected VBox pauseBox;
+  protected VBox gobackBox;
+  protected AnchorPane menuBox;
+  protected HBox pauseStateBox;
+  protected Label gameState;
+  protected VBox gameOver;
 
-    public PausePane() {
-        getStyleClass().addAll("pause-pane");
-        this.setWidth(Main.WINDOW_WIDTH);
-        this.setHeight(Main.WINDOW_HEIGHT);
-        setPlayB();
-        setPausetext();
-        setMenuText();
-        setMenuB();
-        setPauseBox();
-        setgobackBox();
-        setMenuBox();
-        setgameOverBox();
-        setGameState();
+  public PausePane() {
+    this.getStyleClass().addAll("pause-pane");
+    this.setWidth(Main.WINDOW_WIDTH);
+    this.setHeight(Main.WINDOW_HEIGHT);
+    this.setPlayB();
+    this.setPausetext();
+    this.setMenuText();
+    this.setMenuB();
+    this.setPauseBox();
+    this.setgobackBox();
+    this.setMenuBox();
+    this.setgameOverBox();
+    this.setGameState();
+  }
 
+  private void setGameState() {
+    this.gameState = new Label(" Game Start");
+    this.gameState.getStyleClass().addAll("pause-state");
+    this.pauseStateBox = new HBox( this.gameState );
+    this.pauseStateBox.setLayoutX(360);
+    this.pauseStateBox.setLayoutY(100);
+    this.pauseStateBox.setPrefHeight(100);
+    this.pauseStateBox.setPrefWidth(400);
+    this.getChildren().addAll( this.pauseStateBox );
+  }
 
-    }
+  private void setMenuText() {
+    this.menutext = new Label("Menu");
+    this.menutext.getStyleClass().addAll("pause-text");
+  }
 
-    private void setGameState() {
-        gameState = new Label(" Game Start");
-        gameState.getStyleClass().addAll("pause-state");
-        pauseStateBox = new HBox(gameState);
-        pauseStateBox.setLayoutX(360);
-        pauseStateBox.setLayoutY(100);
-        pauseStateBox.setPrefHeight(100);
-        pauseStateBox.setPrefWidth(400);
-        getChildren().addAll(pauseStateBox);
+  private void setMenuB() {
+    this.menuB = new Button();
+    this.menuB.getStyleClass().addAll("menu-btn");
+  }
 
+  private void setgobackBox() {
+    this.gobackBox = new VBox();
+    this.gobackBox.setLayoutX(210);
+    this.gobackBox.setLayoutY(37);
+    this.gobackBox.setPrefWidth(150);
 
-    }
+    VBox.setVgrow( this.menutext, Priority.ALWAYS );
+    VBox.setVgrow( this.menuB, Priority.ALWAYS );
 
-    private void setMenuText() {
-        menutext = new Label("Menu");
-        menutext.getStyleClass().addAll("pause-text");
+    this.gobackBox.getStyleClass().addAll("menu-vbox");
+    this.gobackBox.getChildren().addAll( this.menutext, this.menuB );
+  }
 
-    }
+  private void setMenuBox() {
+    this.menuBox = new AnchorPane();
+    this.menuBox.setLayoutX(300);
+    this.menuBox.setLayoutY(250);
+    this.menuBox.setPrefHeight(200);
+    this.menuBox.setPrefWidth(400);
+    this.menuBox.getChildren().addAll( this.pauseBox, this.gobackBox);
+    this.getChildren().add( this.menuBox);
+    this.menuBox.getStyleClass().addAll("menu-pane");
+  }
 
-    private void setMenuB() {
-        menuB = new Button();
-        menuB.getStyleClass().addAll("menu-btn");
-    }
+  private void setPauseBox() {
+    this.pauseBox = new VBox();
+    this.pauseBox.setLayoutX(40);
+    this.pauseBox.setLayoutY(37);
+    this.pauseBox.setPrefWidth(150);
 
-    private void setgobackBox() {
-        gobackBox = new VBox();
-        gobackBox.setLayoutX(210);
-        gobackBox.setLayoutY(37);
-        gobackBox.setPrefWidth(150);
-        VBox.setVgrow(menutext, Priority.ALWAYS);
-        VBox.setVgrow(menuB, Priority.ALWAYS);
-        gobackBox.getStyleClass().addAll("menu-vbox");
-        gobackBox.getChildren().addAll(menutext,menuB);
-    }
+    VBox.setVgrow( this.pausetext, Priority.ALWAYS );
+    VBox.setVgrow( this.playB, Priority.ALWAYS );
 
-    private void setMenuBox(){
-        menuBox = new AnchorPane();
-        menuBox.setLayoutX(300);
-        menuBox.setLayoutY(250);
-        menuBox.setPrefHeight(200);
-        menuBox.setPrefWidth(400);
-        menuBox.getChildren().addAll(pauseBox,gobackBox);
-        getChildren().add(menuBox);
-        menuBox.getStyleClass().addAll("menu-pane");
+    this.pauseBox.getStyleClass().addAll("menu-vbox");
+    this.pauseBox.getChildren().addAll( this.pausetext, this.playB );
+  }
 
-    }
+  public void setPausetext() {
+    this.pausetext = new Label("Loading !");
+    this.pausetext.getStyleClass().addAll("pause-text");
+  }
 
-    private void setPauseBox() {
-        pauseBox = new VBox();
-        pauseBox.setLayoutX(40);
-        pauseBox.setLayoutY(37);
-        pauseBox.setPrefWidth(150);
-        VBox.setVgrow(pausetext, Priority.ALWAYS);
-        VBox.setVgrow(playB, Priority.ALWAYS);
-        pauseBox.getStyleClass().addAll("menu-vbox");
-        pauseBox.getChildren().addAll(pausetext,playB);
+  private void setPlayB() {
+    this.playB = new Button();
+    this.playB.getStyleClass().addAll("play-btn");
+  }
 
-    }
+  public void removePlay() {
+    PausePane pP = this;
 
-    public void setPausetext() {
-        pausetext = new Label("Loading !");
-        pausetext.getStyleClass().addAll("pause-text");
+    Platform.runLater( () -> {
+      pP.menuBox.getChildren().clear();
+      pP.getChildren().remove( this.menuBox );
+    } );
+  }
+  public void setgameOverBox(){
+    this.gameOverText = new Label("Score:");
+    this.scoreText = new Label("Score");
 
+    this.gameOverText.getStyleClass().addAll("pause-text");
+    this.scoreText.getStyleClass().addAll("pause-text");
+    this.gameOver = new VBox();
+    this.gameOver.setLayoutX(40);
+    this.gameOver.setLayoutY(37);
+    this.gameOver.setPrefWidth(150);
 
-    }
+    VBox.setVgrow( this.gameOverText, Priority.ALWAYS );
+    VBox.setVgrow( this.scoreText, Priority.ALWAYS );
 
-    private void setPlayB() {
-        playB = new Button();
-        playB.getStyleClass().addAll("play-btn");
-    }
+    this.gameOver.getStyleClass().addAll("menu-vbox");
+    this.gameOver.getChildren().addAll( this.gameOverText, this.scoreText );
+  }
 
+  public void setGameOver() {
+    PausePane pP = this;
 
-    public void removePlay() {
-        Platform.runLater(()->{
-            menuBox.getChildren().clear();
-            this.getChildren().remove(menuBox);
-
-        });
-
-    }
-    public void setgameOverBox(){
-        gameOverText = new Label("Score:");
-        scoreText = new Label("Score");
-
-        gameOverText.getStyleClass().addAll("pause-text");
-        scoreText.getStyleClass().addAll("pause-text");
-        gameOver = new VBox();
-        gameOver.setLayoutX(40);
-        gameOver.setLayoutY(37);
-        gameOver.setPrefWidth(150);
-        VBox.setVgrow(gameOverText, Priority.ALWAYS);
-        VBox.setVgrow(scoreText, Priority.ALWAYS);
-        gameOver.getStyleClass().addAll("menu-vbox");
-        gameOver.getChildren().addAll(gameOverText,scoreText);
-    }
-
-    public void setGameOver() {
-        Platform.runLater(()->{
-            menuBox.getChildren().addAll(gameOver,gobackBox);
-        getChildren().add(menuBox);
+    Platform.runLater( () -> {
+      pP.menuBox.getChildren().addAll(gameOver,gobackBox);
+      pP.getChildren().add(menuBox);
     });
-    }
+  }
 }

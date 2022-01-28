@@ -5,89 +5,92 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
-import javax.swing.text.html.ImageView;
-
-
 public class OverlayPane extends AnchorPane {
-  //public PlayerCharacter player = new PlayerCharacter();
+
+  protected Label scoreTitleLabel = new Label( "Score:" );
+  protected Label positionTitleLabel = new Label( "Life:" );
+  protected HBox pauseBox;
+  protected HBox healthBox;
+  protected HBox scoreBox;
+  protected HBox posstionBox;
+
   public Label scoreLabel;
   public Label positionPercentLabel;
   public Button pauseButton;
-  Label scoreTitleLabel = new Label( "Score:" );
-  Label positionTitleLabel = new Label( "Life:" );
-  HBox pauseBox;
-  HBox healthBox;
-  HBox scoreBox;
-  HBox posstionBox;
-  ImageView health = new ImageView(null);
-  ImageView health1 = new ImageView(null);
-  ImageView health2 = new ImageView(null);
+
   public OverlayPane( ) {
     super( );
+
     this.setHeight(200);
     this.setWidth(1000);
-    setLayoutX(0);
-    setLayoutY(0);
-    setPauseButton();
-    setScoreLabel();
-    setpositonPercantage();
-    setScoreBox();
-    setHealthBox();
-    OverlayPane pane = this;
-
-
-
-
+    this.setLayoutX(0);
+    this.setLayoutY(0);
+    this.setPauseButton();
+    this.setScoreLabel();
+    this.setpositonPercantage();
+    this.setScoreBox();
+    this.setHealthBox();
   }
+
   private void setScoreBox(){
     HBox scorePane = new HBox( scoreBox,posstionBox,pauseBox);
     scorePane.setLayoutX(0);
     scorePane.setLayoutY(0);
     this.getChildren( ).addAll(scorePane);
     scorePane.getStyleClass().addAll("score-box");
-
-
-
   }
+
   private void setHealthBox(){
-    healthBox = new HBox();
-    healthBox.setLayoutX(800);
-    healthBox.setLayoutY(0);
-    healthBox.setPrefWidth(300);
-    healthBox.getStyleClass().addAll("score-box");
+    this.healthBox = new HBox();
+    this.healthBox.setLayoutX(800);
+    this.healthBox.setLayoutY(0);
+    this.healthBox.setPrefWidth(300);
+    this.healthBox.getStyleClass().addAll("score-box");
+  }
 
-  }
   private void setPauseButton() {
-    pauseButton = new Button();
-    pauseButton.getStyleClass().addAll("pause-btn");
-    pauseBox = new HBox(pauseButton);
-    pauseBox.setPrefWidth(100);
-    HBox.setMargin(pauseButton,new Insets(0,10,0,20));
+    this.pauseButton = new Button();
+    this.pauseButton.getStyleClass().addAll("pause-btn");
+    this.pauseBox = new HBox(this.pauseButton);
+    this.pauseBox.setPrefWidth(100);
+
+    HBox.setMargin(
+      this.pauseButton,
+      new Insets(0,10,0,20)
+    );
   }
-  private  void setpositonPercantage(){
+
+  private void setpositonPercantage() {
     this.positionPercentLabel = new Label( "000%" );
-    positionPercentLabel.getStyleClass().addAll("titles");
-    positionTitleLabel.getStyleClass().addAll("titles");
-    posstionBox = new HBox(positionTitleLabel,positionPercentLabel);
-    posstionBox.setPrefWidth(150);
-    HBox.setMargin(positionPercentLabel,new Insets(0,10,0,2));
-    HBox.setMargin(positionTitleLabel,new Insets(0,10,0,0));
+    this.positionPercentLabel.getStyleClass().addAll("titles");
+    this.positionTitleLabel.getStyleClass().addAll("titles");
+    this.posstionBox = new HBox(this.positionTitleLabel, this.positionPercentLabel);
+    this.posstionBox.setPrefWidth(150);
+
+    HBox.setMargin(
+      this.positionPercentLabel,
+      new Insets(0,10,0,2)
+    );
+    HBox.setMargin(
+      this.positionTitleLabel,
+      new Insets(0,10,0,0)
+    );
   }
 
   private  void setScoreLabel(){
     this.scoreLabel = new Label( "0000P" );
-    scoreLabel.getStyleClass().addAll("titles");
-    scoreTitleLabel.getStyleClass().addAll("titles");
-    scoreBox = new HBox(scoreTitleLabel,scoreLabel);
-    scoreBox.setPrefWidth(150);
-    HBox.setMargin(scoreLabel,new Insets(0,10,0,2));
-    HBox.setMargin(scoreTitleLabel,new Insets(0,10,0,0));
+    this.scoreLabel.getStyleClass().addAll("titles");
+    this.scoreTitleLabel.getStyleClass().addAll("titles");
+    this.scoreBox = new HBox(scoreTitleLabel,scoreLabel);
+    this.scoreBox.setPrefWidth(150);
 
-
+    HBox.setMargin(
+      scoreLabel,
+      new Insets(0,10,0,2)
+    );
+    HBox.setMargin(
+      scoreTitleLabel,
+      new Insets(0,10,0,0)
+    );
   }
-
-
-
-
-
 }

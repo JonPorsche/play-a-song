@@ -39,9 +39,7 @@ public class SpriteCircle extends Circle implements Knockable, GameObject, Sprit
   }
 
   @Override
-  public void update(double delta) {
-
-  }
+  public void update(double delta) { }
 
   @Override
   public double getX() {

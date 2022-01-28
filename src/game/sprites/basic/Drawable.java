@@ -1,10 +1,8 @@
 package game.sprites.basic;
 
-
 import javafx.scene.Node;
 
 public interface Drawable<T extends Node> {
-
   public double getWidth();
   public double getHeight();
 

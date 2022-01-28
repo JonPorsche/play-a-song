@@ -6,20 +6,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class MessageView extends VBox {
-    Label message;
+  Label message;
 
-    public MessageView(){
-        this.message = new Label("To add songs select a folder with mp3 files");
+  public MessageView(){
+    this.message = new Label("To add songs select a folder with mp3 files");
 
-        setMessageViewStyle();
+    this.setMessageViewStyle();
+    this.getChildren().add(message);
+  }
 
-        this.getChildren().add(message);
-    }
-
-    private void setMessageViewStyle() {
-        this.setId("selection-box-center");
-        this.setMinHeight(Main.WINDOW_HEIGHT * 0.6625);
-        this.setMaxHeight(Main.WINDOW_HEIGHT * 0.6625);
-        this.setAlignment(Pos.BOTTOM_CENTER);
-    }
+  private void setMessageViewStyle() {
+    this.setId("selection-box-center");
+    this.setMinHeight(Main.WINDOW_HEIGHT * 0.6625);
+    this.setMaxHeight(Main.WINDOW_HEIGHT * 0.6625);
+    this.setAlignment(Pos.BOTTOM_CENTER);
+  }
 }

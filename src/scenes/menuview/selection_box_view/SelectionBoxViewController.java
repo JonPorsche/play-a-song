@@ -5,33 +5,33 @@ import scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistView
 import scenes.menuview.selection_box_view.top_view.TopViewController;
 
 public class SelectionBoxViewController {
-    private static SelectionBoxViewController INSTANCE = new SelectionBoxViewController();
-    private Pane selectionBoxRootView;
-    private SelectionBoxView selectionBoxView;
+  private static SelectionBoxViewController INSTANCE = new SelectionBoxViewController();
+  private Pane selectionBoxRootView;
+  private SelectionBoxView selectionBoxView;
 
-    private SelectionBoxViewController(){
-        this.selectionBoxView = new SelectionBoxView();
-        selectionBoxView.setCenter(PlaylistViewController.getInstance().getPlaylistRootView());
-        this.selectionBoxRootView = selectionBoxView;
-        initialize();
+  private SelectionBoxViewController() {
+    this.selectionBoxView = new SelectionBoxView();
+    selectionBoxView.setCenter(PlaylistViewController.getInstance().getPlaylistRootView());
+    this.selectionBoxRootView = selectionBoxView;
+    initialize();
+  }
+
+  public static SelectionBoxViewController getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new SelectionBoxViewController();
     }
 
-    public static SelectionBoxViewController getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new SelectionBoxViewController();
-        }
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    public void initialize(){
-    }
+  public void initialize() { }
 
-    public void updateSelectionBoxView(String title, Pane pane){
-        TopViewController.getInstance().updateTitle(title);
-        selectionBoxView.setCenter(pane);
-    }
+  public void updateSelectionBoxView(String title, Pane pane){
+    TopViewController.getInstance().updateTitle(title);
+    selectionBoxView.setCenter(pane);
+  }
 
-    public Pane getSelectionBoxRootView() {
-        return selectionBoxRootView;
-    }
+  public Pane getSelectionBoxRootView() {
+    return selectionBoxRootView;
+  }
 }

@@ -43,10 +43,6 @@ public class GameManager {
     gamePlayingState.setValue(GamePlayingState.LOADING);
   }
 
-  /*public PlayerCharacter getPlayerSpritesObject() {
-    return playerSpritesObject;
-  }*/
-
   public void declareGameDisplayPane(GameDisplay guiGameDisplaySelector) {
     this.gameEngine.declareGameDisplayPane(guiGameDisplaySelector);
   }
@@ -60,67 +56,37 @@ public class GameManager {
   }
 
   public void loadLevelFromSong( String newLevelSongPath ) {
-
     this.loadLevelFromSong( new File( newLevelSongPath ) );
-  }
-
-  public void startPlaying( ) {
-    /*int canWidth = Main.WINDOW_WIDTH * 15; //Main.gameManager.getCanvasWidthPx( );*/
-    this.gameEngine.getGameDisplayPane().initCanvas( this.gameLoadedLevel.getValue( ).getMapPixelWidth( ) );
-
-    this.gameEngine.startPlaying( );
-
   }
 
   /* Actions */
   public void playerGoUp( ) {
     double modValueUp = 20;
-    gameEngine.player.setY(gameEngine.player.getY()-20);
+    gameEngine.player.setY(gameEngine.player.getY() -modValueUp);
   }
   public void playerGoDown( ) {
     double modValueDown = 20;
-    gameEngine.player.setY(gameEngine.player.getY()+20);
-
-
+    gameEngine.player.setY(gameEngine.player.getY() +modValueDown);
   }
 
 
   public void play( ) {
    gameEngine.startPlaying();
   }
-  public void pause( ) {
-    GamePlayingState curState = this.gamePlayingState.getValue( );
-    gameEngine.pausePlaying();
-  }
 
   /* Propertys */
-  public ObjectProperty<Boolean> gameIsRunningProperty( ) {
-    return this.gameIsRunning;
-  }
 
   /* --- GETTER --- */
   public ObjectProperty<GamePlayingState> getPlayingStateProperty( ) {
     return this.gamePlayingState;
   }
 
-  public GamePlayingState getPlayingState( ) {
-    return this.getPlayingStateProperty().getValue();
-  }
-
   public ObjectProperty<Double> getPlayerPosProperty() {
     return this.gamePlayerPos;
   }
 
-  public int getPlayerPos( ) {
-    return this.getPlayerPosProperty().getValue().intValue();
-  }
-
   public ObjectProperty<GameLevel> getLoadedLevelProperty() {
     return this.gameLoadedLevel;
-  }
-
-  public GameLevel getLoadedLevel( ) {
-    return this.getLoadedLevelProperty().getValue();
   }
 
   public ObjectProperty<Number> getPlayerScoreProperty() {
@@ -128,18 +94,6 @@ public class GameManager {
   }
   public ObjectProperty<Number> getGamePlayerLife() {
     return this.gamePlayerLife;
-  }
-
-  public int getPlayerScore( ) {
-    return this.getPlayerScoreProperty().getValue().intValue();
-  }
-
-  public int getCanvasWidthPx( ) {
-    if (this.gameLoadedLevel.getValue( ) != null)
-      return this.gameLoadedLevel.getValue( ).getMapPixelWidth( );
-    else System.out.println( "Noch kein Canvas vorhanden! =null" );
-
-    return 0;
   }
 
   public GameManager addIteamPattern( BinaryOperator factoryOperator ) {

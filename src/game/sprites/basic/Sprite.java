@@ -1,5 +1,3 @@
 package game.sprites.basic;
 
-public interface Sprite {
-
-}
+public interface Sprite { }
