@@ -102,7 +102,7 @@ public class PlaylistManager {
      * @author Jones Porsche
      * @see Song
      */
-    private static Song createSong(String songFilePath) {
+    public static Song createSong(String songFilePath) {
 
         String title = null;
         int duration = 0;
@@ -134,7 +134,7 @@ public class PlaylistManager {
      * Writes down one mp3 file path per line. The paths come from the songs array.
      * @author Jones Porsche
      */
-    private static void writeM3UFile() {
+    public static void writeM3UFile() {
         try {
             FileOutputStream fileOutputStream = null;
             fileOutputStream = new FileOutputStream(m3uFile);

@@ -7,7 +7,11 @@ import business.service.PlaylistStatus;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import scenes.BasicView;
@@ -16,6 +20,12 @@ import scenes.menuview.selection_box_view.SelectionBoxViewController;
 import scenes.menuview.selection_box_view.bottom_view.BottomViewController;
 import scenes.menuview.selection_box_view.center_view.options_view.OptionsViewController;
 import scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController;
+
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import static scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController.PLAYLIST_EMPTY;
 import static scenes.menuview.selection_box_view.center_view.playlist_view.PlaylistViewController.PLAYLIST_FILLED;
 
@@ -48,6 +58,8 @@ public class MenuViewController extends BasicView {
     public void initialize() {
         handlePlaylistStatusChanges();
         handleSongsArrayChanges();
+        handleOnDragOver();
+        handleOnDragDropped();
     }
 
     /**
@@ -129,5 +141,79 @@ public class MenuViewController extends BasicView {
         button.getStyleClass().remove(remove2);
         button.getStyleClass().remove(remove3);
         button.getStyleClass().add(add);
+    }
+
+    private void handleOnDragOver() {
+        menuRootView.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                boolean dropSupported = true;
+                boolean modeSupported = false;
+                Dragboard dragboard;
+                Set<TransferMode> modes;
+
+                if (event.getGestureSource() == menuRootView) dropSupported = false;
+
+                dragboard = event.getDragboard();
+                if (!dragboard.hasFiles()) dropSupported = false;
+
+                modes = dragboard.getTransferModes();
+                for (TransferMode mode : modes)
+                    modeSupported = modeSupported || TransferMode.LINK == mode;
+
+                for (TransferMode mode : modes) modeSupported = modeSupported || TransferMode.LINK == mode;
+
+                if (modeSupported && dropSupported) event.acceptTransferModes(TransferMode.LINK);
+
+                event.consume();
+            }
+        });
+    }
+
+
+    /**
+     * This method will check for the dot ‘.' occurrence in the given filename.
+     * If it exists, then it will find the last position of the dot ‘.'
+     * and return the characters after that, the characters after the last dot ‘.'
+     * known as the file extension.
+     *
+     * Special Cases:
+     * No extension – this method will return an empty String
+     * Only extension – this method will return the String after the dot, e.g. “gitignore”
+     * @param filename
+     * @return
+     */
+    public Optional<String> getExtensionByStringHandling(String filename) {
+        return Optional.ofNullable(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+
+    private void handleOnDragDropped() {
+        menuRootView.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                Dragboard dragboard = event.getDragboard();
+                Optional<String> validExtension = Optional.of("mp3");
+
+                try {
+                    List<File> files = dragboard.getFiles();
+                    for (File file : files) {
+                        Optional fileExtension = getExtensionByStringHandling(file.getName());
+                        if(fileExtension.equals(validExtension)) {
+                            Song newSong = PlaylistManager.createSong(file.getAbsolutePath());
+                            PlaylistManager.getInstance().songs.add(newSong);
+                            PlaylistManager.writeM3UFile();
+                        }
+                    }
+                    event.setDropCompleted(true);
+                } catch (Exception e) {
+                    event.setDropCompleted(false);
+                    e.printStackTrace();
+                } finally {
+                    event.consume();
+                }
+            }
+        });
     }
 }
