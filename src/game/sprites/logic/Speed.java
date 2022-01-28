@@ -4,7 +4,10 @@ import game.GameEngine;
 import game.sprites.basic.Iteam;
 import game.sprites.basic.Sprite;
 import game.sprites.optic.SpeedSprite;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.scene.paint.ImagePattern;
+import javafx.util.Duration;
 
 public class Speed extends SpriteLogic  implements Iteam {
     int x;
@@ -34,6 +37,7 @@ public class Speed extends SpriteLogic  implements Iteam {
             Mp3Player soundP = new Mp3Player();
             soundP.load(sprite.soundFile.getAbsolutePath());
             soundP.play();
+
         }
 
     }
@@ -42,12 +46,11 @@ public class Speed extends SpriteLogic  implements Iteam {
     public void setIsVisabile(boolean b) {
         if(b){
         sprite = new SpeedSprite(x,y);
-        setImagePatterns(new ImagePattern(sprite.img));
-        isVisabile.set(true);
 
 
     }else{
             sprite = null;
+
         }
     }
 

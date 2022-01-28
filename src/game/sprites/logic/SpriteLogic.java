@@ -4,6 +4,7 @@ package game.sprites.logic;
 
 import game.sprites.basic.Sprite;
 import game.sprites.optic.SpriteCircle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.ImagePattern;
@@ -49,7 +50,7 @@ public class SpriteLogic {
                         }
                         setImageContent();
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -68,8 +69,15 @@ public class SpriteLogic {
 
     }
     public void setImageContent() {
-        //sprite.setFill(imagePatterns.get(animationIndex.getValue()));
+        if (animationIndex.getValue() <= 1){
+        Platform.runLater(()->{
+           if( isVisabile.getValue() == true) {
+               sprite.setFill(imagePatterns.get(animationIndex.getValue()));
+           }
 
+        });
+
+        }
     }
     public double getGamespeed() {
         return gamespeed;

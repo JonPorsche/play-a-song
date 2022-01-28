@@ -307,7 +307,7 @@ public class GameEngine {
       Iteam iteam = KnockableIteams.get(i);
      if( voidIteamCollsion(KnockableIteams.get(i), newPos)){
        System.out.println("collsion");
-       //@TODO Make collsion
+
        iteam.collision(this, player);
        gameDisplaySelector.gameWorldIteams.removeIteam(KnockableIteams.get(i).getSprite());
        KnockableIteams.remove(KnockableIteams.get(i));
