@@ -11,16 +11,12 @@ public class IteamPane extends Pane {
 
   public IteamPane( ) {
     this.setStyle( "-fx-background-color:rgba(0, 0, 0, 0);" );
-    label.setLayoutY(300);
-    label.setText(String.valueOf(0));
-    this.getChildren().add(label);
+
   }
 
   public void setCenterViewFrame(double playerPos ) {
     Platform.runLater( ( ) -> {
       this.setTranslateX( 0 - playerPos);
-      label.setLayoutX(playerPos);
-      label.setText(String.valueOf(playerPos));
     } );
   }
 

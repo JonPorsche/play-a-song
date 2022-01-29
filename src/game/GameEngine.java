@@ -391,7 +391,7 @@ public class GameEngine {
     int iteamCricle = 20;
     GameLevel gL = gameLoadedLevelPropPointer.getValue();
 
-    return (int) (gL.getDownBoarder( xPos ) -iteamCricle-40
+    return (int) (gL.getDownBoarder( xPos ) -(iteamCricle*2)
         - (gL.getUpperBoarder( xPos) + (iteamCricle*2)));
   }
 
